@@ -55,7 +55,7 @@
         },
         "files": [
             "config/packages/doctrine_migrations.yaml",
-            "migrations/.gitignore"
+            "src/migrations/.gitignore"
         ]
     },
     "doctrine/event-manager": {

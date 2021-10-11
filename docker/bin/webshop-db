@@ -2,4 +2,4 @@
 
 set -o errexit
 
-exec docker exec -it payfood-db mysql -uroot -proot intranet
+exec docker exec -it webshop-db mysql -uroot -proot webshop
