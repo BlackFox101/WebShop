@@ -21,7 +21,7 @@ class Shop
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="shops")
-     * @ORM\JoinColumn(nullable=true, referencedColumnName="userId")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="user_id")
      */
     private User $user;
 
@@ -37,7 +37,7 @@ class Shop
 
     /**
      * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
-     * @ORM\JoinColumn(nullable=true, referencedColumnName="shopItemId")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="shop_item_id")
      * @var ArrayCollection|ShopItem[]
      */
     private array|ArrayCollection $shopItems;

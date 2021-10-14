@@ -23,7 +23,7 @@ class ShopItem
 
     /**
      * @ORM\ManyToOne(targetEntity=Shop::class, inversedBy="shopItems")
-     * @ORM\JoinColumn(referencedColumnName="shopId")
+     * @ORM\JoinColumn(referencedColumnName="shop_id")
      */
     private Shop $shop;
 
@@ -49,20 +49,20 @@ class ShopItem
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="shopItems")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="categoryId")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="category_id")
      */
     private Category $category;
 
     /**
      * @ORM\OneToMany(targetEntity=ShopItemImage::class, mappedBy="shopItem", orphanRemoval=true)
-     * @ORM\JoinColumn(referencedColumnName="shopItemImageId")
+     * @ORM\JoinColumn(referencedColumnName="shop_item_image_id")
      * @var ArrayCollection|ShopItemImage[]
      */
     private ArrayCollection|array $shopItemImages;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="user")
-     * @ORM\JoinColumn(referencedColumnName="UserId")
+     * @ORM\JoinColumn(referencedColumnName="user_id")
      * @var ArrayCollection|User[]
      */
     private ArrayCollection|array $userWhoAddedInFavourites;

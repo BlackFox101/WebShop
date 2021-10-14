@@ -37,7 +37,7 @@ class Status
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="role")
-     * @ORM\JoinColumn(referencedColumnName="userId")
+     * @ORM\JoinColumn(referencedColumnName="user_id")
      * @var ArrayCollection|User[]
      */
     private ArrayCollection|array $users;

@@ -26,7 +26,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="category")
-     * @ORM\JoinColumn(referencedColumnName="shopItemId")
+     * @ORM\JoinColumn(referencedColumnName="shop_item_id")
      */
     private $shopItems;
 

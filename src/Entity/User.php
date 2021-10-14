@@ -46,19 +46,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", fetch="EAGER")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="roleId")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="role_id")
      */
     private Role $role;
 
     /**
      * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="user", fetch="EAGER")
-     * @ORM\JoinColumn(nullable=true, referencedColumnName="statusId")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="status_id")
      */
     private Status $status;
 
     /**
      * @ORM\OneToMany(targetEntity=Shop::class, mappedBy="User")
-     * @ORM\JoinColumn(referencedColumnName="shopId")
+     * @ORM\JoinColumn(referencedColumnName="shop_id")
      * @var ArrayCollection|Shop[]
      */
     private ArrayCollection|array $shops;
@@ -66,8 +66,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\ShopItem", inversedBy="users")
      * @ORM\JoinTable(name="users_favourites_items",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="userId")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="shop_item_id", referencedColumnName="shopItemId", unique=true)}
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="shop_item_id", referencedColumnName="shop_item_id", unique=true)}
      * )
      * @var ArrayCollection|ShopItem[]
      */

@@ -24,7 +24,7 @@ class ShopItemImage
 
     /**
      * @ORM\ManyToOne(targetEntity=ShopItem::class, inversedBy="shopItemImages")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="shopItemId")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="shop_item_id")
      */
     private ShopItem $shopItem;
 
