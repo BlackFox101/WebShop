@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -19,23 +21,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $userId;
+    private int $userId;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+    /** @ORM\Column(type="string", length=255) */
+    private string $firstName;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    /** @ORM\Column(type="string", length=255) */
+    private string $lastName;
+
+    /** @ORM\Column(type="string", length=180, unique=true) */
+    private string $email;
+
+    /** @ORM\Column(type="string", length=180, unique=true) */
+    private string $login;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
+
+    /** @ORM\Column(type="string", length=50, unique=true) */
+    private string $phone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="roleId")
+     */
+    private Role $role;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="user", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="statusId")
+     */
+    private Status $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Shop::class, mappedBy="User")
+     * @ORM\JoinColumn(referencedColumnName="shopId")
+     * @var ArrayCollection|Shop[]
+     */
+    private ArrayCollection|array $shops;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ShopItem", inversedBy="users")
+     * @ORM\JoinTable(name="users_favourites_items",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="userId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="shop_item_id", referencedColumnName="shopItemId", unique=true)}
+     * )
+     * @var ArrayCollection|ShopItem[]
+     */
+    private ArrayCollection|array $favoritesShopItems;
+
+    /**
+     * @ORM\Column(type="datetime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL")
+     */
+    private \DateTimeInterface $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true, columnDefinition="TIMESTAMP NULL")
+     */
+    private \DateTimeInterface|null $updatedAt;
+
+    #[Pure] public function __construct()
+    {
+        $this->shops = new ArrayCollection();
+    }
 
     public function getUserId(): ?int
     {
@@ -61,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
@@ -69,26 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return $this->email;
     }
 
     /**
@@ -124,5 +156,86 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    #[Pure] public function getRole(): string
+    {
+        return $this->role->getName();
+    }
+
+    public function setRole(Role $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Shop[]
+     */
+    public function getShops(): Collection
+    {
+        return $this->shops;
+    }
+
+    public function addShop(Shop $shop): self
+    {
+        if (!$this->shops->contains($shop)) {
+            $this->shops[] = $shop;
+            $shop->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShop(Shop $shop): self
+    {
+        if ($this->shops->removeElement($shop)) {
+            // set the owning side to null (unless already changed)
+            if ($shop->getUser() === $this) {
+                $shop->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ShopItem[]
+     */
+    public function getFavoriteShopItems(): Collection
+    {
+        return $this->favoritesShopItems;
+    }
+
+    public function addFavoriteShopItem(ShopItem $shopItem): self
+    {
+        if (!$this->favoritesShopItems->contains($shopItem)) {
+            $this->favoritesShopItems[] = $shopItem;
+        }
+
+        return $this;
+    }
+
+    public function removeShopItem(ShopItem $shopItem): self
+    {
+        $this->favoritesShopItems->removeElement($shopItem);
+
+        return $this;
     }
 }

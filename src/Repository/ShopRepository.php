@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Status;
+use App\Entity\Shop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Status|null find($statusId, $lockMode = null, $lockVersion = null)
- * @method Status|null findOneBy(array $criteria, array $orderBy = null)
- * @method Status[]    findAll()
- * @method Status[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Shop|null find($shopId, $lockMode = null, $lockVersion = null)
+ * @method Shop|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Shop[]    findAll()
+ * @method Shop[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StatusRepository extends ServiceEntityRepository
+class ShopRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Status::class);
+        parent::__construct($registry, Shop::class);
     }
 
     // /**
-    //  * @return Status[] Returns an array of Status objects
+    //  * @return Shop[] Returns an array of Shop objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class StatusRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Status
+    public function findOneBySomeField($value): ?Shop
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

@@ -2,38 +2,28 @@
 
 namespace App\Entity;
 
-use App\Repository\StatusRepository;
+use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @ORM\Entity(repositoryClass=StatusRepository::class)
+ * @ORM\Entity(repositoryClass=RoleRepository::class)
  */
-class Status
+class Role
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $statusId;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private int $shopCount;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private int $shopItemCount;
+    private int $roleId;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private int $name;
+    private string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="role")
@@ -49,31 +39,7 @@ class Status
 
     public function getId(): ?int
     {
-        return $this->statusId;
-    }
-
-    public function getShopCount(): ?int
-    {
-        return $this->shopCount;
-    }
-
-    public function setShopCount(int $shopCount): self
-    {
-        $this->shopCount = $shopCount;
-
-        return $this;
-    }
-
-    public function getShopItemCount(): ?int
-    {
-        return $this->shopItemCount;
-    }
-
-    public function setShopItemCount(int $shopItemCount): self
-    {
-        $this->shopItemCount = $shopItemCount;
-
-        return $this;
+        return $this->roleId;
     }
 
     public function getName(): ?string
@@ -91,7 +57,7 @@ class Status
     /**
      * @return Collection|User[]
      */
-    public function getUser(): Collection
+    public function getUsers(): Collection
     {
         return $this->users;
     }
@@ -100,7 +66,7 @@ class Status
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setStatus($this);
+            $user->setRole($this);
         }
 
         return $this;
@@ -110,8 +76,8 @@ class Status
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getStatus() === $this) {
-                $user->setStatus(null);
+            if ($user->getRole() === $this) {
+                $user->setRole(null);
             }
         }
 
