@@ -2,8 +2,8 @@ import {CardContainer} from '../../../components/authorization/CardContainer/Car
 import {Fragment, useState} from 'react';
 import {LabeledField, LabeledPasswordField} from '../../../components/authorization/LabeledField/LabeledField';
 import {PrimaryButton} from '../../../components/button/PrimaryButton';
-import {NavLink} from 'react-router-dom';
-import {REGISTRATION_ROUTE} from '../../../utils/consts';
+import {NavLink, useHistory} from 'react-router-dom';
+import {REGISTRATION_ROUTE, SHOP_LIST_ROUTE} from '../../../utils/consts';
 
 const notRegisteredStyles = {
   display: 'flex',
@@ -13,12 +13,14 @@ const notRegisteredStyles = {
 function Content() {
   const [loginOrEmail, setLoginOrEmail] = useState('')
   const [password, setPassword] = useState('')
+  const history = useHistory()
 
   function onLoginHandler() {
     console.log({
       loginOrEmail,
       password,
     })
+    history.push(SHOP_LIST_ROUTE)
   }
 
   return (
@@ -29,7 +31,7 @@ function Content() {
             value={loginOrEmail}
          />
         <LabeledPasswordField
-            onChange={(e) => setPassword(e.target.value)}
+            setPassword={(e) => setPassword(e.target.value)}
             value={password}
         />
         <PrimaryButton

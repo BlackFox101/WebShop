@@ -47,7 +47,7 @@ function LabeledPasswordField({
         <FormLabel text={'Пароль'} isRequired={true}/>
         <div className={classes.passwordField}>
           <Field
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={setPassword}
               value={value}
               type={showPassword ? 'text' : 'password'}
               isPassword={true}
