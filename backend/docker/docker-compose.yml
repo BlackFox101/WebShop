@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  webshop-nginx:
+    container_name: webshop-nginx
+    image: nginx
+    restart: on-failure
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - webshop-app
+    volumes:
+      - ${APP_PATH}:/usr/local/www/data/${APP_NAME}
+      - ${NGINX_PATH}conf.d/:/etc/nginx/conf.d/
+      - ${NGINX_PATH}/nginx.conf/:/etc/nginx/nginx.conf/
+
+  webshop-app:
+    container_name: webshop-app
+    build:
+      context: images/app
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+    working_dir: /usr/local/www/data/${APP_NAME}
+    depends_on:
+      - webshop-db
+    volumes:
+      - ${APP_PATH}:${WEBSHOP_PATH}
+
+  webshop-db:
+    container_name: webshop-db
+    image: percona
+    build:
+      context: ./images/percona
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#    volumes:
+#      - ${DB_PATH}:/var/lib/mysql
+
+  webshop-adminer:
+    container_name: webshop-adminer
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: webshop-db
+    ports:
+      - '8080:8080'
+    depends_on:
+      - webshop-db
