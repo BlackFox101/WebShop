@@ -3,7 +3,7 @@ version: '3.8'
 services:
   webshop-nginx:
     container_name: webshop-nginx
-    image: nginx
+    image: nginx:1.21.3
     restart: on-failure
     ports:
       - "80:80"
@@ -30,7 +30,7 @@ services:
 
   webshop-db:
     container_name: webshop-db
-    image: percona
+    image: percona:5.7.35
     build:
       context: ./images/percona
     restart: always
@@ -44,7 +44,7 @@ services:
 
   webshop-adminer:
     container_name: webshop-adminer
-    image: adminer
+    image: adminer:4.8.1
     restart: always
     environment:
       ADMINER_DEFAULT_SERVER: webshop-db
