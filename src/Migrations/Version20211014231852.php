@@ -20,12 +20,6 @@ final class Version20211014231852 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql("
-            INSERT role(name)
-            VALUES
-                ('ROLE_USER'),
-                ('ROLE_ADMIN')"
-        );
-        $this->addSql("
             INSERT status(name, shop_count, shop_item_count)
             VALUES
                 ('BANNED', 0, 0),

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -45,10 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $phone;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", fetch="EAGER")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="role_id")
+     * @ORM\Column(type="json")
      */
-    private Role $role;
+    private $roles = [];
 
     /**
      * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="user", fetch="EAGER")
@@ -161,14 +161,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    #[Pure] public function getRole(): string
+    public function getRoles(): array
     {
-        return $this->role->getName();
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function setRole(Role $role): self
+    public function setRoles(array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
