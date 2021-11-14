@@ -4,6 +4,8 @@ WORKDIR /usr/local/www/data/webshop/
 
 RUN apt-get -qq update \
     && usermod -u 1000 www-data \
+    && apt-get -y install nodejs \
+    && apt-get -y install npm \
     && apt-get -qq install --yes --no-install-recommends sudo curl openssh-client rsync \
     && apt-get -qq install -y --no-install-recommends \
         libfreetype6-dev \

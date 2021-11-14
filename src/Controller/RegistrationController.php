@@ -33,11 +33,14 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_login');
+            //return $this->redirectToRoute('app_login');
+            return $this->json('success', 201);
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->json('error', 500);
+
+        /*return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-        ]);
+        ]);*/
     }
 }
