@@ -1,5 +1,5 @@
 .button {
-    background-color: #f79800;
+    background-color: #FF3F73;;
     display: inline-block;
     font-weight: 400;
     text-align: center;
@@ -17,4 +17,8 @@
     border: none;
     cursor: pointer;
     margin-bottom: 1rem;
+}
+
+.button:hover {
+    opacity: 0.8;
 }

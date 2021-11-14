@@ -1,7 +1,7 @@
 import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_LIST_ROUTE, SHOP_ROUTE} from './utils/consts';
 import {Login} from './pages/authorization/Login/Login';
 import {Registration} from './pages/authorization/Registration/Registration';
-import {withContentAreaInCenter} from './components/authorization/withContentAreaInCenter';
+import {withContentAreaInCenter} from './hoc/withContentAreaInCenter';
 import {ShopList} from './pages/ShopList/ShopList';
 
 export const authRoutes = [

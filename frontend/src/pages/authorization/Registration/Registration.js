@@ -16,25 +16,37 @@ function Content() {
   const [login, setLogin] = useState('')
   const [email, setEmail] = useState('')
 
-  function onRegistrationHandler() {
+  async function onRegistrationHandler() {
     console.log({
       password,
       login,
       email,
     })
+    const response = await fetch('/registration', {
+        method: "POST",
+        body: {
+            password,
+            login,
+            email,
+            firstName: '',
+            lastName: '',
+            phone: '',
+        }
+    })
+    console.log(response)
   }
 
   return (
       <Fragment>
         <LabeledField
             text={'Электронная почта'}
-            isRequired={true}
+            showLabelStar={true}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
         />
         <LabeledField
             text={'Ваш логин'}
-            isRequired={true}
+            showLabelStar={true}
             onChange={(e) => setLogin(e.target.value)}
             value={login}
         />

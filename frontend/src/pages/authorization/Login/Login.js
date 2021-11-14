@@ -40,7 +40,7 @@ function Content() {
         />
         <div style={notRegisteredStyles}>
           <div>Еще нет аккаунта?</div>
-          <NavLink to={REGISTRATION_ROUTE}>Войдите</NavLink>
+          <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>
         </div>
       </Fragment>
   )

@@ -7,20 +7,20 @@ import {useState} from 'react';
 /**
  * @param {{
  *   text: string,
- *   isRequired: boolean,
+ *   showLabelStar: (undefined|boolean),
  *   onChange: function(Event):void,
  *   value: string,
  * }} props
  */
 function LabeledField({
   text,
-  isRequired,
+  showLabelStar = false,
   onChange,
   value
 }) {
   return (
       <div className={classes.labeledField}>
-        <FormLabel text={text} isRequired={isRequired}/>
+        <FormLabel text={text} showLabelStar={showLabelStar}/>
         <Field onChange={onChange} value={value}/>
       </div>
   )
@@ -44,7 +44,7 @@ function LabeledPasswordField({
 
   return (
       <div className={classes.labeledField}>
-        <FormLabel text={'Пароль'} isRequired={true}/>
+        <FormLabel text={'Пароль'} showLabelStar={true}/>
         <div className={classes.passwordField}>
           <Field
               onChange={setPassword}

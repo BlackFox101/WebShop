@@ -8,18 +8,18 @@ function LabelStar() {
 
 /**
  * @param {{
- *   isRequired: boolean,
+ *   showLabelStar: boolean,
  *   text: string,
  * }} props
  */
 function FormLabel({
-  isRequired,
+  showLabelStar,
   text
 }) {
   return (
       <div className={classes.label}>
         <div className={classes.text}>{text}</div>
-        {isRequired && <LabelStar />}
+        {showLabelStar && <LabelStar />}
       </div>
   )
 }
