@@ -1,8 +1,5 @@
-import Logo from '../../assets/logo.svg'
 import classes from './Navbar.module.css';
 import {AiOutlineUser, AiOutlineShoppingCart} from 'react-icons/ai'
-import {BiMessageRounded} from 'react-icons/bi'
-import {IoWalletOutline} from 'react-icons/io5'
 import {MdOutlineFavoriteBorder} from 'react-icons/md'
 import {CgProfile} from 'react-icons/cg'
 import {BiExit} from 'react-icons/bi'
@@ -16,7 +13,7 @@ function NotAuthNavbar() {
         <div className={classes.navbarContent}>
           <div style={{display: 'flex'}}>
             <NavLink className={classes.logo} to={SHOP_LIST_ROUTE}>
-              <img src={Logo} />
+              <img src={'https://dejpknyizje2n.cloudfront.net/svgcustom/clipart/preview/wolf-coyote-dog-10066-11456-550x550.png'} />
             </NavLink>
             <SearchField />
           </div>
