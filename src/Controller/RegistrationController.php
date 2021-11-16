@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/api/register', name: 'app_register')]
+    #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $user = new User();
@@ -33,14 +33,17 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            //return $this->redirectToRoute('app_login');
-            return $this->json('success', 201);
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->json('error', 500);
-
-        /*return $this->render('registration/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-        ]);*/
+        ]);
+    }
+
+    #[Route('/home', name: 'home')]
+    public function home()
+    {
+        return this->json("Hello world!", 200);
     }
 }
