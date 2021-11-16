@@ -1,4 +1,4 @@
-import './CardContainer.module.css';
+import classes from './CardContainer.module.css';
 import React from 'react'
 
 /**
