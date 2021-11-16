@@ -1,0 +1,11 @@
+.label {
+    display: flex;
+    align-items: center;
+    margin-bottom: .25rem;
+}
+
+.labelStar {
+    color: #ff0000;
+    font-weight: 700;
+    margin-left: .25rem;
+}

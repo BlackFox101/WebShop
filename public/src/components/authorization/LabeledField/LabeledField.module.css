@@ -1,0 +1,15 @@
+.labeledField {
+    margin-bottom: 1rem;
+}
+
+.passwordField {
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+
+.changePasswordVisibilityWrapper {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
