@@ -28,7 +28,7 @@ function LabeledField({
 
 /**
  * @param {{
- *   setPassword: function(string):void,
+ *   setPassword: function(Event):void,
  *   value: string,
  * }} props
  */

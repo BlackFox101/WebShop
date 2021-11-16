@@ -1,4 +1,10 @@
 function ShopList() {
+  const shops = [
+      {
+
+      }
+  ]
+
   return (
       <div>
         ShopList
