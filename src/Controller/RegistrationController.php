@@ -44,6 +44,6 @@ class RegistrationController extends AbstractController
     #[Route('/home', name: 'home')]
     public function home()
     {
-        return this->json("Hello world!", 200);
+        //return this->json("Hello world!", 200);
     }
 }

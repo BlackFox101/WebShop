@@ -5,4 +5,4 @@ set -o errexit
 PARENT_DIR=$(dirname "$(dirname "$(readlink -f "$0")")")
 PROJECT_DIR=$(dirname "$PARENT_DIR")
 
-(cd "$PROJECT_DIR/docker" && docker exec -it -uroot webshop-app bash)
+(cd "$PROJECT_DIR/docker" && docker exec -it -uwww-data webshop-app bash)
