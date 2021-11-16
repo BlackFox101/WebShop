@@ -1,3 +1,20 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /{reactRouting}
+    controller: App\Controller\DefaultController::index
+    defaults:
+        reactRouting: null
+
+index1:
+    path: /{reactRouting1}/{reactRouting2}
+    controller: App\Controller\DefaultController::index
+    defaults:
+        reactRouting1: null
+        reactRouting2: null
+
+index2:
+    path: /{reactRouting1}/{reactRouting2}/{reactRouting3}
+    controller: App\Controller\DefaultController::index
+    defaults:
+        reactRouting1: null
+        reactRouting2: null
+        reactRouting3: null
