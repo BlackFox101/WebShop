@@ -2,6 +2,7 @@ import classes from './SearchField.module.css';
 import {useState} from 'react';
 import {IoIosArrowDown} from 'react-icons/io';
 import {AiOutlineSearch} from 'react-icons/ai';
+import React from 'react'
 
 const categoryType = {
   shop: 'shops',

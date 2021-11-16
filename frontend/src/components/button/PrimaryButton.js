@@ -1,4 +1,5 @@
 import classes from './PrimaryButton.module.css';
+import React from 'react'
 
 /**
  * @param {{

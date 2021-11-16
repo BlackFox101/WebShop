@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import {Registration} from './pages/authorization/Registration/Registration';
 import {Login} from './pages/authorization/Login/Login';
 import {withContentAreaInCenter} from './hoc/withContentAreaInCenter';
+import React from 'react'
 
 function App() {
   const [posts, setPosts] = useState([])

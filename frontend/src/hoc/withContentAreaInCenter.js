@@ -1,3 +1,5 @@
+import React from 'react'
+
 const wrapperStyles = {
   display: 'flex',
   alignItems: 'center',

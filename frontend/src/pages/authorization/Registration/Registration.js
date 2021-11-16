@@ -8,6 +8,7 @@ import {
 } from '../../../components/authorization/LabeledField/LabeledField';
 import { NavLink } from 'react-router-dom';
 import { LOGIN_ROUTE } from '../../../utils/consts';
+import React from 'react'
 
 const alreadyRegisteredStyles = {
   display: 'flex',

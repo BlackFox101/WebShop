@@ -6,6 +6,7 @@ import {BiExit} from 'react-icons/bi'
 import {NavLink} from 'react-router-dom';
 import {LOGIN_ROUTE, SHOP_LIST_ROUTE} from '../../utils/consts';
 import {SearchField} from './SearchField/SearchField';
+import React from 'react'
 
 function NotAuthNavbar() {
   return (

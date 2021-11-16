@@ -1,6 +1,7 @@
 import {Switch, Route, Redirect} from 'react-router-dom'
 import {authRoutes, publicRoutes} from '../routes';
 import {SHOP_LIST_ROUTE} from '../utils/consts';
+import React from 'react'
 
 function AppRouter() {
   const isAuth = false
