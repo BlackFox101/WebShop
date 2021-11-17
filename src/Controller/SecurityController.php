@@ -27,14 +27,6 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/shops", name="app_shops")
-     */
-    public function shops(AuthenticationUtils $authenticationUtils): Response
-    {
-        return $this->render('security/shops.html.twig', []);
-    }
-
-    /**
      * @Route("/logout", name="app_logout")
      */
     public function logout(): void

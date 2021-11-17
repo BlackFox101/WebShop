@@ -2,6 +2,32 @@
 
 {% block title %}Register{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/registration.css') }}">
+{% endblock %}
+
+{#{% block body %}
+    <div class="register_block">
+        <h1>Регистрация</h1>
+    </div>
+
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email) }}
+    {{ form_row(registrationForm.plainPassword, {
+        label: 'Password'
+    }) }}
+    {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_row(registrationForm.firstName) }}
+    {{ form_row(registrationForm.lastName) }}
+    {{ form_row(registrationForm.login) }}
+    {{ form_row(registrationForm.phone) }}
+
+    <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+
+{% endblock %}#}
+
 {% block body %}
 <div class="content-center">
     <form class="register__form" method="post">

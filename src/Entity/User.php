@@ -48,20 +48,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
 
     /**
      * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="user", fetch="EAGER")
      * @ORM\JoinColumn(nullable=true, referencedColumnName="status_id")
      */
     private Status $status;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Shop::class, mappedBy="User")
-     * @ORM\JoinColumn(referencedColumnName="shop_id")
-     * @var ArrayCollection|Shop[]
-     */
-    private ArrayCollection|array $shops;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\ShopItem", inversedBy="users")
@@ -83,9 +76,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private \DateTimeInterface|null $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Shop::class, mappedBy="user")
+     */
+    private array|Collection $shops;
+
     #[Pure] public function __construct()
     {
         $this->shops = new ArrayCollection();
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getUserId(): ?int
@@ -101,6 +100,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -190,6 +213,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection|ShopItem[]
+     */
+    public function getFavoriteShopItems(): Collection
+    {
+        return $this->favoritesShopItems;
+    }
+
+    public function addFavoriteShopItem(ShopItem $shopItem): self
+    {
+        if (!$this->favoritesShopItems->contains($shopItem)) {
+            $this->favoritesShopItems[] = $shopItem;
+        }
+
+        return $this;
+    }
+
+    public function removeShopItem(ShopItem $shopItem): self
+    {
+        $this->favoritesShopItems->removeElement($shopItem);
+
+        return $this;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Shop[]
      */
     public function getShops(): Collection
@@ -215,30 +286,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $shop->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ShopItem[]
-     */
-    public function getFavoriteShopItems(): Collection
-    {
-        return $this->favoritesShopItems;
-    }
-
-    public function addFavoriteShopItem(ShopItem $shopItem): self
-    {
-        if (!$this->favoritesShopItems->contains($shopItem)) {
-            $this->favoritesShopItems[] = $shopItem;
-        }
-
-        return $this;
-    }
-
-    public function removeShopItem(ShopItem $shopItem): self
-    {
-        $this->favoritesShopItems->removeElement($shopItem);
 
         return $this;
     }

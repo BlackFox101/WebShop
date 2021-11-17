@@ -28,7 +28,7 @@
 
 .email_container::before {
     position: absolute;
-    content: 'Login';
+    content: 'Email';
     top: -24px;
     left: 0;
 }

@@ -21,9 +21,9 @@ class Shop
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="shops")
-     * @ORM\JoinColumn(nullable=true, referencedColumnName="user_id")
+     * @ORM\Column(type="integer", nullable=true, name="user_id")
      */
-    private User $user;
+    private ?User $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,18 +60,6 @@ class Shop
     public function getId(): ?int
     {
         return $this->shopId;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $User): self
-    {
-        $this->user = $User;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -148,6 +136,18 @@ class Shop
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
