@@ -6,7 +6,7 @@
 <div class="content-center">
     <form class="register__form" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
-        <div>
+        <div class="register__form-field-container email_container">
             <input
                 type="email"
                 name="email"
@@ -17,7 +17,17 @@
                 autofocus
             />
         </div>
-        <div>
+        <div class="register__form-field-container password_container">
+            <input
+                type="password"
+                name="password"
+                id="inputPassword"
+                class="form-control"
+                required
+                autofocus
+            />
+        </div>
+        <div class="register__form-field-container first-name_container">
             <input
                 type="text"
                 name="firstName"
@@ -27,7 +37,17 @@
                 autofocus
             />
         </div>
-        <div>
+        <div class="register__form-field-container last-name_container">
+            <input
+                type="text"
+                name="lastName"
+                id="inputEmail"
+                class="form-control"
+                required
+                autofocus
+            />
+        </div>
+        <div class="register__form-field-container login_container">
             <input
                 type="email"
                 name="email"
@@ -38,27 +58,31 @@
                 autofocus
             />
         </div>
-        <div>
+        <div class="register__form-field-container phone_container">
             <input
-                type="email"
-                name="email"
-                id="inputEmail"
+                type="tel"
+                name="phone"
+                id="inputPhone"
                 class="form-control"
-                autocomplete="email"
                 required
                 autofocus
             />
         </div>
-        <div>
+        <div class="agree_container">
             <input
-                type="email"
-                name="email"
-                id="inputEmail"
-                class="form-control"
-                autocomplete="email"
+                type="checkbox"
+                name="agree"
+                id="agree"
                 required
-                autofocus
             />
+            <label for="agree">
+                соглашаюсь с <a href="https://www.gosuslugi.ru/" target="_blank">условиями сайта</a>
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+        <div class="auth_form-extra">
+            <div>Уже зарегестрированы?</div>
+            <a href="/login">Войдите</a>
         </div>
     </form>
 </div>

@@ -32,6 +32,12 @@ class SecurityController extends AbstractController
     public function shops(AuthenticationUtils $authenticationUtils): Response
     {
         return $this->render('security/shops.html.twig', []);
+
+        if ($this->getUser()) {
+            return $this->render('security/shops.html.twig', []);
+        }
+
+        return $this->redirect('/login');
     }
 
     /**
