@@ -21,9 +21,9 @@ class Shop
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="shops")
-     * @ORM\Column(type="integer", nullable=true, name="user_id")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="user_id")
      */
-    private ?User $user;
+    private User $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,6 +34,31 @@ class Shop
      * @ORM\Column(type="boolean", columnDefinition="TINYINT(1) DEFAULT 0")
      */
     private bool $isHidden;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $shopImageUrl;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $userPhotoUrl;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $userLogin;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $shopTitle;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $shopDescription;
 
     /**
      * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
@@ -52,8 +77,13 @@ class Shop
      */
     private \DateTimeInterface|null $updatedAt;
 
-    public function __construct()
+    public function __construct($shopImageUrl, $userPhotoUrl, $userLogin, $shopTitle, $shopDescription)
     {
+        $this->setShopImageUrl($shopImageUrl);
+        $this->setUserPhotoUrl($userPhotoUrl);
+        $this->setUserLogin($userLogin);
+        $this->setShopTitle($shopTitle);
+        $this->setShopDescription($shopDescription);
         $this->shopItems = new ArrayCollection();
     }
 
@@ -150,5 +180,55 @@ class Shop
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getShopImageUrl()
+    {
+        return $this->shopImageUrl;
+    }
+
+    private function setShopImageUrl($shopImageUrl)
+    {
+        $this->shopImageUrl = $shopImageUrl;
+    }
+
+    public function getUserPhotoUrl()
+    {
+        return $this->userPhotoUrl;
+    }
+
+    private function setUserPhotoUrl($userPhotoUrl)
+    {
+        $this->userPhotoUrl = $userPhotoUrl;
+    }
+
+    public function getUserLogin()
+    {
+        return $this->userLogin;
+    }
+
+    private function setUserLogin($userLogin)
+    {
+        $this->userLogin = $userLogin;
+    }
+
+    public function getShopTitle()
+    {
+        return $this->shopTitle;
+    }
+
+    private function setShopTitle($shopTitle)
+    {
+        $this->shopTitle = $shopTitle;
+    }
+
+    public function getShopDescription()
+    {
+        return $this->shopDescription;
+    }
+
+    private function setShopDescription($shopDescription)
+    {
+        $this->shopDescription = $shopDescription;
     }
 }

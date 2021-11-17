@@ -1,23 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Магазины{% endblock %}
 
 {% block body %}
     <div class="shops-container">
-        <div class="shop">
-            <div class="shop__image">
-                <img />
-            </div>
-            <div class="shop__owner-content">
-                <div class="shop__owner-content__avatar">
-                    <img />
-                </div>
-                <div class="shop__owner-content__login"></div>
-            </div>
-            <div class="shop__content-info">
-                <div class="shop__content-info-title"></div>
-                <div class="shop__content-info-description"></div>
-            </div>
-        </div>
+        {% if shops %}
+            {% for shop in shops %}
+                <a href="shop/{{ shop.userLogin }}" class="shop">
+                    <div class="shop__image">
+                        <img src={{ shop.shopImageUrl }} />
+                    </div>
+                    <div class="shop__owner-content">
+                        <div class="shop__owner-content__avatar">
+                            <img src={{ shop.userPhotoUrl }} />
+                        </div>
+                        <div class="shop__owner-content__login">{{ shop.userLogin }}</div>
+                    </div>
+                    <div class="shop__content-info">
+                        <div class="shop__content-info-title">{{ shop.shopTitle }}</div>
+                        <div class="shop__content-info-description">{{ shop.shopDescription }}</div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+        {% if not shops %}
+            Empty shop..(
+        {% endif %}
+
     </div>
 {% endblock %}
