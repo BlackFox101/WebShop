@@ -36,6 +36,31 @@ class Shop
     private bool $isHidden;
 
     /**
+     * @ORM\Column(type="string"")
+     */
+    private string $shopImageUrl;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $userPhotoUrl;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $userLogin;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $shopTitle;
+
+    /**
+     * @ORM\Column(type="string"")
+     */
+    private string $shopDescription;
+
+    /**
      * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
      * @ORM\JoinColumn(nullable=true, referencedColumnName="shop_item_id")
      * @var ArrayCollection|ShopItem[]
@@ -52,8 +77,13 @@ class Shop
      */
     private \DateTimeInterface|null $updatedAt;
 
-    public function __construct()
+    public function __construct($shopImageUrl, $userPhotoUrl, $userLogin, $shopTitle, $shopDescription)
     {
+        $this->setShopImageUrl($shopImageUrl);
+        $this->setUserPhotoUrl($userPhotoUrl);
+        $this->setUserLogin($userLogin);
+        $this->setShopTitle($shopTitle);
+        $this->setShopDescription($shopDescription);
         $this->shopItems = new ArrayCollection();
     }
 
@@ -150,5 +180,55 @@ class Shop
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function getShopImageUrl()
+    {
+        return $this->shopImageUrl;
+    }
+
+    private function setShopImageUrl($shopImageUrl)
+    {
+        $this->shopImageUrl = $shopImageUrl;
+    }
+
+    public function getUserPhotoUrl()
+    {
+        return $this->userPhotoUrl;
+    }
+
+    private function setUserPhotoUrl($userPhotoUrl)
+    {
+        $this->userPhotoUrl = $userPhotoUrl;
+    }
+
+    public function getUserLogin()
+    {
+        return $this->userLogin;
+    }
+
+    private function setUserLogin($userLogin)
+    {
+        $this->userLogin = $userLogin;
+    }
+
+    public function getShopTitle()
+    {
+        return $this->shopTitle;
+    }
+
+    private function setShopTitle($shopTitle)
+    {
+        $this->shopTitle = $shopTitle;
+    }
+
+    public function getShopDescription()
+    {
+        return $this->shopDescription;
+    }
+
+    private function setShopDescription($shopDescription)
+    {
+        $this->shopDescription = $shopDescription;
     }
 }
