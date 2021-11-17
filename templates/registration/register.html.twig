@@ -3,15 +3,63 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Регистрация</h1>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+<div class="content-center">
+    <form class="register__form" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        <div>
+            <input
+                type="email"
+                name="email"
+                id="inputEmail"
+                class="form-control"
+                autocomplete="email"
+                required
+                autofocus
+            />
+        </div>
+        <div>
+            <input
+                type="text"
+                name="firstName"
+                id="inputFirstName"
+                class="form-control"
+                required
+                autofocus
+            />
+        </div>
+        <div>
+            <input
+                type="email"
+                name="email"
+                id="inputEmail"
+                class="form-control"
+                autocomplete="email"
+                required
+                autofocus
+            />
+        </div>
+        <div>
+            <input
+                type="email"
+                name="email"
+                id="inputEmail"
+                class="form-control"
+                autocomplete="email"
+                required
+                autofocus
+            />
+        </div>
+        <div>
+            <input
+                type="email"
+                name="email"
+                id="inputEmail"
+                class="form-control"
+                autocomplete="email"
+                required
+                autofocus
+            />
+        </div>
+    </form>
+</div>
 {% endblock %}

@@ -1,5 +1,29 @@
 <div class="header">
-    <nav>
-        Header
-    </nav>
+    <div class="header__container">
+        <div class="header__search-and-icon">
+            <a href="/login" class="header__icon">
+                <img src="https://www.freeiconspng.com/uploads/wolf-emblem-icon-31.png" />
+            </a>
+            <div class="header__search-field">
+                <input class="header__search-input" type="text" />
+                <div class="header__search-controls">
+                    <select class="form-select header__search-select">
+                        <option value="products">Товары</option>
+                        <option value="shops">Магазины</option>
+                        <option value="users">Пользователи</option>
+                    </select>
+                    <button type="button" class="btn btn-info">Find</button>
+{#                    <button class="header__search-find-btn">Find</button>#}
+                </div>
+            </div>
+        </div>
+        <div>
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="/login" class="header__container-login-btn">Login</a>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <button class="header__container-logout-btn">Exit</button>
+            {% endif %}
+        </div>
+    </div>
 </div>
