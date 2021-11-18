@@ -5,15 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ShopController extends AbstractController
 {
-    /**
-     * @Route("/shops", name="app_shops")
-     */
-    public function shops(): Response
+    #[Route('/shop', name: 'shop')]
+    public function index(): Response
     {
-        return $this->render('security/shops.html.twig', []);
+        return $this->render('pages/shops.html.twig', [
+            'controller_name' => 'ShopController',
+        ]);
     }
 }
