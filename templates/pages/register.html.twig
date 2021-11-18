@@ -18,10 +18,6 @@
         label: 'Password'
     }) }}
     {{ form_row(registrationForm.agreeTerms) }}
-    {{ form_row(registrationForm.firstName) }}
-    {{ form_row(registrationForm.lastName) }}
-    {{ form_row(registrationForm.login) }}
-    {{ form_row(registrationForm.phone) }}
 
     <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
@@ -33,25 +29,20 @@
     <form class="register__form" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
         <div class="register__form-field-container email_container">
-            <input
-                type="email"
-                name="email"
-                id="inputEmail"
-                class="form-control"
-                autocomplete="email"
-                required
-                autofocus
-            />
+            {% include 'inc/_form-field.html.twig' with {
+                'field': registrationForm.email,
+                'type': 'email',
+                'name': 'email',
+                'id': 'inputEmail'
+            } %}
         </div>
         <div class="register__form-field-container password_container">
-            <input
-                type="password"
-                name="password"
-                id="inputPassword"
-                class="form-control"
-                required
-                autofocus
-            />
+            {% include 'inc/_form-field.html.twig' with {
+                'field': registrationForm.plainPassword,
+                'type': 'password',
+                'name': 'password',
+                'id': 'inputPassword'
+            } %}
         </div>
         <div class="register__form-field-container first-name_container">
             <input
@@ -61,6 +52,7 @@
                 class="form-control"
                 required
                 autofocus
+                value="Alexey"
             />
         </div>
         <div class="register__form-field-container last-name_container">
@@ -71,17 +63,19 @@
                 class="form-control"
                 required
                 autofocus
+                value="Sadovin"
             />
         </div>
         <div class="register__form-field-container login_container">
             <input
-                type="email"
-                name="email"
-                id="inputEmail"
+                type="text"
+                name="login"
+                id="inputLogin"
                 class="form-control"
                 autocomplete="email"
                 required
                 autofocus
+                value="alexey.sadovin"
             />
         </div>
         <div class="register__form-field-container phone_container">
@@ -92,20 +86,23 @@
                 class="form-control"
                 required
                 autofocus
+                value="12345"
             />
         </div>
         <div class="agree_container">
-            <input
+            {{ form_widget(registrationForm.agreeTerms) }}
+            {#<input
                 type="checkbox"
                 name="agree"
                 id="agree"
                 required
-            />
+            />#}
             <label for="agree">
                 соглашаюсь с <a href="https://www.gosuslugi.ru/" target="_blank">условиями сайта</a>
             </label>
         </div>
-        <button class="btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+        {{ form_rest (registrationForm) }}
+        <button type="submit" class="btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
         <div class="auth_form-extra">
             <div>Уже зарегестрированы?</div>
             <a href="/login">Войдите</a>

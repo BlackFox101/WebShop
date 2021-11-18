@@ -17,79 +17,65 @@ class Shop
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $shopId;
+    private $shopId;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="shops")
      * @ORM\JoinColumn(nullable=true, referencedColumnName="user_id")
      */
-    private User $user;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
-
-    /**
-     * @ORM\Column(type="boolean", columnDefinition="TINYINT(1) DEFAULT 0")
-     */
-    private bool $isHidden;
-
-    /**
-     * @ORM\Column(type="string"")
-     */
-    private string $shopImageUrl;
-
-    /**
-     * @ORM\Column(type="string"")
-     */
-    private string $userPhotoUrl;
-
-    /**
-     * @ORM\Column(type="string"")
-     */
-    private string $userLogin;
-
-    /**
-     * @ORM\Column(type="string"")
-     */
-    private string $shopTitle;
-
-    /**
-     * @ORM\Column(type="string"")
-     */
-    private string $shopDescription;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
-     * @ORM\JoinColumn(nullable=true, referencedColumnName="shop_item_id")
-     * @var ArrayCollection|ShopItem[]
-     */
-    private array|ArrayCollection $shopItems;
+    private $name;
 
     /**
      * @ORM\Column(type="datetime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL")
      */
-    private \DateTimeInterface $createdAt;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true, columnDefinition="TIMESTAMP NULL")
      */
-    private \DateTimeInterface|null $updatedAt;
+    private $updatedAt;
 
-    public function __construct($shopImageUrl, $userPhotoUrl, $userLogin, $shopTitle, $shopDescription)
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $shopImageUrl;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isHidden;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="shop_item_id")
+     */
+    private $shopItems;
+
+    public function __construct()
     {
-        $this->setShopImageUrl($shopImageUrl);
-        $this->setUserPhotoUrl($userPhotoUrl);
-        $this->setUserLogin($userLogin);
-        $this->setShopTitle($shopTitle);
-        $this->setShopDescription($shopDescription);
         $this->shopItems = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->shopId;
+    }
+
+    public function getClient(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setClient(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -100,6 +86,42 @@ class Shop
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getShopImageUrl(): ?string
+    {
+        return $this->shopImageUrl;
+    }
+
+    public function setShopImageUrl(?string $shopImageUrl): self
+    {
+        $this->shopImageUrl = $shopImageUrl;
 
         return $this;
     }
@@ -144,91 +166,5 @@ class Shop
         }
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getShopImageUrl()
-    {
-        return $this->shopImageUrl;
-    }
-
-    private function setShopImageUrl($shopImageUrl)
-    {
-        $this->shopImageUrl = $shopImageUrl;
-    }
-
-    public function getUserPhotoUrl()
-    {
-        return $this->userPhotoUrl;
-    }
-
-    private function setUserPhotoUrl($userPhotoUrl)
-    {
-        $this->userPhotoUrl = $userPhotoUrl;
-    }
-
-    public function getUserLogin()
-    {
-        return $this->userLogin;
-    }
-
-    private function setUserLogin($userLogin)
-    {
-        $this->userLogin = $userLogin;
-    }
-
-    public function getShopTitle()
-    {
-        return $this->shopTitle;
-    }
-
-    private function setShopTitle($shopTitle)
-    {
-        $this->shopTitle = $shopTitle;
-    }
-
-    public function getShopDescription()
-    {
-        return $this->shopDescription;
-    }
-
-    private function setShopDescription($shopDescription)
-    {
-        $this->shopDescription = $shopDescription;
     }
 }

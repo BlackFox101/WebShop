@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Shop|null find($shopId, $lockMode = null, $lockVersion = null)
+ * @method Shop|null find($id, $lockMode = null, $lockVersion = null)
  * @method Shop|null findOneBy(array $criteria, array $orderBy = null)
  * @method Shop[]    findAll()
  * @method Shop[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)

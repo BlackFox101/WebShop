@@ -17,23 +17,21 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $categoryId;
+    private $categoryId;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="category")
-     * @ORM\JoinColumn(referencedColumnName="shop_item_id")
      */
     private $shopItems;
 
     public function __construct()
     {
         $this->shopItems = new ArrayCollection();
-        $this->temps = new ArrayCollection();
     }
 
     public function getId(): ?int

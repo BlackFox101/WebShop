@@ -6,8 +6,6 @@ use App\Repository\ShopItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=ShopItemRepository::class)
@@ -19,67 +17,65 @@ class ShopItem
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $shopItemId;
+    private $shopItemId;
 
     /**
      * @ORM\ManyToOne(targetEntity=Shop::class, inversedBy="shopItems")
-     * @ORM\JoinColumn(referencedColumnName="shop_id")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="shop_id")
      */
-    private Shop $shop;
+    private $shop;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private string $description;
+    private $description;
 
     /**
-     * @ORM\Column(type="boolean", columnDefinition="TINYINT(1) DEFAULT 0")
+     * @ORM\Column(type="boolean")
      */
-    private bool $isHidden;
+    private $isHidden;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
-    private float $price;
+    private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="shopItems")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="category_id")
      */
-    private Category $category;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ShopItemImage::class, mappedBy="shopItem", orphanRemoval=true)
-     * @ORM\JoinColumn(referencedColumnName="shop_item_image_id")
-     * @var ArrayCollection|ShopItemImage[]
-     */
-    private ArrayCollection|array $shopItemImages;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="user")
-     * @ORM\JoinColumn(referencedColumnName="user_id")
-     * @var ArrayCollection|User[]
-     */
-    private ArrayCollection|array $userWhoAddedInFavourites;
+    private $category;
 
     /**
      * @ORM\Column(type="datetime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL")
      */
-    private \DateTimeInterface $createdAt;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true, columnDefinition="TIMESTAMP NULL")
      */
-    private \DateTimeInterface|null $updatedAt;
+    private $updatedAt;
 
-    #[Pure] public function __construct()
+    /**
+     * @ORM\OneToMany(targetEntity=ShopItemImage::class, mappedBy="shopItem")
+     */
+    private $shopItemImages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favouriteItems")
+     * @ORM\JoinColumn(referencedColumnName="user_id")
+     */
+    private $usersWhoAddedInFavourites;
+
+    public function __construct()
     {
         $this->shopItemImages = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,7 +83,7 @@ class ShopItem
         return $this->shopItemId;
     }
 
-    public function getShop(): Shop
+    public function getShop(): ?Shop
     {
         return $this->shop;
     }
@@ -135,12 +131,12 @@ class ShopItem
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
@@ -155,6 +151,30 @@ class ShopItem
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -189,26 +209,29 @@ class ShopItem
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    /**
+     * @return Collection|User[]
+     */
+    public function getUserWhoAddedInFavourites(): Collection
     {
-        return $this->createdAt;
+        return $this->usersWhoAddedInFavourites;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function addUserWhoAddedInFavourites(User $user): self
     {
-        $this->createdAt = $createdAt;
+        if (!$this->usersWhoAddedInFavourites->contains($user)) {
+            $this->usersWhoAddedInFavourites[] = $user;
+            $user->addFavouriteItem($this);
+        }
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function removeUserWhoAddedInFavourites(User $user): self
     {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+        if ($this->usersWhoAddedInFavourites->removeElement($user)) {
+            $user->removeFavouriteItem($this);
+        }
 
         return $this;
     }

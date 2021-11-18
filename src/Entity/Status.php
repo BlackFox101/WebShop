@@ -3,10 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\StatusRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=StatusRepository::class)
@@ -18,34 +15,22 @@ class Status
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $statusId;
+    private $statusId;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $shopCount;
+    private $shopCount;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private int $shopItemCount;
+    private $shopItemCount;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private int $name;
-
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="role")
-     * @ORM\JoinColumn(referencedColumnName="user_id")
-     * @var ArrayCollection|User[]
-     */
-    private ArrayCollection|array $users;
-
-    #[Pure] public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    private $name;
 
     public function getId(): ?int
     {
@@ -57,7 +42,7 @@ class Status
         return $this->shopCount;
     }
 
-    public function setShopCount(int $shopCount): self
+    public function setShowCount(int $shopCount): self
     {
         $this->shopCount = $shopCount;
 
@@ -84,36 +69,6 @@ class Status
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setStatus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getStatus() === $this) {
-                $user->setStatus(null);
-            }
-        }
 
         return $this;
     }

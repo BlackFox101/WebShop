@@ -15,18 +15,18 @@ class ShopItemImage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $shopItemImageId;
+    private $shopItemImageId;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $imagePath;
+    private $imagePath;
 
     /**
      * @ORM\ManyToOne(targetEntity=ShopItem::class, inversedBy="shopItemImages")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="shop_item_id")
      */
-    private ShopItem $shopItem;
+    private $shopItem;
 
     public function getId(): ?int
     {

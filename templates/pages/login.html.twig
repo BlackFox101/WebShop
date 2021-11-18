@@ -38,12 +38,10 @@
             />
         </div>
         <button class="btn btn-lg btn-primary" type="submit">Войти</button>
-        <div class="auth_form-extra">
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="btn btn-lg btn-primary sign-in-btn" type="submit">Sign in</button>
-        <div class="login__form-extra">
+        <div class="auth_form-extra">
             <div>Еще нет аккаунта?</div>
             <a href="/register">Зарегистрируйтесь</a>
         </div>
