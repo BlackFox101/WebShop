@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -18,7 +19,9 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'label' => 'Почта'
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -27,9 +30,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'Пароль',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -40,9 +44,45 @@ class RegistrationFormType extends AbstractType
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 50,
                     ]),
                 ],
+            ])
+            ->add('firstName', TextType::class, [
+                'label' => 'Имя',
+                'constraints' => [
+                    new Length([
+                        'maxMessage' => 'This field is very long. Max 255 character',
+                        'max' => 255
+                    ]),
+                ]
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Фамилия',
+                'constraints' => [
+                    new Length([
+                        'maxMessage' => 'This field is very long. Max 255 character',
+                        'max' => 255
+                    ]),
+                ]
+            ])
+            ->add('login', TextType::class, [
+                'label' => 'Логин',
+                'constraints' => [
+                    new Length([
+                        'maxMessage' => 'This field is very long. Max 255 character',
+                        'max' => 180
+                    ]),
+                ]
+            ])
+            ->add('phone', TextType::class, [
+                'label' => 'Телефон',
+                'constraints' => [
+                    new Length([
+                        'maxMessage' => 'This field is very long. Max 255 character',
+                        'max' => 50
+                    ]),
+                ]
             ])
         ;
     }

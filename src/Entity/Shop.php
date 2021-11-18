@@ -56,9 +56,16 @@ class Shop
      */
     private $shopItems;
 
-    public function __construct()
+    // TODO: обносить миграцию
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    public function __construct(string $name, string $shopImageUrl)
     {
         $this->shopItems = new ArrayCollection();
+        $this->shopImageUrl = $shopImageUrl;
     }
 
     public function getId(): ?int
@@ -164,6 +171,18 @@ class Shop
                 $shopItem->setShop(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

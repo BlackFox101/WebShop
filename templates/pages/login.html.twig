@@ -2,6 +2,12 @@
 
 {% block title %}Войти{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/authorization.css') }}">
+{% endblock %}
+
 {% block body %}
 <div class="content-center">
     <form class="login__form" method="post">
@@ -17,6 +23,7 @@
 
         <h1 class="h3 mb-3 font-weight-normal">Войти</h1>
         <div class="login__form-field-container email_container">
+            <label class="form-field-label" for="inputEmail">Почта</label>
             <input
                 type="email"
                 name="email"
@@ -28,6 +35,7 @@
             />
         </div>
         <div class="login__form-field-container password_container">
+            <label class="form-field-label" for="inputPassword">Пароль</label>
             <input
                 type="password"
                 name="password"
@@ -43,7 +51,7 @@
 
         <div class="auth_form-extra">
             <div>Еще нет аккаунта?</div>
-            <a href="/register">Зарегистрируйтесь</a>
+            <a href="{{ path('app_registration') }}">Зарегистрируйтесь</a>
         </div>
     </form>
 </div>

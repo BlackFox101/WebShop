@@ -1,0 +1,15 @@
+<div class="register__form-field-container">
+    <label class="form-field-label" for="{{ field.vars.id }}">{{ field.vars.label }}</label>
+    {# <div class="my-custom-class-for-errors">
+        {{ form_errors(field) }}
+    </div> #}
+    {{ form_widget(field, {
+        required: true,
+        'attr': {
+            'type': type,
+            'class': 'form-control',
+            'autocomplete': 'email',
+            'autofocus': 'autofocus'
+        }
+    }) }}
+</div>

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/authorization.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="content-center">
+    <form class="register__form" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        {% include 'inc/form/_auth-form-field.html.twig' with {
+            'field': registrationForm.email,
+            'type': 'email'
+        }%}
+        {% include 'inc/form/_auth-form-field.html.twig' with {
+            'field': registrationForm.password,
+            'type': 'password'
+        }%}
+        {% include 'inc/form/_auth-form-field.html.twig' with {
+            'field': registrationForm.firstName,
+            'type': 'text'
+        }%}
+        {% include 'inc/form/_auth-form-field.html.twig' with {
+            'field': registrationForm.lastName,
+            'type': 'text'
+        }%}
+        {% include 'inc/form/_auth-form-field.html.twig' with {
+            'field': registrationForm.login,
+            'type': 'text'
+        }%}
+        {% include 'inc/form/_auth-form-field.html.twig' with {
+            'field': registrationForm.phone,
+            'type': 'phone'
+        }%}
+        <div class="agree_container">
+            {{ form_widget(registrationForm.agreeTerms) }}
+            <label for="{{ registrationForm.agreeTerms.vars.id }}">
+                соглашаюсь с <a href="https://www.gosuslugi.ru/" target="_blank">условиями сайта</a>
+            </label>
+        </div>
+        {{ form_rest (registrationForm) }}
+        <button type="submit" class="btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+        <div class="auth_form-extra">
+            <div>Уже зарегестрированы?</div>
+            <a href="/login">Войдите</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

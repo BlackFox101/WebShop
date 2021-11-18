@@ -10,10 +10,6 @@
     left: 0;
 }
 
-.email_container::before {
-    content: 'Почта';
-}
-
-.password_container::before {
-    content: 'Пароль';
+.btn {
+    margin-top: 20px;
 }

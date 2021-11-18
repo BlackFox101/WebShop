@@ -1,3 +1,13 @@
+.login__form button,
+.register__form button {
+    width: 400px;
+}
+
+.login__form-field-container label,
+.register__form-field-container label {
+    margin: 5px auto 3px 0;
+}
+
 .login__form,
 .register__form {
     max-width: 500px;
@@ -21,7 +31,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
     margin-top: 10px;
 }
 
@@ -36,5 +45,21 @@
 }
 
 .auth_form-extra div {
+    margin-right: 10px;
+}
+
+.register__form input[type=checkbox] {
+    display: block;
+}
+
+.agree_container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    width: 400px;
+}
+
+.agree_container input {
+    width: auto;
     margin-right: 10px;
 }

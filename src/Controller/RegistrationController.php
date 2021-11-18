@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/registration', name: 'app_registration')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -27,14 +27,9 @@ class RegistrationController extends AbstractController
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
             );
-
-            $user->setFirstName($request->get('firstName'));
-            $user->setLastName($request->get('lastName'));
-            $user->setLogin($request->get('login'));
-            $user->setPhone($request->get('phone'));
 
             $statusRepo = $entityManager->getRepository(Status::class);
             $user->setStatus($statusRepo->findOneBy(['name' => 'COMMON']));
@@ -46,7 +41,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('pages/register.html.twig', [
+        return $this->render('pages/registration.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

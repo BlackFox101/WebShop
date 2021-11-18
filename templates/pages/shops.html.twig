@@ -6,19 +6,19 @@
     <div class="shops-container">
         {% if shops %}
             {% for shop in shops %}
-                <a href="shop/{{ shop.userLogin }}" class="shop">
+                <a href="shop/{{ shop.name }}" class="shop">
                     <div class="shop__image">
                         <img src={{ shop.shopImageUrl }} />
                     </div>
                     <div class="shop__owner-content">
                         <div class="shop__owner-content__avatar">
-                            <img src={{ shop.userPhotoUrl }} />
+                            <img src='' />
                         </div>
-                        <div class="shop__owner-content__login">{{ shop.userLogin }}</div>
+                        <div class="shop__owner-content__login">{{ user.firstName }}</div>
                     </div>
                     <div class="shop__content-info">
-                        <div class="shop__content-info-title">{{ shop.shopTitle }}</div>
-                        <div class="shop__content-info-description">{{ shop.shopDescription }}</div>
+                        <div class="shop__content-info-title">{{ shop.name }}</div>
+                        <div class="shop__content-info-description">{{ shop.name }}</div>
                     </div>
                 </a>
             {% endfor %}
