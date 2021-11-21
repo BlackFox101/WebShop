@@ -14,14 +14,14 @@ final class Version20211117231916 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add db tables';
     }
 
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE category (category_id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(category_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE shop (shop_id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, updated_at TIMESTAMP NULL, shop_image_url VARCHAR(255) DEFAULT NULL, is_hidden TINYINT(1) NOT NULL, INDEX IDX_AC6A4CA2A76ED395 (user_id), PRIMARY KEY(shop_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE shop (shop_id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, updated_at TIMESTAMP NULL, shop_image_url VARCHAR(255) DEFAULT NULL, is_hidden TINYINT(1) NOT NULL, description LONGTEXT DEFAULT NULL, INDEX IDX_AC6A4CA2A76ED395 (user_id), PRIMARY KEY(shop_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE shop_item (shop_item_id INT AUTO_INCREMENT NOT NULL, shop_id INT NOT NULL, category_id INT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, is_hidden TINYINT(1) NOT NULL, price NUMERIC(10, 2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, updated_at TIMESTAMP NULL, INDEX IDX_DEE9C3654D16C4DD (shop_id), INDEX IDX_DEE9C36512469DE2 (category_id), PRIMARY KEY(shop_item_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE shop_item_image (shop_item_image_id INT AUTO_INCREMENT NOT NULL, shop_item_id INT NOT NULL, image_path VARCHAR(255) NOT NULL, INDEX IDX_95E9F2A9115C1274 (shop_item_id), PRIMARY KEY(shop_item_image_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE status (status_id INT AUTO_INCREMENT NOT NULL, shop_count INT NOT NULL, shop_item_count INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(status_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

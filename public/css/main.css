@@ -8,14 +8,14 @@ body {
     background-color: #f6f6f6 !important;
 }
 
-.content-center {
-    height: calc(100vh - 54px);
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.content-center {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }

@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,15 +22,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Почта'
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+                'label' => 'Почта',
             ])
             ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -41,7 +35,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Please enter a password',
                     ]),
                     new Length([
-                        'min' => 6,
+                        'min' => 5,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
                         'max' => 50,
@@ -82,7 +76,20 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'This field is very long. Max 255 character',
                         'max' => 50
                     ]),
-                ]
+                ],
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'соглашаюсь с <a href="https://www.gosuslugi.ru/" target="_blank">условиями сайта</a>',
+                'label_html' => true,
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
+                    ]),
+                ],
+            ])
+            ->add('send', SubmitType::class, [
+                'label' => 'Зарегистрироваться',
             ])
         ;
     }

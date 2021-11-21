@@ -4,54 +4,62 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/authorization.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
 {% endblock %}
 
 {% block body %}
-<div class="content-center">
-    <form class="login__form" method="post">
+<div class="login-form">
+    <h1 class="h3 mb-3 font-weight-normal form-header">Войти</h1>
+    <form class="login_form" method="post">
+        <div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            <div class="form-group email_container">
+                <label class="form-field-label" for="inputEmail">Почта</label>
+                <input
+                    type="email"
+                    value="{{ last_username }}"
+                    name="email"
+                    id="inputEmail"
+                    class="form-control"
+                    autocomplete="email"
+                    required
+                    autofocus
+                />
             </div>
-        {% endif %}
+            <div class="form-group password_container">
+                <label class="form-field-label" for="inputPassword">Пароль</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="inputPassword"
+                    class="form-control"
+                    autocomplete="current-password"
+                    required
+                />
+            </div>
 
-        <h1 class="h3 mb-3 font-weight-normal">Войти</h1>
-        <div class="login__form-field-container email_container">
-            <label class="form-field-label" for="inputEmail">Почта</label>
-            <input
-                type="email"
-                name="email"
-                id="inputEmail"
-                class="form-control"
-                autocomplete="email"
-                required
-                autofocus
-            />
-        </div>
-        <div class="login__form-field-container password_container">
-            <label class="form-field-label" for="inputPassword">Пароль</label>
-            <input
-                type="password"
-                name="password"
-                id="inputPassword"
-                class="form-control"
-                autocomplete="current-password"
-                required
-            />
-        </div>
-        <button class="btn btn-lg btn-primary" type="submit">Войти</button>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Запомнить меня
+                </label>
+            </div>
+            <button type="submit" id="login_form_send"class="btn-primary btn">Войти</button>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <div class="auth_form-extra">
-            <div>Еще нет аккаунта?</div>
-            <a href="{{ path('app_registration') }}">Зарегистрируйтесь</a>
+            <div class="auth_form-extra">
+                <div>Еще нет аккаунта?</div>
+                <a href="{{ path('app_registration') }}">Зарегистрируйтесь</a>
+            </div>
         </div>
     </form>
 </div>

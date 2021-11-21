@@ -31,16 +31,14 @@ services:
   webshop-db:
     container_name: webshop-db
     image: percona:5.7.35
-    build:
-      context: ./images/percona
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#    volumes:
-#      - ${DB_PATH}:/var/lib/mysql
+    volumes:
+      - ${DB_PATH}:/var/lib/mysql
 
   webshop-adminer:
     container_name: webshop-adminer
