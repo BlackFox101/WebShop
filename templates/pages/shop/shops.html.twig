@@ -3,10 +3,10 @@
 {% block title %}Магазины{% endblock %}
 
 {% block body %}
-    <div class="shops-container">
+    {#<div class="shops-container">
         {% if shops %}
             {% for shop in shops %}
-                <a href="shop/{{ shop.name }}" class="shop">
+                <a href="shops" class="shop">
                     <div class="shop__image">
                         <img src={{ shop.shopImageUrl }} />
                     </div>
@@ -27,5 +27,5 @@
             Empty shop..(
         {% endif %}
 
-    </div>
+    </div>#}
 {% endblock %}

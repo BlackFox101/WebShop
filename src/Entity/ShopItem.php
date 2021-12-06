@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ShopItemRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,7 +39,7 @@ class ShopItem
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isHidden;
+    private $isHidden = false;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
@@ -72,10 +73,10 @@ class ShopItem
      */
     private $usersWhoAddedInFavourites;
 
-    public function __construct()
+    public function __construct(Shop $shop)
     {
         $this->shopItemImages = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->shop = $shop;
     }
 
     public function getId(): ?int
@@ -155,24 +156,24 @@ class ShopItem
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

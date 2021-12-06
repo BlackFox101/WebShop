@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ShopRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ShopRepository::class)
@@ -48,7 +50,7 @@ class Shop
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isHidden;
+    private $isHidden = false;
 
     /**
      * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
@@ -56,16 +58,15 @@ class Shop
      */
     private $shopItems;
 
-    // TODO: обносить миграцию
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
-    public function __construct(string $name, string $shopImageUrl)
+    public function __construct(UserInterface $user)
     {
         $this->shopItems = new ArrayCollection();
-        $this->shopImageUrl = $shopImageUrl;
+        $this->user = $user;
     }
 
     public function getId(): ?int
@@ -73,12 +74,12 @@ class Shop
         return $this->shopId;
     }
 
-    public function getClient(): ?User
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function setClient(?User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
@@ -97,24 +98,24 @@ class Shop
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeInterface
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): \DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
