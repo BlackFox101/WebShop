@@ -6,6 +6,7 @@ use App\Entity\Shop;
 use App\Form\ShopFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,16 +44,49 @@ class ShopController extends AbstractController
         $form = $this->createForm(ShopFormType::class, $shop);
         $form->handleRequest($request);
 
+        $response = $this->saveShop($shop, $form, $entityManager);
+        if ($response)
+        {
+            return $response;
+        }
+
+        return $this->render('pages/shop/create.html.twig', [
+            'shopForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('shop/{shopId}/edit', name: 'edit_shop', requirements: ['shopId' => '\d+'])]
+    public function editShop(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
+    {
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $shop = $shopRepo->find($shopId);
+
+        $form = $this->createForm(ShopFormType::class, $shop);
+        $form->handleRequest($request);
+
+        $response = $this->saveShop($shop, $form, $entityManager);
+        if ($response)
+        {
+            return $response;
+        }
+
+        return $this->render('pages/shop/edit.html.twig', [
+            'shopForm' => $form->createView(),
+        ]);
+    }
+
+    private function saveShop(Shop $shop, FormInterface $form, EntityManagerInterface $entityManager): ?Response
+    {
         if ($form->isSubmitted() && $form->isValid())
         {
             $entityManager->persist($shop);
             $entityManager->flush();
 
-            return $this->redirectToRoute('shop');
+            return $this->redirectToRoute('shop', [
+                'shopId' => $shop->getId(),
+            ]);
         }
 
-        return $this->render('pages/shop/create-shop.html.twig', [
-            'shopForm' => $form->createView(),
-        ]);
+        return null;
     }
 }

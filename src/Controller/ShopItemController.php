@@ -7,6 +7,8 @@ use App\Entity\ShopItem;
 use App\Form\ShopItemFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,15 +46,10 @@ class ShopItemController extends AbstractController
 
         $form = $this->createForm(ShopItemFormType::class, $shopItem);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
+        $response = $this->saveShopItem($shopItem, $form, $entityManager);
+        if ($response)
         {
-            $entityManager->persist($shopItem);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('shop_item', [
-                'shopId' => $shopId
-            ]);
+            return $response;
         }
 
         return $this->render('pages/shop_item/create.html.twig', [
@@ -60,14 +57,37 @@ class ShopItemController extends AbstractController
         ]);
     }
 
-    #[Route('/shop/{shopId}/item', name: 'get_shop_items', requirements: ['shopId' => '\d+'])]
-    public function getShopItemsByShopId(int $shopId, EntityManagerInterface $entityManager): Response
+    #[Route('/shop/item/{itemId}/edit', name: 'edit_shop_item', requirements: ['itemId' => '\d+'])]
+    public function editShopItem(Request $request, int $itemId, EntityManagerInterface $entityManager): Response
     {
-        $shopRepo = $entityManager->getRepository(Shop::class);
-        $shop = $shopRepo->find($shopId);
+        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
+        $shopItem = $shopItemRepo->find($itemId);
 
-        return $this->render('pages/shop_item/items.html.twig', [
-            'shopItems' => $shop->getShopItems(),
+        $form = $this->createForm(ShopItemFormType::class, $shopItem);
+        $form->handleRequest($request);
+        $response = $this->saveShopItem($shopItem, $form, $entityManager);
+        if ($response)
+        {
+            return $response;
+        }
+
+        return $this->render('pages/shop_item/edit.html.twig', [
+            'shopItemForm' => $form->createView()
         ]);
+    }
+
+    private function saveShopItem(ShopItem $shopItem, FormInterface $form, EntityManagerInterface $entityManager): ?Response
+    {
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager->persist($shopItem);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('shop_item', [
+                'itemId' => $shopItem->getId()
+            ]);
+        }
+
+        return null;
     }
 }

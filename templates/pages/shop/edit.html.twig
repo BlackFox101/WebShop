@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать магазин{% endblock %}
+
+{% form_theme shopForm 'inc/form/auth-form.html.twig' %}
+
+{% block body %}
+    <div>Редактировать магазин</div>
+    {{ form(shopForm ) }}
+{% endblock %}
