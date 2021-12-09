@@ -8,8 +8,9 @@ body {
     background-color: #f6f6f6 !important;
 }
 
-a {
-    text-decoration: none;
+a,
+a:visited {
+    text-decoration: none !important;
     color: inherit;
 }
 

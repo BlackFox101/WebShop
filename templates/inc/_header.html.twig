@@ -12,18 +12,40 @@
                         <option value="shops">Магазины</option>
                         <option value="users">Пользователи</option>
                     </select>
-                    <button type="button" class="btn btn-info">Find</button>
+                    <button type="button" class="find-button">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
         <div>
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('app_login') }}" class="header__container-login-btn">Login</a>
+                <div class="login-container">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <a href="{{ path('app_login') }}" class="header__container-login-btn">
+                        Login
+                    </a>
+                </div>
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('app_logout') }}" class="header__container-logout-btn">Exit</a>
+                <div class="auth-menu">
+                    <div class="user-name">
+                        <div>{{ app.user.firstName}}</div>
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <ul class="auth-menu__list">
+                        <li class="auth-menu__list-item">
+                            <a>Личный кабинет</a>
+                        </li>
+                        <li class="auth-menu__list-item">
+                            <a>Избранное</a>
+                        </li>
+                        <li class="auth-menu__list-item">
+                            <a href="{{ path('app_logout') }}" class="header__container-logout-btn">Exit</a>
+                        </li>
+                    </ul>
+                </div>
             {% endif %}
         </div>
-        <div>{{ app.user.firstName}}</div>
     </div>
 </div>
