@@ -3,4 +3,48 @@
 {% block title %}{{ shop.name }}{% endblock %}
 
 {% block body %}
+    <div class="shop-container">
+        <div class="shop-info-container">
+            <div class="shop-image">
+                <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139847-7b41fb0c.jpg' }} />
+            </div>
+            <div>
+                <div class="shop-name">{{ shop.name }}</div>
+                <div class="shop-info">
+                    <div>{{ shop.createdAt.format('d-m-Y') }}</div>
+                    <div>Комментариев TODO</div>
+                    <div>Нравится: 0 TODO</div>
+                </div>
+                <div class="shop-user-info">
+                    <div class="shop-user-info__name">{{ shop.user.username }}</div>
+                    <div>С TODO</div>
+                </div>
+                <div>
+                    <div class="shop-about-shop">О магазине</div>
+                    <div class="shop-description">{{ shop.description }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="shop-items-container">
+            <div class="shop-items-header">Товары:</div>
+            {% for item in shop.shopItems %}
+                <div class="shop-item">
+                    <div class="item-image">
+                        <img src={{ 'https://files.sitepokupok.ru/good/thumbs/1834995-e15192b8.jpg' }} />
+                    </div>
+                    <div class="shop-item-info">
+                        <div class="shop-item-title">{{ item.name }}</div>
+                        <div class="shop-item-description">{{ item.description }}</div>
+                        <div class="shop-item-price">{{ item.price }} ₽</div>
+                        <div class="shop-to-favorite">
+                            <label class="like">
+                                <input class="like-input" type="checkbox" />
+                                <div class="hearth"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

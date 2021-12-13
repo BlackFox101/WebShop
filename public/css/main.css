@@ -20,3 +20,8 @@ a:visited {
     display: flex;
     flex-direction: column;
 }
+
+#content {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}

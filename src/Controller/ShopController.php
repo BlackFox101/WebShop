@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Security;
 
 class ShopController extends AbstractController
 {
-    #[Route('/shop', name: 'shops')]
+    #[Route('/shops', name: 'shops')]
     public function getShops(EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
@@ -31,12 +31,16 @@ class ShopController extends AbstractController
         $shopRepo = $entityManager->getRepository(Shop::class);
         $shop = $shopRepo->find($shopId);
 
-        return $this->render('pages/shop/shop.html.twig', [
-            'shop'=> $shop
-        ]);
+        if ($shop !== null) {
+            return $this->render('pages/shop/shop.html.twig', [
+                'shop'=> $shop
+            ]);
+        }
+
+        return $this->redirectToRoute('shops');
     }
 
-    #[Route('/shop/create', name: 'create_shop')]
+    #[Route('/shops/create', name: 'create_shop')]
     public function createShop(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getToken()->getUser();
@@ -55,7 +59,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    #[Route('shop/{shopId}/edit', name: 'edit_shop', requirements: ['shopId' => '\d+'])]
+    #[Route('shops/{shopId}/edit', name: 'edit_shop', requirements: ['shopId' => '\d+'])]
     public function editShop(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);

@@ -3,8 +3,11 @@
     max-width: 1100px;
     margin: 0 auto;
     padding: 50px 0;
-    display: flex;
     flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 230px);
+    gap: 20px;
+    padding-left: 55px;
 }
 
 .shop {
@@ -12,11 +15,13 @@
     height: 400px;
     background-color: white;
     border-radius: 4px;
-    margin-bottom: 20px;
-    margin-right: 20px;
     cursor: pointer;
     display: block;
     text-decoration: none;
+}
+
+.shop:hover {
+    box-shadow: 0 6px 6px rgba(0,0,0,0.2);
 }
 
 .shop__image {
