@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/shop.css') }}">
+{% endblock %}
+
 {% block title %}{{ shop.name }}{% endblock %}
 
 {% block body %}
@@ -33,9 +38,11 @@
                         <img src={{ 'https://files.sitepokupok.ru/good/thumbs/1834995-e15192b8.jpg' }} />
                     </div>
                     <div class="shop-item-info">
-                        <div class="shop-item-title">{{ item.name }}</div>
-                        <div class="shop-item-description">{{ item.description }}</div>
-                        <div class="shop-item-price">{{ item.price }} ₽</div>
+                        <div>
+                            <div class="shop-item-title">{{ item.name }}</div>
+                            <div class="shop-item-description">{{ item.description }}</div>
+                            <div class="shop-item-price">{{ item.price }} ₽</div>
+                        </div>
                         <div class="shop-to-favorite">
                             <label class="like">
                                 <input class="like-input" type="checkbox" />

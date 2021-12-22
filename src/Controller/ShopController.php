@@ -14,6 +14,12 @@ use Symfony\Component\Security\Core\Security;
 
 class ShopController extends AbstractController
 {
+    #[Route('/', name: 'base')]
+    public function base(EntityManagerInterface $entityManager): Response
+    {
+        return $this->redirectToRoute('shops');
+    }
+
     #[Route('/shops', name: 'shops')]
     public function getShops(EntityManagerInterface $entityManager): Response
     {

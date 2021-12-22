@@ -31,7 +31,6 @@ authMenuBtn.addEventListener('click', (e) => {
 })
 
 window.addEventListener('click', (e) => {
-    console.log(e.target.parentNode)
     if (!['auth-menu__list', 'user-name', 'auth-menu'].includes(e.target.parentNode.className)) {
         authMenuBtn.style.right = '-75px'
         authMenuList.style.display = 'none'

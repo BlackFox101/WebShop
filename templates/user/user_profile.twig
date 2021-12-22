@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block body %}
+<div class="container ">
+    <div class="profile-container-top">
+        <div class="profile-name">Профиль пользователя</div>
+        <div class="profile-content">
+            <div class="profile-photo">
+                <img src={{ 'https://sitepokupok.ru/web/img/icons/user.svg' }} />
+            </div>
+            <div>
+                <div class="profile-login">{{ app.user.login }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-container-bottom">
+        <div class="my-shops-title">Мои магазины:</div>
+        {% if shops %}
+            {% for shop in shops %}
+                <a href={{ path('edit_shop', {'shopId': shop.id}) }} class="shop">
+                    <div class="shop-name">{{ shop.name }}</div>
+                    <div>{{ shop.description }}</div>
+                </a>
+            {% endfor %}
+        {% endif %}
+        {% if not shops %}
+            <div>Empty...</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

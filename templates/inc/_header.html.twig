@@ -35,13 +35,13 @@
                     </div>
                     <ul class="auth-menu__list">
                         <li class="auth-menu__list-item">
-                            <a>Личный кабинет</a>
+                            <a href={{ path('user_view') }}>Личный кабинет</a>
                         </li>
                         <li class="auth-menu__list-item">
-                            <a>Избранное</a>
+                            <a href={{ path('user_favourites') }}>Избранное</a>
                         </li>
                         <li class="auth-menu__list-item">
-                            <a href="{{ path('app_logout') }}" class="header__container-logout-btn">Exit</a>
+                            <a href={{ path('app_logout') }} class="header__container-logout-btn">Exit</a>
                         </li>
                     </ul>
                 </div>
