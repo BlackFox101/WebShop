@@ -71,17 +71,17 @@ class ShopController extends AbstractController
         $shopRepo = $entityManager->getRepository(Shop::class);
         $shop = $shopRepo->find($shopId);
 
-        $form = $this->createForm(ShopFormType::class, $shop);
-        $form->handleRequest($request);
+//        $form = $this->createForm(ShopFormType::class, $shop);
+//        $form->handleRequest($request);
 
-        $response = $this->saveShop($shop, $form, $entityManager);
-        if ($response)
-        {
-            return $response;
-        }
+//        $response = $this->saveShop($shop, $form, $entityManager);
+//        if ($response)
+//        {
+//            return $response;
+//        }
 
         return $this->render('pages/shop/edit.html.twig', [
-            'shopForm' => $form->createView(),
+            'shop' => $shop,
         ]);
     }
 
