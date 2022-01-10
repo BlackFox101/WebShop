@@ -30,3 +30,26 @@ a:visited {
     max-width: 1100px;
     margin: 0 auto;
 }
+
+.input-flex {
+    border-radius: 8px;
+    padding: 2px 6px;
+    outline: 0;
+    border: 0;
+    margin-bottom: 2px;
+}
+
+.input-flex:focus {
+    border: 1px solid green;
+}
+
+.textarea-flex {
+    resize: none;
+    border: 0;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.textarea-flex:focus {
+    border: 1px solid green;
+}

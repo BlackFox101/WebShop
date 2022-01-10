@@ -40,17 +40,14 @@
 }
 
 .shop {
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 10px;
     margin-bottom: 20px;
     padding: 12px;
     color: black;
-    box-shadow:
-            0px 0px 2.7px rgba(0, 0, 0, 0.037),
-            0px 0px 6.9px rgba(0, 0, 0, 0.053),
-            0px 0px 14.2px rgba(0, 0, 0, 0.067),
-            0px 0px 29.2px rgba(0, 0, 0, 0.083),
-            0px 0px 80px rgba(0, 0, 0, 0.12);
+    border: 1px solid gray;
     transition: all 0.3s ease;
 }
 

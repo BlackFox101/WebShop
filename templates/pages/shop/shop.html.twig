@@ -14,7 +14,15 @@
                 <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139847-7b41fb0c.jpg' }} />
             </div>
             <div>
-                <div class="shop-name">{{ shop.name }}</div>
+                {% if app.user.username == shop.user.username %}
+                    <div class="admin-shop">
+                        <input class="input-flex" value="Может редактировать" />
+                        <i class="fas fa-check-square check-icon"></i>
+                    </div>
+                {% endif %}
+                {% if app.user.username != shop.user.username %}
+                    <div class="shop-name">{{ shop.name }}</div>
+                {% endif %}
                 <div class="shop-info">
                     <div>{{ shop.createdAt.format('d-m-Y') }}</div>
                     <div>Комментариев TODO</div>
@@ -26,7 +34,16 @@
                 </div>
                 <div>
                     <div class="shop-about-shop">О магазине</div>
-                    <div class="shop-description">{{ shop.description }}</div>
+                    <div class="shop-description">
+                        {% if app.user.username == shop.user.username %}
+                            <textarea rows="4" class="textarea-flex" value="Может редактировать">
+                                {{ shop.description }}
+                            </textarea>
+                        {% endif %}
+                        {% if app.user.username != shop.user.username %}
+                            {{ shop.description }}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
