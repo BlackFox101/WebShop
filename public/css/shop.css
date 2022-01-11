@@ -71,7 +71,23 @@
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.shop-items-add {
+    cursor: pointer;
+}
+
+.shop-items-add:hover {
+    transform: scale(1.2);
+}
+
+.fa-trash-alt {
+    cursor: pointer;
+}
+
+.fa-trash-alt:hover {
+    transform: scale(1.2);
 }
 
 .shop-item {
@@ -106,6 +122,12 @@
     margin-bottom: 20px;
 }
 
+.shop-items__top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .shop-item-info {
     display: flex;
     justify-content: space-between;
@@ -113,15 +135,48 @@
     align-items: flex-start;
 }
 
+.shop-info-container_top {
+    width: 670px;
+}
+
 .admin-shop {
     display: flex;
     align-items: center;
 }
 
-.admin-shop input {
+.admin-shop textarea {
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-size: 30px;
+    max-width: 100%;
+    resize: none;
+    paddng-left: 0;
+}
+
+.admin-shop textarea::-webkit-scrollbar,
+.shop-description textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.hidden_for_title_editor {
+    position: absolute;
+    visibility: hidden;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.shop-description textarea {
+    resize: none;
+    margin-top: 5px;
+    margin-left: 5px;
+    max-width: 99%;
+    height: 89px;
+}
+
+.hidden_for_description_editor {
+    position: absolute;
+    visibility: hidden;
 }
 
 .check-icon {

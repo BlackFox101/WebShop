@@ -13,14 +13,14 @@
             <div class="shop-image">
                 <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139847-7b41fb0c.jpg' }} />
             </div>
-            <div>
-                {% if app.user.username == shop.user.username %}
+            <div class="shop-info-container_top">
+                {% if app.user.getUserId == shop.getUser.getUserId %}
                     <div class="admin-shop">
-                        <input class="input-flex" value="Может редактировать" />
-                        <i class="fas fa-check-square check-icon"></i>
+                        <textarea class="input-flex title-editor" placeholder='Введите название магазина...'></textarea>
+                        <div class="hidden_for_title_editor"> {{ shop.name }}</div>
                     </div>
                 {% endif %}
-                {% if app.user.username != shop.user.username %}
+                {% if app.user.getUserId != shop.getUser.getUserId %}
                     <div class="shop-name">{{ shop.name }}</div>
                 {% endif %}
                 <div class="shop-info">
@@ -35,12 +35,11 @@
                 <div>
                     <div class="shop-about-shop">О магазине</div>
                     <div class="shop-description">
-                        {% if app.user.username == shop.user.username %}
-                            <textarea rows="4" class="textarea-flex" value="Может редактировать">
-                                {{ shop.description }}
-                            </textarea>
+                        {% if app.user.getUserId == shop.getUser.getUserId %}
+                            <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
+                            <div class="hidden_for_description_editor"> {{ shop.description }}</div>
                         {% endif %}
-                        {% if app.user.username != shop.user.username %}
+                        {% if app.user.getUserId != shop.getUser.getUserId %}
                             {{ shop.description }}
                         {% endif %}
                     </div>
@@ -48,9 +47,14 @@
             </div>
         </div>
         <div class="shop-items-container">
-            <div class="shop-items-header">Товары:</div>
+            <div class="shop-items__top">
+                <div class="shop-items-header">Товары:</div>
+                {% if app.user.getUserId == shop.getUser.getUserId  %}
+                    <i class="fas fa-plus shop-items-add" title="Добавить товар"></i>
+                {% endif %}
+            </div>
             {% for item in shop.shopItems %}
-                <div class="shop-item">
+                <div class="shop-item" id={{ item.id }}>
                     <div class="item-image">
                         <img src={{ 'https://files.sitepokupok.ru/good/thumbs/1834995-e15192b8.jpg' }} />
                     </div>
@@ -60,15 +64,25 @@
                             <div class="shop-item-description">{{ item.description }}</div>
                             <div class="shop-item-price">{{ item.price }} ₽</div>
                         </div>
-                        <div class="shop-to-favorite">
-                            <label class="like">
-                                <input class="like-input" type="checkbox" />
-                                <div class="hearth"></div>
-                            </label>
-                        </div>
+                        {% if app.user.getUserId == shop.getUser.getUserId %}
+                            <i class="far fa-trash-alt" title="Удалить товар"></i>
+                        {% endif %}
+                        {% if app.user.getUserId != shop.getUser.getUserId %}
+                            <div class="shop-to-favorite">
+                                <label class="like">
+                                    <input class="like-input" type="checkbox" />
+                                    <div class="hearth"></div>
+                                </label>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/shop.js') }}">
 {% endblock %}

@@ -24,18 +24,20 @@
         <div class="my-shops-title">Мои магазины:</div>
         {% if shops %}
             {% for shop in shops %}
-                <a href={{ path('shop', {'shopId': shop.id}) }} class="shop">
-                    <div>
-                        <div class="shop-name">{{ shop.name }}</div>
-                        <div>{{ shop.description }}</div>
-                    </div>
-                    {% if true %}
-                        <i title="Скрыть магазин" class="fa fa-eye" aria-hidden="true"></i>
-                    {% endif %}
-                    {% if 2 == 3 %}
-                        <i title="Показать магазин" class="fa fa-eye-slash" aria-hidden="true"></i>
-                    {% endif %}
-                </a>
+                {% if app.user.getUserId == shop.getUser.getUserId %}
+                    <a id={{ shop.getId}} href={{ path('shop', {'shopId': shop.id}) }} class="shop">
+                        <div>
+                            <div class="shop-name">{{ shop.name }}</div>
+                            <div>{{ shop.description }}</div>
+                        </div>
+                        {% if not shop.isHidden %}
+                            <i title="Скрыть магазин" class="fa fa-eye" aria-hidden="true"></i>
+                        {% endif %}
+                        {% if shop.isHidden %}
+                            <i title="Показать магазин" class="fa fa-eye-slash" aria-hidden="true"></i>
+                        {% endif %}
+                    </a>
+                {% endif %}
             {% endfor %}
         {% endif %}
         {% if not shops %}
@@ -43,4 +45,9 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/user_profile.js') }}">
 {% endblock %}
