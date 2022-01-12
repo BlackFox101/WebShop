@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Shop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,10 +15,36 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ShopRepository extends ServiceEntityRepository
 {
+    private const DEFAULT_PAGE = 0;
+    private const PAGINATOR_PER_PAGE = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Shop::class);
     }
+
+    /**
+     * @param string|null $name
+     * @param int $offset
+     * @return Paginator
+     */
+    public function getShopPaginator(string $name = null, int $offset = self::DEFAULT_PAGE): Paginator
+    {
+        $query = $this->createQueryBuilder('shop')
+                       ->andWhere('shop.isHidden = 0');
+        if ($name)
+        {
+            $query->andWhere('shop.name LIKE :name')
+                  ->setParameter('name', "%$name%");
+        }
+        $query->setMaxResults(self::PAGINATOR_PER_PAGE)
+              ->setFirstResult($offset)
+              ->getQuery();
+
+
+        return new Paginator($query);
+    }
+
 
     // /**
     //  * @return Shop[] Returns an array of Shop objects

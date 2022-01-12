@@ -14,14 +14,18 @@ use Symfony\Component\Security\Core\Security;
 
 class ShopController extends AbstractController
 {
+    private const DEFAULT_PAGE_NUMBER = 0;
+
     #[Route('/shops', name: 'shops')]
-    public function getShops(EntityManagerInterface $entityManager): Response
+    public function getShops(Request $request, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
-        $shops = $shopRepo->findAll();
-
+        $page = (int)$request->get('page');
+        $name = $request->get('name');
+        $paginator = $shopRepo->getShopPaginator($name, $page);
         return $this->render('pages/shop/shops.html.twig', [
-            'shops'=> $shops
+            'pageCount' => $paginator->count(),
+            'shops'=> $paginator
         ]);
     }
 
@@ -45,7 +49,7 @@ class ShopController extends AbstractController
         return $this->redirectToRoute('shops');
     }
 
-    #[Route('/shops/create', name: 'create_shop')]
+    #[Route('/shop/create', name: 'create_shop')]
     public function createShop(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getToken()->getUser();

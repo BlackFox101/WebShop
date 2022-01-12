@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ShopItemController extends AbstractController
 {
-    #[Route('/shop/item', name: 'shop_items')]
+    #[Route('/products', name: 'shop_items')]
     public function getShopItems(EntityManagerInterface $entityManager): Response
     {
         $shopItemRepo = $entityManager->getRepository(ShopItem::class);

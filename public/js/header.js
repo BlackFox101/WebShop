@@ -8,6 +8,7 @@ const IS_HIDDEN = 'is_hidden';
 findBtn.addEventListener('click', () => {
     let selectedCategory = select.value;
     // TODO
+    const response = fetch('/logout')
     console.log('clicked', selectedCategory)
 })
 
