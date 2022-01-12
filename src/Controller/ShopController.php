@@ -14,12 +14,6 @@ use Symfony\Component\Security\Core\Security;
 
 class ShopController extends AbstractController
 {
-    #[Route('/', name: 'base')]
-    public function base(EntityManagerInterface $entityManager): Response
-    {
-        return $this->redirectToRoute('shops');
-    }
-
     #[Route('/shops', name: 'shops')]
     public function getShops(EntityManagerInterface $entityManager): Response
     {
@@ -32,13 +26,18 @@ class ShopController extends AbstractController
     }
 
     #[Route('/shop/{shopId}', name: 'shop', requirements: ['shopId' => '\d+'])]
-    public function getShopById(int $shopId, EntityManagerInterface $entityManager): Response
+    public function getShopById(int $shopId, EntityManagerInterface $entityManager, Security $security): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
         $shop = $shopRepo->find($shopId);
 
+        $user = $security->getToken()->getUser();
+        $items = $user->getFavouriteItems();
+
         if ($shop !== null) {
             return $this->render('pages/shop/shop.html.twig', [
+                // TODO: isLikedMe
+                'favouriteItemIds' => $items,
                 'shop'=> $shop
             ]);
         }

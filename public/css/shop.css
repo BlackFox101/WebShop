@@ -184,6 +184,7 @@
     cursor: pointer;
 }
 
+/* TODO: переделать на звезду*/
 .like {
     display: block;
     width: 100px;

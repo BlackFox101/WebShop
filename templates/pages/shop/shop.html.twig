@@ -69,10 +69,14 @@
                         {% if app.user.getUserId == shop.getUser.getUserId %}
                             <i class="far fa-trash-alt" title="Удалить товар"></i>
                         {% endif %}
+                        {#
+                            shop.id in_array(items)
+                        #}
                         {% if app.user.getUserId != shop.getUser.getUserId %}
+                            {# TODO: переделать на звезду #}
                             <div class="shop-to-favorite">
                                 <label class="like">
-                                    <input class="like-input" type="checkbox" />
+                                    <input class="like-input" type="checkbox" data-is-favourite="{{ true }}"/>
                                     <div class="hearth"></div>
                                 </label>
                             </div>

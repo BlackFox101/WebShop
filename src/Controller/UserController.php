@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Shop;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class UserController extends AbstractController
 {
@@ -22,10 +24,13 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/favourites', name: 'user_favourites')]
-    public function favourites(): Response
+    public function favourites(Security $security): Response
     {
+        $user = $security->getToken()->getUser();
+        $items = $user->getFavouriteItems();
         return $this->render('user/user_profile.twig', [
             'controller_name' => 'UserController',
+            'favouriteItems' => $items
         ]);
     }
 }

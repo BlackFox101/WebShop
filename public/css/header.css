@@ -35,7 +35,9 @@
 .header__search-select {
     height: 40px;
     border: 0;
-    width: 125px;
+    width: 130px;
+    background: white;
+    outline:none;
 }
 
 .header__search-field {
@@ -54,6 +56,8 @@
     border: none;
     border-radius: .25rem 0 0 .25rem;
     width: 500px;
+    outline:none;
+    padding: 0 10px;
 }
 
 .header__search-controls {
@@ -79,12 +83,11 @@
     top: 5px;
     left: 0;
     z-index: 10;
-    background-color: black
-;
+    background-color: black;
 }
 
 .header__search-controls::after {
-    left: 125px;
+    left: 130px;
 }
 
 .header__container-login-btn {
@@ -109,9 +112,6 @@
 }
 
 .auth-menu {
-    position: absolute;
-    top: 10px;
-    right: -75px;
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -127,10 +127,14 @@
     margin-right: 10px;
 }
 
+.is_hidden {
+    display: none !important;
+}
+
 .auth-menu__list {
-    display: none;
+    position: absolute;
     list-style-type: none;
-    margin: 0;
+    margin: 30px 0 0 0;
     padding: 0;
     background-color: white;
     border: 1px solid rgba(42,42,42,0.15);
@@ -138,8 +142,14 @@
     cursor: pointer;
 }
 
+.auth-menu__list-item a {
+    color: black;
+    display: block;
+    padding: 0.3rem 0.9rem;
+}
+
 .auth-menu__list-item {
-    padding: 0.25rem 1.5rem;
+    width: 160px;
 }
 
 .auth-menu__list-item:hover {

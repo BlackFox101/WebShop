@@ -6,6 +6,7 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
+            <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
             <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
             <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
             <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
