@@ -17,11 +17,26 @@ function debounce(callback, timeout = 300) {
 }
 
 items.forEach(i => {
-    const deleteBtn = i.querySelector('i')
-    if (deleteBtn) {
-        deleteBtn.addEventListener('click', () => {
-            console.log('delete', i.id)
-        })
+    if (i.getAttribute('type') === 'delete') {
+        const deleteBtn = i.querySelector('i')
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                console.log('delete', i.id)
+            })
+        }
+    } else {
+        const favoriteBtn = i.querySelector('i')
+        if (favoriteBtn) {
+            favoriteBtn.addEventListener('click', (e) => {
+                if (e.target.className === 'fas fa-star') {
+                    // request
+                    e.target.className = 'far fa-star'
+                } else {
+                    // request
+                    e.target.className = 'fas fa-star'
+                }
+            })
+        }
     }
 })
 
