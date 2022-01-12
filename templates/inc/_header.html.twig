@@ -30,6 +30,11 @@
                     <li class="auth-menu__list-item">
                         <a href={{ path('user_favourites') }}>Избранное</a>
                     </li>
+                    {%  if is_granted('ROLE_ADMIN') %}
+                    <li class="auth-menu__list-item">
+                        <a href={{ path('user_admin') }}>Кабинет админа</a>
+                    </li>
+                    {% endif %}
                     <li class="auth-menu__list-item">
                         <a href="{{ path('app_logout') }}" id="logout-btn">Выйти</a>
                     </li>
