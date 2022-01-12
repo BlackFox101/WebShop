@@ -2,9 +2,59 @@
 
 {% block title %}Создать товар{% endblock %}
 
-{% form_theme shopItemForm 'inc/form/auth-form.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/create_item.css') }}">
+{% endblock %}
 
 {% block body %}
-    <div>Создать товар</div>
-    {{ form(shopItemForm ) }}
+    <div class="create_item_form">
+        <h1 class="h3 mb-3 font-weight-normal form-header">Добавить товар</h1>
+        <div class="form-group email_container">
+            <label class="form-field-label" for="item_title">Название</label>
+            <input
+                    type="text"
+                    name="title"
+                    id="item_title"
+                    class="form-control"
+                    required
+                    autofocus
+            />
+        </div>
+        <div class="form-group email_container">
+            <label class="form-field-label" for="item_price">Цена</label>
+            <input
+                    type="number"
+                    name="title"
+                    id="item_price"
+                    class="form-control"
+                    required
+                    autofocus
+                    min="1"
+            />
+        </div>
+        <div class="form-group email_container">
+            <label class="form-field-label" for="shop_title">Категория</label>
+            <select class="form-select" id="item-category" aria-label="Default select example">
+                <option value="clothes" selected>Одежда</option>
+                <option value="food">Еда</option>
+                <option value="electronic">Электроника</option>
+                <option value="fetish">Фетиш</option>
+            </select>
+        </div>
+        <div class="form-group email_container">
+            <label class="form-field-label" for="item_description">Описание</label>
+            <textarea class="form-control description_control" id="item_description" rows="3"></textarea>
+        </div>
+        <div class="mb-4">
+            <div class="h5 mb-2">Прикрепить фото товара:</div>
+            <input type="file" id="upload_photo"/>
+        </div>
+        <button type="submit" id="create_item_btn" class="btn-primary btn">Добавить</button>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/create_item.js') }}">
 {% endblock %}

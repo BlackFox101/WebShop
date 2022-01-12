@@ -50,7 +50,9 @@
             <div class="shop-items__top">
                 <div class="shop-items-header">Товары:</div>
                 {% if app.user.getUserId == shop.getUser.getUserId  %}
-                    <i class="fas fa-plus shop-items-add" title="Добавить товар"></i>
+                    <a href={{ path('create_shop_item', {'shopId': shop.id}) }}>
+                        <i class="fas fa-plus shop-items-add" title="Добавить товар"></i>
+                    </a>
                 {% endif %}
             </div>
             {% for item in shop.shopItems %}
