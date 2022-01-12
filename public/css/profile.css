@@ -36,19 +36,41 @@
 
 .my-shops-title {
     font-size: 18px;
-    margin-bottom: 20px;
 }
 
 .shop {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     border-radius: 10px;
     margin-bottom: 20px;
     padding: 12px;
     color: black;
     border: 1px solid gray;
     transition: all 0.3s ease;
+}
+
+.shop_top_info {
+    display: flex;
+}
+
+.shop-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.shop-image img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.shops-add {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.shops-add:hover {
+    transform: scale(1.2);
 }
 
 .shop:hover {
@@ -58,4 +80,10 @@
 .shop-name {
     font-weight: 700;
     font-size: 20px;
+}
+
+.profile-container-bottom__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
