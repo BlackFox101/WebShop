@@ -1,38 +1,25 @@
-const findBtn = document.querySelector('.find-button')
-const select = document.querySelector('.header__search-select')
-const logoutBtn = document.querySelector('.header__container-logout-btn')
-const authMenuBtn = document.querySelector('.auth-menu')
-const authMenuList = authMenuBtn.querySelector('ul')
-
-let selectedCategory = select.value
-
-select.addEventListener('change', () => {
-    selectedCategory = select.value
-})
-
-logoutBtn.addEventListener('click', async () => {
-    const response = await fetch('/logout')
-})
+const findBtn = document.querySelector('.find-button');
+const select = document.querySelector('#header__search-select');
+const authMenuBtn = document.querySelector('#auth-menu');
+const authMenuList = authMenuBtn.querySelector('#auth-menu__list');
+const authMenuArrow = document.getElementById('menu_arrow');
+const IS_HIDDEN = 'is_hidden';
 
 findBtn.addEventListener('click', () => {
+    let selectedCategory = select.value;
     // TODO
     console.log('clicked', selectedCategory)
 })
 
 authMenuBtn.addEventListener('click', (e) => {
-    if (authMenuList.style.display === 'none') {
-        authMenuBtn.style.right = '-132px'
-        authMenuList.style.display = 'block'
-    }
-    else if (e.target.parentNode.className !== 'auth-menu__list') {
-        authMenuBtn.style.right = '-75px'
-        authMenuList.style.display = 'none'
-    }
+    authMenuList.classList.toggle(IS_HIDDEN);
+    authMenuArrow.classList.toggle('fa-arrow-up');
 })
 
 window.addEventListener('click', (e) => {
-    if (!['auth-menu__list', 'user-name', 'auth-menu'].includes(e.target.parentNode.className)) {
-        authMenuBtn.style.right = '-75px'
-        authMenuList.style.display = 'none'
+    if (!['auth-menu__list', 'user-name', 'auth-menu'].includes(e.target.parentNode.className)
+        && !authMenuList.classList.contains(IS_HIDDEN)) {
+        authMenuList.classList.add(IS_HIDDEN);
+        authMenuArrow.classList.add('fa-arrow-up');
     }
 })

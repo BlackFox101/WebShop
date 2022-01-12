@@ -42,7 +42,6 @@
 .shop {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     border-radius: 10px;
     margin-bottom: 20px;
     padding: 12px;
