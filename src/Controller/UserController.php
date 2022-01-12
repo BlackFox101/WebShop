@@ -33,4 +33,15 @@ class UserController extends AbstractController
             'favouriteItems' => $items
         ]);
     }
+
+    #[Route('/user/admin', name: 'user_admin')]
+    public function admin(Security $security): Response
+    {
+        $user = $security->getToken()->getUser();
+        $items = $user->getFavouriteItems();
+        return $this->render('user/user_admin.twig', [
+            'controller_name' => 'UserController',
+            'favouriteItems' => $items
+        ]);
+    }
 }

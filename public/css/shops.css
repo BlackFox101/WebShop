@@ -18,6 +18,7 @@
     cursor: pointer;
     display: block;
     text-decoration: none;
+    padding: 10px;
 }
 
 .shop:hover {
@@ -26,6 +27,7 @@
 
 .shop__image {
     height: 14.25rem;
+    margin-bottom: 12px;
 }
 
 .shop__image img {
@@ -65,4 +67,66 @@
 .shop__content-info-description {
     color: #a9a9a9;
     font-size: .8125rem;
+}
+
+.pagination {
+    margin-top: 30px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.6rem;
+    background: #ffffff;
+    margin-bottom: 0;
+}
+
+.pagination__numbers,
+.pagination__btn,
+.pagination__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.8rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.pagination__dots {
+    width: 2rem;
+    height: 2rem;
+    color: #2697ed;
+    opacity: 0.9;
+    cursor: initial;
+}
+
+.pagination__numbers {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+}
+
+.pagination__numbers:hover {
+    color: #2697ed;
+    opacity: 0.9;
+}
+
+.pagination__numbers.active {
+    color: #ffffff;
+    background: #2697ed;
+    font-weight: 600;
+    border: 1px solid #23adad;
+}
+
+.pagination__btn {
+    color: #2697ed;
+    opacity: 0.9;
+}
+
+.pagination__btn.active {
+    color: #2d4848;
+    pointer-events: initial;
+}
+
+.pagination__btn.active:hover {
+    color: #23adad;
 }
