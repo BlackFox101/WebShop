@@ -20,23 +20,23 @@ class ShopItemController extends AbstractController
         $shopItemRepo = $entityManager->getRepository(ShopItem::class);
         $shopItems = $shopItemRepo->findAll();
 
-        return $this->render('pages/shop_item/items.html.twig', [
+        return $this->render('pages/product/items.html.twig', [
             'shopItems' => $shopItems,
         ]);
     }
 
-    #[Route('/shop/item/{itemId}', name: 'shop_item', requirements: ['itemId' => '\d+'])]
+    #[Route('/products/{itemId}', name: 'shop_item', requirements: ['itemId' => '\d+'])]
     public function getShopItemById(int $itemId, EntityManagerInterface $entityManager): Response
     {
         $shopItemRepo = $entityManager->getRepository(ShopItem::class);
         $shopItem = $shopItemRepo->find($itemId);
 
-        return $this->render('pages/shop_item/item.html.twig', [
+        return $this->render('pages/product/item.html.twig', [
             'shopItem' => $shopItem,
         ]);
     }
 
-    #[Route('/shop/{shopId}/item/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
+    #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
     public function createShopItem(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
@@ -51,7 +51,7 @@ class ShopItemController extends AbstractController
             return $response;
         }
 
-        return $this->render('pages/shop_item/create.html.twig', [
+        return $this->render('pages/product/create.html.twig', [
             'shopItemForm' => $form->createView(),
         ]);
     }
@@ -70,7 +70,7 @@ class ShopItemController extends AbstractController
             return $response;
         }
 
-        return $this->render('pages/shop_item/edit.html.twig', [
+        return $this->render('pages/product/edit.html.twig', [
             'shopItemForm' => $form->createView()
         ]);
     }

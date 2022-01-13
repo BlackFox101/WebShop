@@ -37,6 +37,8 @@ security:
     access_control:
 #        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/registration, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/shops, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/products, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/shop/[0-9]+, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/shop/*, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/*, role: IS_AUTHENTICATED_ANONYMOUSLY }
