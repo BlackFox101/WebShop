@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Shop;
 use App\Form\ShopFormType;
+use App\Utils\CustomPaginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -14,18 +15,26 @@ use Symfony\Component\Security\Core\Security;
 
 class ShopController extends AbstractController
 {
-    private const DEFAULT_PAGE_NUMBER = 0;
+    private const DEFAULT_PAGE_NUMBER = 1;
+    private const PAGE_SIZE = 16;
 
     #[Route('/shops', name: 'shops')]
     public function getShops(Request $request, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
-        $page = (int)$request->get('page');
+        $page = (int)$request->get('page', self::DEFAULT_PAGE_NUMBER);
+        if ($page < 0)
+        {
+            $page = 1;
+        }
+        else if ($page === 0)
+        {
+            $page = 1;
+        }
         $name = $request->get('name');
-        $paginator = $shopRepo->getShopPaginator($name, $page);
+        $paginator = $shopRepo->getShopPaginator(self::PAGE_SIZE, $page - 1, $name);
         return $this->render('pages/shop/shops.html.twig', [
-            'pageCount' => $paginator->count(),
-            'shops'=> $paginator
+            'paginator' => new CustomPaginator($paginator, self::PAGE_SIZE, $page)
         ]);
     }
 
@@ -34,14 +43,8 @@ class ShopController extends AbstractController
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
         $shop = $shopRepo->find($shopId);
-
-        $user = $security->getToken()->getUser();
-        $items = $user->getFavouriteItems();
-
         if ($shop !== null) {
             return $this->render('pages/shop/shop.html.twig', [
-                // TODO: isLikedMe
-                'favouriteItemIds' => $items,
                 'shop'=> $shop
             ]);
         }
@@ -68,7 +71,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    #[Route('shops/{shopId}/edit', name: 'edit_shop', requirements: ['shopId' => '\d+'])]
+    #[Route('shop/edit/{shopId}', name: 'edit_shop', requirements: ['shopId' => '\d+'])]
     public function editShop(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);

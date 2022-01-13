@@ -74,7 +74,7 @@ class Shop
         return $this->shopId;
     }
 
-    public function getUser(): UserInterface
+    public function getUser(): User
     {
         return $this->user;
     }

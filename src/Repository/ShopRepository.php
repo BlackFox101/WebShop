@@ -28,7 +28,7 @@ class ShopRepository extends ServiceEntityRepository
      * @param int $offset
      * @return Paginator
      */
-    public function getShopPaginator(string $name = null, int $offset = self::DEFAULT_PAGE): Paginator
+    public function getShopPaginator(int $pageSize, int $offset, string $name = null): Paginator
     {
         $query = $this->createQueryBuilder('shop')
                        ->andWhere('shop.isHidden = 0');
@@ -37,8 +37,8 @@ class ShopRepository extends ServiceEntityRepository
             $query->andWhere('shop.name LIKE :name')
                   ->setParameter('name', "%$name%");
         }
-        $query->setMaxResults(self::PAGINATOR_PER_PAGE)
-              ->setFirstResult($offset)
+        $query->setMaxResults($pageSize)
+              ->setFirstResult($offset * $pageSize)
               ->getQuery();
 
 

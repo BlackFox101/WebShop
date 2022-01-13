@@ -8,45 +8,54 @@
 {% block title %}Магазины{% endblock %}
 
 {% block body %}
-    <h1>{{ pageCount }}</h1>
+    <h1 class="shops-title">Магазины</h1>
     <div class="shops-container">
-        {% if shops is defined %}
-            {% for shop in shops %}
-                <a href={{ path('shop', {'shopId': shop.id}) }} class="shop">
-                    <div class="shop__image">
-                        <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139866-dc9c6560.jpg' }} />
+        {% for shop in paginator.shops %}
+            <a href={{ path('shop', {'shopId': shop.id}) }} class="shop">
+                <div class="shop__image">
+                    <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139866-dc9c6560.jpg' }} />
+                </div>
+                <div class="shop__owner-content">
+                    <div class="shop__owner-content__avatar">
+                        <img src={{ null ?? 'https://files.sitepokupok.ru/user/859.jpg'}} />
                     </div>
-                    <div class="shop__owner-content">
-                        <div class="shop__owner-content__avatar">
-                            <img src={{ null ?? 'https://files.sitepokupok.ru/user/859.jpg'}} />
-                        </div>
-                        <div class="shop__owner-content__login">{{ shop.user.firstName }}</div>
-                    </div>
-                    <div class="shop__content-info">
-                        <div class="shop__content-info-title">{{ shop.name }}</div>
-                        <div class="shop__content-info-description">{{ shop.name }}</div>
-                    </div>
-                </a>
-            {% endfor %}
-        {% endif %}
-        {% if not shops %}
+                    <div class="shop__owner-content__login">{{ shop.user.firstName }}</div>
+                </div>
+                <div class="shop__content-info">
+                    <div class="shop__content-info-title">{{ shop.name }}</div>
+                    <div class="shop__content-info-description">{{ shop.description }}</div>
+                </div>
+            </a>
+        {% endfor %}
+        {% if paginator.getShopCount() == 0 %}
             Empty shop..(
         {% endif %}
     </div>
-    <ul class="pagination">
-        <li class="pagination__btn">
-            <span class="material-icons">chevron_left</span>
-        </li>
-        <li class="pagination__numbers">1</li>
-        <li class="pagination__numbers active">2</li>
-        <li class="pagination__numbers">3</li>
-        <li class="pagination__numbers">4</li>
-        <li class="pagination__numbers">5</li>
-        <li class="pagination__numbers">6</li>
-        <li class="pagination__dots">...</li>
-        <li class="pagination__numbers"> 10</li>
-        <li class="pagination__btn">
-            <span class="material-icons">chevron_right</span>
-        </li>
-    </ul>
+    <div class="pagination">
+
+        {% if paginator is defined %}
+            {% if paginator.currentPageNumber != 1%}
+                <a href="{{ path('shops', { page: paginator.currentPageNumber - 1 }) }}" class="pagination__btn pagination__btn-arrow">
+                    <span class="material-icons">chevron_left</span>
+                </a>
+            {% endif %}
+
+            {% set lastPage = 1 %}
+            {% for page in paginator.pages %}
+                {% if page - lastPage > 1  %}
+                    <li class="pagination__dots">...</li>
+                {% endif %}
+                <a href="{{ path('shops', { page: page }) }}" class="pagination__numbers {% if paginator.currentPageNumber == page %}active{% endif %}">
+                    {{ page }}
+                </a>
+                {% set lastPage = page %}
+            {% endfor %}
+
+            {% if paginator.maxPages != paginator.currentPageNumber %}
+                <a href="{{ path('shops', { page: paginator.currentPageNumber + 1 }) }}" class="pagination__btn pagination__btn-arrow">
+                    <span class="material-icons">chevron_right</span>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}

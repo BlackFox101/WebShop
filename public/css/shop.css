@@ -150,7 +150,6 @@
     font-size: 30px;
     max-width: 100%;
     resize: none;
-    paddng-left: 0;
 }
 
 .admin-shop textarea::-webkit-scrollbar,
@@ -190,4 +189,8 @@
 
 .star-icon-wrapper i {
     transform: scale(1.5);
+}
+
+.title-editor {
+    padding: 0;
 }
