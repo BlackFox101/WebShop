@@ -12,12 +12,14 @@ class CustomPaginator
     private Paginator $paginator;
     private int $currentPage;
     private int $pageCount;
+    private ?string $name;
     private array $pages;
 
-    public function __construct(Paginator $paginator, int $pageSize, $currentPage)
+    public function __construct(Paginator $paginator, int $pageSize, int $currentPage, ?string $name)
     {
         $this->paginator = $paginator;
         $this->currentPage = $currentPage;
+        $this->name = $name;
         $this->pageCount = (int)ceil($paginator->count() / $pageSize);
 
         if ($currentPage != 1)
@@ -74,5 +76,10 @@ class CustomPaginator
     public function getMaxPages(): int
     {
         return $this->pageCount;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 }

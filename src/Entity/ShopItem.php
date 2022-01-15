@@ -71,7 +71,7 @@ class ShopItem
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favouriteItems")
      * @ORM\JoinColumn(referencedColumnName="user_id")
      */
-    private $usersWhoAddedInFavourites;
+    //private array $usersWhoAddedInFavourites;
 
     public function __construct(Shop $shop)
     {

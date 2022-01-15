@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Shop;
 use App\Form\ShopFormType;
-use App\Utils\CustomPaginator;
+use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -15,26 +15,13 @@ use Symfony\Component\Security\Core\Security;
 
 class ShopController extends AbstractController
 {
-    private const DEFAULT_PAGE_NUMBER = 1;
-    private const PAGE_SIZE = 16;
-
     #[Route('/shops', name: 'shops')]
     public function getShops(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $shopRepo = $entityManager->getRepository(Shop::class);
-        $page = (int)$request->get('page', self::DEFAULT_PAGE_NUMBER);
-        if ($page < 0)
-        {
-            $page = 1;
-        }
-        else if ($page === 0)
-        {
-            $page = 1;
-        }
-        $name = $request->get('name');
-        $paginator = $shopRepo->getShopPaginator(self::PAGE_SIZE, $page - 1, $name);
-        return $this->render('pages/shop/shops.html.twig', [
-            'paginator' => new CustomPaginator($paginator, self::PAGE_SIZE, $page)
+        $paginatorService = new PaginationService(Shop::class, $entityManager, $request);
+
+        return $this->render('pages/shop/list.html.twig', [
+            'paginator' => $paginatorService->getPaginator()
         ]);
     }
 

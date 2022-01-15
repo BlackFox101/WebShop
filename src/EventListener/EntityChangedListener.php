@@ -13,7 +13,7 @@ class EntityChangedListener
     {
         $entity = $args->getObject();
 
-        if (true === property_exists($entity, 'createdAt')) {
+        if (property_exists($entity, 'createdAt')) {
             $entity->setCreatedAt(new \DateTime());
         }
     }
@@ -25,7 +25,7 @@ class EntityChangedListener
     {
         $entity = $args->getObject();
 
-        if (true === property_exists($entity, 'updatedAt')) {
+        if (property_exists($entity, 'updatedAt')) {
             $entity->setUpdatedAt(new \DateTime());
         }
     }

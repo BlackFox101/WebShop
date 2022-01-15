@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/shops.css') }}">
+{% endblock %}
+
+{% block title %}Магазины{% endblock %}
+
+{% block body %}
+    <h1 class="search-title">Магазины</h1>
+    {% if paginator is defined %}
+        {% include 'inc/_shop_pagination.html.twig' with {'paginator': paginator} %}
+    {% endif %}
+{% endblock %}

@@ -12,15 +12,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ShopItemController extends AbstractController
+class ProductController extends AbstractController
 {
+    private const DEFAULT_PAGE_NUMBER = 1;
+    private const PAGE_SIZE = 4;
+
     #[Route('/products', name: 'shop_items')]
-    public function getShopItems(EntityManagerInterface $entityManager): Response
+    public function getProducts(Request $request, EntityManagerInterface $entityManager): Response
     {
         $shopItemRepo = $entityManager->getRepository(ShopItem::class);
-        $shopItems = $shopItemRepo->findAll();
+        $page = (int)$request->get('page', self::DEFAULT_PAGE_NUMBER);
 
-        return $this->render('pages/product/items.html.twig', [
+        return $this->render('pages/product/list.html.twig', [
             'shopItems' => $shopItems,
         ]);
     }
