@@ -59,17 +59,7 @@ if (titleEditor) {
 }
 
 if (descriptionEditor) {
-    descriptionEditor.innerHTML = placeholderFotDescription.innerHTML
-    const startWidth = placeholderFotDescription.getBoundingClientRect().width
-
-    descriptionEditor.style.width = startWidth + 30 + 'px'
-
     descriptionEditor.addEventListener('input', debounce((e) => {
         console.log('request has been sent', e.target.value)
     }))
-    descriptionEditor.addEventListener('input', (e) => {
-        placeholderFotDescription.innerHTML = e.target.value || 'Введите описание магазина...'
-        const {width} = placeholderFotDescription.getBoundingClientRect()
-        descriptionEditor.style.width = width + 20 + 'px'
-    })
 }

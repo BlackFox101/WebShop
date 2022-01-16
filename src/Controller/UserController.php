@@ -30,7 +30,7 @@ class UserController extends AbstractController
     {
         $user = $security->getToken()->getUser();
         $items = $user->getFavouriteItems();
-        return $this->render('user/user_profile.twig', [
+        return $this->render('user/user_favorites.html.twig', [
             'controller_name' => 'UserController',
             'favouriteItems' => $items
         ]);

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/user_favorites.css') }}">
+{% endblock %}
+
+{% block title %}Избранное{% endblock %}
+
+{% block body %}
+    <div class="container ">
+        <div class="favorites-container">
+            <div class="my-favorites-title">Избранные товары:</div>
+            {% if favouriteItems %}
+                {% for item in favouriteItems %}
+                    <a id={{ item.getId }}>
+                        <div>
+                            <div>
+                                <img src={{ item.getShopItemImages[0] or 'https://files.sitepokupok.ru/stock/143247-6127888c.jpg'}} />
+                            </div>
+                            <div>
+                                <div>{{ item.getName }}</div>
+                                <div>{{ item.getDescription }}</div>
+                            </div>
+                        </div>
+                        <i type="start" class="fas fa-star"></i>
+                    </a>
+                {% endfor %}
+            {% endif %}
+            {% if not favouriteItems %}
+                <div>Empty...</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/user_favorites.js') }}">
+{% endblock %}
