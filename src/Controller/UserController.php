@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,13 +36,13 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/admin', name: 'user_admin')]
-    public function admin(Security $security): Response
+    public function admin(EntityManagerInterface $entityManager): Response
     {
-        $user = $security->getToken()->getUser();
-        $items = $user->getFavouriteItems();
+        $userRepo = $entityManager->getRepository(Category::class);
+        $categories = $userRepo->findAll();
+
         return $this->render('user/user_admin.twig', [
-            'controller_name' => 'UserController',
-            'favouriteItems' => $items
+            'categories' => $categories
         ]);
     }
 }

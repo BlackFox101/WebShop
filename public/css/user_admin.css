@@ -35,6 +35,11 @@
     grid-template-columns: 1fr 1fr 60px;
 }
 
+.categoryName {
+    width: 100px;
+    margin-right: 20px;
+}
+
 .user-status {
     width: 200px;
     margin-left: 20px;

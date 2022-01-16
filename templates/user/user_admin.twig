@@ -11,19 +11,19 @@
     <div class="container">
         <div class="admin__top">
             <div>Список категорий: </div>
-            <ul>
-                <li class="category_list-item">
-                    <div>Категория 1</div>
-                    <i title="Удалить" class="far fa-trash-alt"></i>
-                </li>
-                <li class="category_list-item">
-                    <div>Категория 2</div>
-                    <i title="Удалить" class="far fa-trash-alt"></i>
-                </li>
+            <ul id="catgetories_list">
+                {% if categories %}
+                    {% for category in categories %}
+                        <li class="category_list-item">
+                            <div class="categoryName">{{ category.getName }}</div>
+                            <i id={{ category.getId}} title="Удалить" class="far fa-trash-alt"></i>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
             <div class="new-category-wrapper">
-                <input placeholder="Введите новую категорию" class="input-flex" type="text" />
-                <i class="fas fa-plus-circle"></i>
+                <input id="new-category-input" placeholder="Введите новую категорию" class="input-flex" type="text" />
+                <i id="add-category" class="fas fa-plus-circle"></i>
             </div>
         </div>
         <div class="admin__bottom">
