@@ -47,6 +47,12 @@
             </div>
         </div>
         <div class="shop-items-container">
+            <div class="items__search-field">
+                <input class="items__search-input" type="text" />
+                <button type="button" class="find-button">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
             <div class="shop-items__top">
                 <div class="shop-items-header">Товары:</div>
                 {% if app.user.getUserId == shop.getUser.getUserId  %}

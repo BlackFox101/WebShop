@@ -65,6 +65,7 @@
 .shop-items-container {
     background-color: #fff;
     padding: 1rem;
+    position: relative;
 }
 
 .shop-items-header {
@@ -190,4 +191,44 @@
 
 .star-icon-wrapper i {
     transform: scale(1.5);
+}
+
+.items__search-field {
+    z-index: 10;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.items__search-input {
+    height: 40px;
+    font-size: .9375rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: none;
+    border-radius: .25rem 0 0 .25rem;
+    width: 100%;
+    outline:none;
+    padding: 0 10px;
+}
+
+.find-button {
+    position: relative;
+    height: 40px;
+}
+
+.find-button::before {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 40px;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: black;
 }
