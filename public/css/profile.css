@@ -3,6 +3,13 @@
     padding: 20px;
     font-family: "Roboto", sans-serif;
     margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.settings {
+    cursor: pointer;
+    height: 100%;
 }
 
 .profile-name {
