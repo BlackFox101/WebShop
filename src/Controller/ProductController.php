@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\ShopItem;
 use App\Form\ShopItemFormType;
@@ -39,6 +40,30 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/products/create', name: '_create_shop_item', methods: "POST")]
+    public function _createShopItem(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $shop = $shopRepo->find($parameters['shopId']);
+
+        $category = new Category();
+        $category->setName($parameters['category']);
+
+        $shopItem = new ShopItem($shop);
+        $shopItem->setIsHidden(false);
+        $shopItem->setCategory($category);
+        $shopItem->setDescription($parameters['description']);
+        $shopItem->setName($parameters['title']);
+        $shopItem->setPrice($parameters['price']);
+
+        $entityManager->persist($category);
+        $entityManager->persist($shopItem);
+        $entityManager->flush();
+
+        return new Response($parameters['title']);
+    }
+
     #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
     public function createShopItem(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
@@ -56,6 +81,7 @@ class ProductController extends AbstractController
 
         return $this->render('pages/product/create.html.twig', [
             'shopItemForm' => $form->createView(),
+            'shopId' => $shopId,
         ]);
     }
 
