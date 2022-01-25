@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
+use App\Entity\Status;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,20 +30,27 @@ class UserController extends AbstractController
     {
         $user = $security->getToken()->getUser();
         $items = $user->getFavouriteItems();
-        return $this->render('user/user_profile.twig', [
+        return $this->render('user/user_favorites.html.twig', [
             'controller_name' => 'UserController',
             'favouriteItems' => $items
         ]);
     }
 
     #[Route('/user/admin', name: 'user_admin')]
-    public function admin(Security $security): Response
+    public function admin(EntityManagerInterface $entityManager): Response
     {
-        $user = $security->getToken()->getUser();
-        $items = $user->getFavouriteItems();
+        $categoryRepo = $entityManager->getRepository(Category::class);
+        $statusRepo = $entityManager->getRepository(Status::class);
+        $userRepo = $entityManager->getRepository(User::class);
+
+        $categories = $categoryRepo->findAll();
+        $statuses = $statusRepo->findAll();
+        $users = $userRepo->findAll();
+
         return $this->render('user/user_admin.twig', [
-            'controller_name' => 'UserController',
-            'favouriteItems' => $items
+            'categories' => $categories,
+            'statuses' => $statuses,
+            'users' => $users
         ]);
     }
 }

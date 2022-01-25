@@ -8,6 +8,7 @@
 {% block title %}{{ shop.name }}{% endblock %}
 
 {% block body %}
+    <input type="hidden" value={{ app.user.getUserId == shop.getUser.getUserId }} />
     <div class="shop-container">
         <div class="shop-info-container">
             <div class="shop-image">
@@ -16,10 +17,8 @@
             <div class="shop-info-container_top">
                 {% if app.user.getUserId == shop.getUser.userId %}
                     <div class="admin-shop">
-                        <label>
-                            <textarea class="input-flex title-editor" placeholder='Введите название магазина...'></textarea>
-                        </label>
-                        <div class="hidden_for_title_editor">{{ shop.name }}</div>
+                        <textarea maxlength="36" class="input-flex title-editor" placeholder='Введите название магазина...'></textarea>
+                        <div class="hidden_for_title_editor"> {{ shop.name }}</div>
                     </div>
                 {% endif %}
                 {% if app.user.getUserId != shop.getUser.userId %}
@@ -38,10 +37,8 @@
                     <div class="shop-about-shop">О магазине</div>
                     <div class="shop-description">
                         {% if app.user.getUserId == shop.getUser.getUserId %}
-                            <label>
-                                <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
-                            </label>
-                            <div class="hidden_for_description_editor">{{ shop.description }}</div>
+                            <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
+                            <div class="hidden_for_description_editor"> {{ shop.description }}</div>
                         {% endif %}
                         {% if app.user.getUserId != shop.getUser.getUserId %}
                             {{ shop.description }}
@@ -51,6 +48,12 @@
             </div>
         </div>
         <div class="shop-items-container">
+            <div class="items__search-field">
+                <input class="items__search-input" type="text" />
+                <button type="button" class="find-button">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
             <div class="shop-items__top">
                 <div class="shop-items-header">Товары:</div>
                 {% if app.user.getUserId == shop.getUser.getUserId  %}
@@ -71,16 +74,16 @@
                             <div class="shop-item-price">{{ item.price }} ₽</div>
                         </div>
                         {% if app.user.getUserId == shop.getUser.getUserId %}
-                            <i type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
+                            <i data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
                         {% endif %}
                         {% if app.user.getUserId != shop.getUser.getUserId %}
                             {% if true %}
                                 <div class="star-icon-wrapper">
-                                    <i type="start" class="fas fa-star"></i>
+                                    <i data-type="star" class="fas fa-star"></i>
                                 </div>
                             {% endif %}
                             {% if false %}
-                                <i type="start" class="far fa-star"></i>
+                                <i data-type="star" class="far fa-star"></i>
                             {% endif %}
                         {% endif %}
                     </div>

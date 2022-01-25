@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\ShopItem;
 use App\Form\ShopItemFormType;
@@ -39,10 +40,58 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/products/create', name: '_create_shop_item', methods: "POST")]
+    public function _createShopItem(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $categoryRepo = $entityManager->getRepository(Category::class);
+        $shop = $shopRepo->find($parameters['shopId']);
+
+        $shopItem = new ShopItem($shop);
+        $shopItem->setIsHidden(false);
+        $shopItem->setCategory($categoryRepo->find($parameters['categoryId']));
+        $shopItem->setDescription($parameters['description']);
+        $shopItem->setName($parameters['title']);
+        $shopItem->setPrice($parameters['price']);
+
+        $entityManager->persist($shopItem);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('shop', [
+            'shopId' => $parameters['shopId']
+        ]);
+    }
+
+    #[Route('/products/change_favorite', name: 'change_favorite', methods: "POST")]
+    public function changeFavorite(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
+
+        $item = $shopItemRepo->find($parameters['id']);
+        // TODO
+    }
+
+    #[Route('/products/delete', name: 'delete_shop_item', methods: "DELETE")]
+    public function deleteShopItem(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+
+        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
+        $shopItem = $shopItemRepo->find($parameters['id']);
+
+        $entityManager->remove($shopItem);
+        $entityManager->flush();
+
+        return new Response('Item has been deleted');
+    }
+
     #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
     public function createShopItem(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
+        $categoryRepo = $entityManager->getRepository(Category::class);
         $shop = $shopRepo->find($shopId);
         $shopItem = new ShopItem($shop);
 
@@ -56,6 +105,8 @@ class ProductController extends AbstractController
 
         return $this->render('pages/product/create.html.twig', [
             'shopItemForm' => $form->createView(),
+            'shopId' => $shopId,
+            'categories' => $categoryRepo->findAll(),
         ]);
     }
 

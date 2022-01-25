@@ -6,6 +6,8 @@ const title = document.getElementById('item_title')
 const price = document.getElementById('item_price')
 const category = document.getElementById('item-category')
 
+const shopId = document.getElementById('shop-id-input').value
+
 createBtn.addEventListener('click', async () => {
     const allowedFileExtensions =
         /(\.jpg|\.jpeg|\.png|\.gif)$/i
@@ -24,22 +26,15 @@ createBtn.addEventListener('click', async () => {
         formData.append('shop_image', files[0])
     }
 
-    await fetch('', {
+    await fetch('/products/create', {
         method: 'POST',
-        body: {
+        body: JSON.stringify({
             title: title.value,
             description: description.value,
             price: price.value,
-            category: category.value,
-            itemImage: filePath ? formData : null
-        }
-    })
-
-    console.log({
-        title: title.value,
-        description: description.value,
-        price: price.value,
-        itemImage: filePath ? formData : null,
-        category: category.value,
+            categoryId: category.value,
+            itemImage: filePath ? formData : null,
+            shopId,
+        })
     })
 })

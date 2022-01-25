@@ -4,7 +4,10 @@ const placeholderFotTitle = document.querySelector('.hidden_for_title_editor')
 const descriptionEditor = document.querySelector('.input-flex.description_editor')
 const placeholderFotDescription = document.querySelector('.hidden_for_description_editor')
 
-const items = document.querySelectorAll('.shop-items-container .shop-item')
+const itemsContainer = document.querySelector('.shop-items-container')
+
+const items = Array.from(document.querySelectorAll('.shop-items-container .shop-item'))
+    .map(i => i.querySelector('i'))
 
 function debounce(callback, timeout = 300) {
     let timer
@@ -17,26 +20,34 @@ function debounce(callback, timeout = 300) {
 }
 
 items.forEach(i => {
-    if (i.getAttribute('type') === 'delete') {
-        const deleteBtn = i.querySelector('i')
-        if (deleteBtn) {
-            deleteBtn.addEventListener('click', () => {
-                console.log('delete', i.id)
-            })
-        }
+    if (i.dataset.type === 'delete') {
+        i.addEventListener('click', (e) => {
+            if (confirm('Вы уверены?')) {
+                const container = e.target.parentNode.parentNode
+                const response = fetch('/products/delete', {
+                    method: 'DELETE',
+                    body: JSON.stringify({
+                        id: container.id
+                    })
+                })
+                itemsContainer.removeChild(container)
+            }
+        })
     } else {
-        const favoriteBtn = i.querySelector('i')
-        if (favoriteBtn) {
-            favoriteBtn.addEventListener('click', (e) => {
-                if (e.target.className === 'fas fa-star') {
-                    // request
-                    e.target.className = 'far fa-star'
-                } else {
-                    // request
-                    e.target.className = 'fas fa-star'
-                }
+        i.addEventListener('click', (e) => {
+            const container = e.target.parentNode.parentNode
+            const promise = fetch('/products/change_favorite', {
+                method: "POST",
+                body: JSON.stringify({
+                    id: container.id,
+                })
             })
-        }
+            if (e.target.className === 'fas fa-star') {
+                e.target.className = 'far fa-star'
+            } else {
+                e.target.className = 'fas fa-star'
+            }
+        })
     }
 })
 
@@ -59,17 +70,7 @@ if (titleEditor) {
 }
 
 if (descriptionEditor) {
-    descriptionEditor.innerHTML = placeholderFotDescription.innerHTML
-    const startWidth = placeholderFotDescription.getBoundingClientRect().width
-
-    descriptionEditor.style.width = startWidth + 30 + 'px'
-
     descriptionEditor.addEventListener('input', debounce((e) => {
         console.log('request has been sent', e.target.value)
     }))
-    descriptionEditor.addEventListener('input', (e) => {
-        placeholderFotDescription.innerHTML = e.target.value || 'Введите описание магазина...'
-        const {width} = placeholderFotDescription.getBoundingClientRect()
-        descriptionEditor.style.width = width + 20 + 'px'
-    })
 }

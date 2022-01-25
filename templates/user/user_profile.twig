@@ -10,15 +10,20 @@
 {% block body %}
 <div class="container ">
     <div class="profile-container-top">
-        <div class="profile-name">Профиль пользователя</div>
-        <div class="profile-content">
-            <div class="profile-photo">
-                <img src={{ 'https://sitepokupok.ru/web/img/icons/user.svg' }} />
-            </div>
-            <div>
-                <div class="profile-login">{{ app.user.login }}</div>
+        <div>
+            <div class="profile-name">Профиль пользователя</div>
+            <div class="profile-content">
+                <div class="profile-photo">
+                    <img src={{ 'https://sitepokupok.ru/web/img/icons/user.svg' }} />
+                </div>
+                <div>
+                    <div class="profile-login">{{ app.user.login }}</div>
+                </div>
             </div>
         </div>
+        <a class="settings_link" href=''>
+            <i class="fa fa-cog settings" aria-hidden="true"></i>
+        </a>
     </div>
     <div class="profile-container-bottom">
         <div class="profile-container-bottom__header">

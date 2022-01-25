@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block body %}
+    <input id="shop-id-input" type="hidden" value={{ shopId }} />
     <div class="create_item_form">
         <h1 class="h3 mb-3 font-weight-normal form-header">Добавить товар</h1>
         <div class="form-group email_container">
@@ -36,10 +37,9 @@
         <div class="form-group email_container">
             <label class="form-field-label" for="shop_title">Категория</label>
             <select class="form-select" id="item-category" aria-label="Default select example">
-                <option value="clothes" selected>Одежда</option>
-                <option value="food">Еда</option>
-                <option value="electronic">Электроника</option>
-                <option value="fetish">Фетиш</option>
+                {% for category in categories %}
+                    <option value={{ category.id }}>{{ category.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group email_container">

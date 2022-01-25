@@ -56,3 +56,41 @@ a:visited {
 .textarea-flex:focus {
     border: 1px solid green;
 }
+
+.button-scroll-to-top {
+    outline: 0;
+    border: 0;
+    display: inline-block;
+    background-color: #42AAFF;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: background-color .3s,
+    opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.button-scroll-to-top i {
+    color: white;
+    size: 4rem;
+}
+
+.button-scroll-to-top:hover {
+    cursor: pointer;
+    background-color: #333;
+}
+
+.button-scroll-to-top:active {
+    background-color: #555;
+}
+
+.button-scroll-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}

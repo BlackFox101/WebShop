@@ -10,46 +10,61 @@
 {% block body %}
     <div class="container">
         <div class="admin__top">
-            <div>Список категорий: </div>
-            <ul>
-                <li class="category_list-item">
-                    <div>Категория 1</div>
-                    <i title="Удалить" class="far fa-trash-alt"></i>
-                </li>
-                <li class="category_list-item">
-                    <div>Категория 2</div>
-                    <i title="Удалить" class="far fa-trash-alt"></i>
-                </li>
-            </ul>
-            <div class="new-category-wrapper">
-                <input placeholder="Введите новую категорию" class="input-flex" type="text" />
-                <i class="fas fa-plus-circle"></i>
+            <div>
+                <div>Список категорий: </div>
+                <ul id="catgetories_list">
+                    {% if categories %}
+                        {% for category in categories %}
+                            <li class="category_list-item">
+                                <div class="categoryName">{{ category.getName }}</div>
+                                <i id={{ category.getId}} title="Удалить" class="far fa-trash-alt"></i>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <div class="new-category-wrapper">
+                    <input id="new-category-input" placeholder="Введите новую категорию" class="input-flex" type="text" />
+                    <i id="add-category" class="fas fa-plus-circle"></i>
+                </div>
+            </div>
+            <div>
+                <div>Список статусов:</div>
+                <ul id="statuses_list">
+                    {% if statuses %}
+                        {% for status in statuses %}
+                            <li class="status_list-item">
+                                <div class="statusName">{{ status.getName }}</div>
+                                <i id={{ status.getId }} title="Удалить" class="far fa-trash-alt"></i>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <div class="new-status-wrapper">
+                    <input id="new-status-input" placeholder="Введите новый статус" class="input-flex" type="text" />
+                    <i id="add-status" class="fas fa-plus-circle"></i>
+                </div>
             </div>
         </div>
         <div class="admin__bottom">
             <div>Список пользователей: </div>
             <ul>
-                <li class="user_list-item">
-                    <div>Пользователь name 1</div>
-                    <select class="form-select user-status" id="item-category" aria-label="Default select example">
-                        <option value="clothes" selected>Одежда</option>
-                        <option value="food">Еда</option>
-                        <option value="electronic">Электроника</option>
-                        <option value="fetish">Фетиш</option>
-                    </select>
-                    <button type="button" class="btn btn-danger">Бан</button>
-                </li>
-                <li class="user_list-item">
-                    <div>Пользователь name 1</div>
-                    <select class="form-select user-status" id="item-category" aria-label="Default select example">
-                        <option value="clothes" selected>Одежда</option>
-                        <option value="food">Еда</option>
-                        <option value="electronic">Электроника</option>
-                        <option value="fetish">Фетиш</option>
-                    </select>
-{#                    мб будет ссылка на все его магазины, чтобы банить магаз#}
-                    <button type="button" class="btn btn-danger">Бан</button>
-                </li>
+                {% if users %}
+                    {% for user in users %}
+                        <li class="user_list-item">
+                            <div>{{ user.email }}</div>
+                            <select class="form-select user-status" id="item-category" aria-label="Default select example">
+                                {% for status in statuses %}
+                                    {% if user.getStatus.getId == status.getId %}
+                                        <option selected value={{ status.name }}>{{ status.name }}</option>
+                                    {% endif %}
+                                    {% if user.getStatus.getId != status.getId %}
+                                        <option value={{ status.name }}>{{ status.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>
