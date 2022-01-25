@@ -11,23 +11,20 @@ async function onDeleteListItem(e, type) {
 
     switch (type) {
         case 'category':
-            categories.removeChild(e.target.parentNode)
-            url = '/delete/category'
-            break
-        case 'status':
-            statuses.removeChild(e.target.parentNode)
-            url = '/delete/status'
+            if (confirm('ВЫ уверены?')) {
+                fetch('/category/delete', {
+                    method: "DELETE",
+                    body: JSON.stringify({
+                        id: e.target.id
+                    })
+                })
+                categories.removeChild(e.target.parentNode)
+            }
             break
         default:
             alert(`type=${type} is not defined`)
             return
     }
-    await fetch('', {
-        method: "DELETE",
-        body: {
-            id: e.target.id
-        }
-    })
 }
 
 async function onCreateListItem(title, type) {
@@ -50,14 +47,14 @@ async function onCreateListItem(title, type) {
             categoryTitle.className = 'categoryName'
             deleteIcon.addEventListener('click', (e) => onDeleteListItem(e, 'category'))
             categories.appendChild(li)
-            await fetch('', {
+            const response = await fetch('/category/create', {
                 method: "POST",
-                body: {
-                    title
-                }
+                body: JSON.stringify({
+                    name: title
+                })
             })
-            // TODO response ID
-            // deleteIcon.id = response.body.id
+            const id = await response.json()
+            deleteIcon.id = id
             break
         case 'status':
             newStatus.value = ''
