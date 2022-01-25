@@ -34,7 +34,8 @@
                         {% for status in statuses %}
                             <li class="status_list-item">
                                 <div class="statusName">{{ status.getName }}</div>
-                                <i id={{ status.getId }} title="Удалить" class="far fa-trash-alt"></i>
+                                <div>Max магазинов: {{ status.getShopCount }}</div>
+                                <div>Max товаров: {{ status.getProductCount }}</div>
                             </li>
                         {% endfor %}
                     {% endif %}

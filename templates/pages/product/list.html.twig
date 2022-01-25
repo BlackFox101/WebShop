@@ -2,13 +2,21 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/shops.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/products.css') }}">
 {% endblock %}
 
 {% block title %}Товары{% endblock %}
 
 {% block body %}
-    <h1 class="search-title">Товары</h1>
+    <div class="top-panel">
+        <h1 class="search-title">Товары</h1>
+        <select class="form-select">
+            <option value={{ null }}>Все</option>
+            {% for item in categories %}
+                <option value={{ item.id }}>{{ item.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
     {% if paginator is defined %}
         {% include 'inc/_product_pagination.html.twig' with {'paginator': paginator} %}
     {% endif %}

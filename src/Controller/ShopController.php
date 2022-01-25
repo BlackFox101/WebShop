@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
 use App\Form\ShopFormType;
 use App\Services\Pagination\PaginationService;
@@ -22,7 +23,7 @@ class ShopController extends AbstractController
         $paginatorService = new PaginationService(Shop::class, $entityManager, $request);
 
         return $this->render('pages/shop/list.html.twig', [
-            'paginator' => $paginatorService->getPaginator()
+            'paginator' => $paginatorService->getPaginator(),
         ]);
     }
 
@@ -51,6 +52,19 @@ class ShopController extends AbstractController
         $entityManager->persist($shop);
         $entityManager->flush();
         return new Response('Visibility has been changed.');
+    }
+
+    #[Route('/shop/delete', name: 'delete_shop', methods: "DELETE")]
+    public function deleteShop(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $shop = $shopRepo->find($parameters['id']);
+
+        $entityManager->remove($shop);
+        $entityManager->flush();
+
+        return new Response('Shop has been deleted');
     }
 
     #[Route('/shop/create', name: 'create_shop_post', methods: "POST")]
