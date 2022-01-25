@@ -51,6 +51,7 @@ class PaginationService
     {
         $symfonyPaginator = $this->getSymfonyPaginator($paginatorPage);
         $items = $symfonyPaginator->getIterator();
+        $temp = $symfonyPaginator->count();
         $maxPageCount = (int)ceil($symfonyPaginator->count() / self::PAGE_SIZE);
         $pageNumbers = $this->getPageNumbers($this->searchPageNumber, $maxPageCount);
         return new WebShopPaginator($items, $this->searchPageNumber, $maxPageCount, $pageNumbers, $symfonyPaginator->count(), $this->searchName);
@@ -58,7 +59,7 @@ class PaginationService
 
     private function getSearchParams(Request $request)
     {
-        $this->searchPageNumber = (int)$request->get(self::SEARCH_NAME, self::DEFAULT_PAGE_NUMBER);
+        $this->searchPageNumber = (int)$request->get(self::SEARCH_PAGE, self::DEFAULT_PAGE_NUMBER);
         $this->searchName = $request->get(self::SEARCH_NAME) ? $request->get(self::SEARCH_NAME) : null;
         $this->searchCategoryId = $request->get(self::CATEGORY) ? (int)$request->get(self::CATEGORY) : null;
     }
@@ -103,7 +104,7 @@ class PaginationService
         {
             return 0;
         }
-        return $clientPage;
+        return $clientPage - 1;
     }
 
     private function getSymfonyPaginator(int $page): Paginator
@@ -143,7 +144,7 @@ class PaginationService
     private function addCategoryFilter(QueryBuilder $query, string $alias)
     {
         $categoryProperty = self::CATEGORY_PROPERTY;
-        if ($this->searchCategoryId ?? $this->isExistProperty($categoryProperty))
+        if ($this->searchCategoryId && $this->isExistProperty($categoryProperty))
         {
             $query->where("$alias.$categoryProperty = :$categoryProperty");
             $query->setParameter($categoryProperty, $this->searchCategoryId);
@@ -153,10 +154,10 @@ class PaginationService
     private function addNameFilter(QueryBuilder $query, string $alias)
     {
         $nameProperty = self::NAME_PROPERTY;
-        if ($this->searchName ?? $this->isExistProperty($nameProperty))
+        if ($this->searchName && $this->isExistProperty($nameProperty))
         {
-            $query->where("$alias.$nameProperty = :$nameProperty");
-            $query->setParameter($nameProperty, $this->searchName);
+            $query->where("$alias.$nameProperty like :$nameProperty");
+            $query->setParameter($nameProperty, '%'.$this->searchName.'%');
         }
     }
 

@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\ShopItem;
 use App\Form\ShopItemFormType;
+use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -18,14 +19,13 @@ class ProductController extends AbstractController
     private const DEFAULT_PAGE_NUMBER = 1;
     private const PAGE_SIZE = 4;
 
-    #[Route('/products', name: 'shop_items')]
+    #[Route('/products', name: 'products')]
     public function getProducts(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
-        $page = (int)$request->get('page', self::DEFAULT_PAGE_NUMBER);
+        $paginatorService = new PaginationService(Shop::class, $entityManager, $request);
 
         return $this->render('pages/product/list.html.twig', [
-            'shopItems' => $shopItems,
+            'paginator' => $paginatorService->getPaginator(),
         ]);
     }
 
