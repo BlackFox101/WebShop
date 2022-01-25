@@ -70,7 +70,7 @@ class Product
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favouriteItems")
      * @ORM\JoinColumn(referencedColumnName="user_id")
      */
-    private array $usersWhoAddedInFavourites;
+    //private array $usersWhoAddedInFavourites;
 
     public function __construct(Shop $shop)
     {
@@ -213,5 +213,15 @@ class Product
     public function setImageName(?string $name): self
     {
         $this->imageName = $name;
+    }
+
+    public function getPathToImage(): string
+    {
+        if ($this->imageName)
+        {
+            return '/uploads/images/'. $this->imageName;
+        }
+
+        return '/assets/images/question_icon.svg';
     }
 }

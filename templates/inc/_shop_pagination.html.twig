@@ -2,11 +2,11 @@
     {% for item in paginator.items %}
         <a href="{{ path('shop', {'shopId': item.id}) }}" class="shop">
             <div class="shop__image">
-                <img alt="shop-image" src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139866-dc9c6560.jpg' }} />
+                <img alt="shop-image" src="{{ item.pathToImage }}" />
             </div>
             <div class="shop__owner-content">
                 <div class="shop__owner-content__avatar">
-                    <img alt="shop-owner-image" src={{ null ?? 'https://files.sitepokupok.ru/user/859.jpg'}} />
+                    <img alt="shop-owner-image" src="{{ item.user.pathToImage}}" />
                 </div>
                 <div class="shop__owner-content__login">{{ item.user.firstName }}</div>
             </div>

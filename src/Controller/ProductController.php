@@ -16,13 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    private const DEFAULT_PAGE_NUMBER = 1;
-    private const PAGE_SIZE = 4;
-
     #[Route('/products', name: 'products')]
     public function getProducts(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $paginatorService = new PaginationService(Shop::class, $entityManager, $request);
+        $paginatorService = new PaginationService(Product::class, $entityManager, $request);
 
         return $this->render('pages/product/list.html.twig', [
             'paginator' => $paginatorService->getPaginator(),
@@ -37,31 +34,6 @@ class ProductController extends AbstractController
 
         return $this->render('pages/product/item.html.twig', [
             'Product' => $Product,
-        ]);
-    }
-
-    #[Route('/products/create', name: '_create_shop_item', methods: "POST")]
-    public function _createProduct(Request $request, EntityManagerInterface $entityManager)
-    {
-        $parameters = json_decode($request->getContent(), true);
-
-
-        $shopRepo = $entityManager->getRepository(Shop::class);
-        $categoryRepo = $entityManager->getRepository(Category::class);
-        $shop = $shopRepo->find($parameters['shopId']);
-
-        $Product = new Product($shop);
-        $Product->setIsHidden(false);
-        $Product->setCategory($categoryRepo->find($parameters['categoryId']));
-        $Product->setDescription($parameters['description']);
-        $Product->setName($parameters['title']);
-        $Product->setPrice($parameters['price']);
-
-        $entityManager->persist($Product);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('shop', [
-            'shopId' => $parameters['shopId']
         ]);
     }
 
@@ -127,7 +99,7 @@ class ProductController extends AbstractController
         }
 
         return $this->render('pages/product/edit.html.twig', [
-            'ProductForm' => $form->createView()
+            'productForm' => $form->createView()
         ]);
     }
 
