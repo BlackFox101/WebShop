@@ -37,10 +37,9 @@
         <div class="form-group email_container">
             <label class="form-field-label" for="shop_title">Категория</label>
             <select class="form-select" id="item-category" aria-label="Default select example">
-                <option value="clothes" selected>Одежда</option>
-                <option value="food">Еда</option>
-                <option value="electronic">Электроника</option>
-                <option value="fetish">Фетиш</option>
+                {% for category in categories %}
+                    <option value={{ category.id }}>{{ category.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group email_container">

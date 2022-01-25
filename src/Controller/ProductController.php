@@ -45,25 +45,32 @@ class ProductController extends AbstractController
     {
         $parameters = json_decode($request->getContent(), true);
         $shopRepo = $entityManager->getRepository(Shop::class);
+        $categoryRepo = $entityManager->getRepository(Category::class);
         $shop = $shopRepo->find($parameters['shopId']);
-
-        $category = new Category();
-        $category->setName($parameters['category']);
 
         $shopItem = new ShopItem($shop);
         $shopItem->setIsHidden(false);
-        $shopItem->setCategory($category);
+        $shopItem->setCategory($categoryRepo->find($parameters['categoryId']));
         $shopItem->setDescription($parameters['description']);
         $shopItem->setName($parameters['title']);
         $shopItem->setPrice($parameters['price']);
 
-        $entityManager->persist($category);
         $entityManager->persist($shopItem);
         $entityManager->flush();
 
         return $this->redirectToRoute('shop', [
             'shopId' => $parameters['shopId']
         ]);
+    }
+
+    #[Route('/products/change_favorite', name: 'change_favorite', methods: "POST")]
+    public function changeFavorite(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
+
+        $item = $shopItemRepo->find($parameters['id']);
+        // TODO
     }
 
     #[Route('/products/delete', name: 'delete_shop_item', methods: "DELETE")]
@@ -84,6 +91,7 @@ class ProductController extends AbstractController
     public function createShopItem(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
+        $categoryRepo = $entityManager->getRepository(Category::class);
         $shop = $shopRepo->find($shopId);
         $shopItem = new ShopItem($shop);
 
@@ -98,6 +106,7 @@ class ProductController extends AbstractController
         return $this->render('pages/product/create.html.twig', [
             'shopItemForm' => $form->createView(),
             'shopId' => $shopId,
+            'categories' => $categoryRepo->findAll(),
         ]);
     }
 

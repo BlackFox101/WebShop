@@ -32,7 +32,7 @@ createBtn.addEventListener('click', async () => {
             title: title.value,
             description: description.value,
             price: price.value,
-            category: category.value,
+            categoryId: category.value,
             itemImage: filePath ? formData : null,
             shopId,
         })

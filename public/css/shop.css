@@ -220,6 +220,9 @@
 .find-button {
     position: relative;
     height: 40px;
+    padding: 0 10px;
+    border: 0;
+    background-color: white;
 }
 
 .find-button::before {

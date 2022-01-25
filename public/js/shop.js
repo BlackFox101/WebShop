@@ -34,18 +34,20 @@ items.forEach(i => {
             }
         })
     } else {
-        const favoriteBtn = i.querySelector('i')
-        if (favoriteBtn) {
-            favoriteBtn.addEventListener('click', (e) => {
-                if (e.target.className === 'fas fa-star') {
-                    // request
-                    e.target.className = 'far fa-star'
-                } else {
-                    // request
-                    e.target.className = 'fas fa-star'
-                }
+        i.addEventListener('click', (e) => {
+            const container = e.target.parentNode.parentNode
+            const promise = fetch('/products/change_favorite', {
+                method: "POST",
+                body: JSON.stringify({
+                    id: container.id,
+                })
             })
-        }
+            if (e.target.className === 'fas fa-star') {
+                e.target.className = 'far fa-star'
+            } else {
+                e.target.className = 'fas fa-star'
+            }
+        })
     }
 })
 
