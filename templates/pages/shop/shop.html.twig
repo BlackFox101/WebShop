@@ -18,8 +18,6 @@
             <div class="shop-info-container_top">
                 {% if app.user.userId == shop.getUser.userId %}
                     <div class="admin-shop">
-                        <textarea maxlength="36" class="input-flex title-editor" placeholder='Введите название магазина...'></textarea>
-                        <div class="hidden_for_title_editor">{{ shop.name }}</div>
                         <input class="input-flex title-editor" placeholder='Введите название магазина...' />
                         <div class="hidden_for_title_editor">{{ shop.name }}</div>
                     </div>

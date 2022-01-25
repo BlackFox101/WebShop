@@ -19,7 +19,7 @@ class PaginationService
     private const SEARCH_NAME = 'name';
     private const CATEGORY = 'category';
     private const DEFAULT_PAGE_NUMBER = 1;
-    private const PAGE_SIZE = 4;
+    private const PAGE_SIZE = 16;
 
     private EntityManagerInterface $entityManager;
     private PaginatorInterface $paginator;
