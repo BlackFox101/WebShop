@@ -1,16 +1,20 @@
-const shops = document.querySelectorAll('.profile-container-bottom a')
+const shops = document.querySelectorAll('.shop')
+const profileContainer = document.querySelector('.profile-container-bottom')
 
 shops.forEach(shop => {
     if (!shop.id) {
         return
     }
-    const eye = shop.querySelector('i')
-    eye.addEventListener('click', (e) => {
+
+    const hideShop = shop.querySelector('#hide-shop')
+    const deleteShop = shop.querySelector('#delete-shop')
+
+    hideShop.addEventListener('click', (e) => {
         e.preventDefault()
-        if (eye.className === 'fa fa-eye') {
-            eye.className = 'fa fa-eye-slash'
+        if (hideShop.className === 'fa fa-eye') {
+            hideShop.className = 'fa fa-eye-slash'
         } else {
-            eye.className = 'fa fa-eye'
+            hideShop.className = 'fa fa-eye'
         }
         const promise = fetch('/shop/change_visibility', {
             method: 'POST',
@@ -18,5 +22,17 @@ shops.forEach(shop => {
                 id: shop.id,
             })
         })
+    })
+
+    deleteShop.addEventListener('click', (e) => {
+        e.preventDefault()
+        const parent = e.target.parentNode.parentNode
+        const promise = fetch('/shop/delete', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                id: shop.id
+            })
+        })
+        profileContainer.removeChild(parent)
     })
 })

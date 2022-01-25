@@ -53,6 +53,19 @@ class ShopController extends AbstractController
         return new Response('Visibility has been changed.');
     }
 
+    #[Route('/shop/delete', name: 'delete_shop', methods: "DELETE")]
+    public function deleteShop(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $shop = $shopRepo->find($parameters['id']);
+
+        $entityManager->remove($shop);
+        $entityManager->flush();
+
+        return new Response('Shop has been deleted');
+    }
+
     #[Route('/shop/create', name: 'create_shop_post', methods: "POST")]
     public function createShopPost(Request $request, EntityManagerInterface $entityManager)
     {

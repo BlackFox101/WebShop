@@ -28,9 +28,11 @@
     <div class="profile-container-bottom">
         <div class="profile-container-bottom__header">
             <div class="my-shops-title">Мои магазины:</div>
-            <a href={{ path('create_shop') }}>
-                <i class="fas fa-plus shops-add" title="Добавить магазин"></i>
-            </a>
+            <div>
+                <a href={{ path('create_shop') }}>
+                    <i class="fas fa-plus shops-add" title="Добавить магазин"></i>
+                </a>
+            </div>
         </div>
         {% if shops %}
             {% for shop in shops %}
@@ -45,11 +47,15 @@
                                 <div>{{ shop.description }}</div>
                             </div>
                         </div>
-                        {% if not shop.isHidden %}
-                            <i title="Скрыть магазин" class="fa fa-eye" aria-hidden="true"></i>
-                        {% else %}
-                            <i title="Показать магазин" class="fa fa-eye-slash" aria-hidden="true"></i>
-                        {% endif %}
+                        <div>
+                            {% if not shop.isHidden %}
+                                <i id="hide-shop" title="Скрыть магазин" class="fa fa-eye" aria-hidden="true"></i>
+                            {% else %}
+                                <i id="hide-shop" title="Показать магазин" class="fa fa-eye-slash" aria-hidden="true"></i>
+                            {% endif %}
+                            <i id="delete-shop" title="Удалить" class="far fa-trash-alt"></i>
+                        </div>
+
                     </a>
                 {% endif %}
             {% endfor %}
