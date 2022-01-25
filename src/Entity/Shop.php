@@ -43,29 +43,29 @@ class Shop
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $shopImageUrl;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isHidden = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="shop")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="shop")
      * @ORM\JoinColumn(nullable=true, referencedColumnName="shop_item_id")
      */
-    private $shopItems;
+    private $products;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $imageName;
+
     public function __construct(UserInterface $user)
     {
-        $this->shopItems = new ArrayCollection();
+        $this->products = new ArrayCollection();
         $this->user = $user;
     }
 
@@ -122,18 +122,6 @@ class Shop
         return $this;
     }
 
-    public function getShopImageUrl(): ?string
-    {
-        return $this->shopImageUrl;
-    }
-
-    public function setShopImageUrl(?string $shopImageUrl): self
-    {
-        $this->shopImageUrl = $shopImageUrl;
-
-        return $this;
-    }
-
     public function getIsHidden(): ?bool
     {
         return $this->isHidden;
@@ -147,29 +135,29 @@ class Shop
     }
 
     /**
-     * @return Collection|ShopItem[]
+     * @return Collection|Product[]
      */
-    public function getShopItems(): Collection
+    public function getProducts(): Collection
     {
-        return $this->shopItems;
+        return $this->products;
     }
 
-    public function addShopItem(ShopItem $shopItem): self
+    public function addProduct(Product $Product): self
     {
-        if (!$this->shopItems->contains($shopItem)) {
-            $this->shopItems[] = $shopItem;
-            $shopItem->setShop($this);
+        if (!$this->products->contains($Product)) {
+            $this->products[] = $Product;
+            $Product->setShop($this);
         }
 
         return $this;
     }
 
-    public function removeShopItem(ShopItem $shopItem): self
+    public function removeProduct(Product $Product): self
     {
-        if ($this->shopItems->removeElement($shopItem)) {
+        if ($this->products->removeElement($Product)) {
             // set the owning side to null (unless already changed)
-            if ($shopItem->getShop() === $this) {
-                $shopItem->setShop(null);
+            if ($Product->getShop() === $this) {
+                $Product->setShop(null);
             }
         }
 
@@ -186,5 +174,27 @@ class Shop
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $name): self
+    {
+        $this->imageName = $name;
+
+        return $this;
+    }
+
+    public function getPathToImage(): string
+    {
+        if ($this->imageName)
+        {
+            return '/uploads/images/'. $this->imageName;
+        }
+
+        return '';
     }
 }

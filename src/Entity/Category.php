@@ -25,13 +25,13 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=ShopItem::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
      */
-    private $shopItems;
+    private $products;
 
     public function __construct()
     {
-        $this->shopItems = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,29 +52,29 @@ class Category
     }
 
     /**
-     * @return Collection|ShopItem[]
+     * @return Collection|Product[]
      */
-    public function getShopItems(): Collection
+    public function getProducts(): Collection
     {
-        return $this->shopItems;
+        return $this->products;
     }
 
-    public function addShopItem(ShopItem $shopItem): self
+    public function addProduct(Product $Product): self
     {
-        if (!$this->shopItems->contains($shopItem)) {
-            $this->shopItems[] = $shopItem;
-            $shopItem->setCategory($this);
+        if (!$this->products->contains($Product)) {
+            $this->products[] = $Product;
+            $Product->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeShopItem(ShopItem $shopItem): self
+    public function removeProduct(Product $Product): self
     {
-        if ($this->shopItems->removeElement($shopItem)) {
+        if ($this->products->removeElement($Product)) {
             // set the owning side to null (unless already changed)
-            if ($shopItem->getCategory() === $this) {
-                $shopItem->setCategory(null);
+            if ($Product->getCategory() === $this) {
+                $Product->setCategory(null);
             }
         }
 

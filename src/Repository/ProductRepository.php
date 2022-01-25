@@ -2,25 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\ShopItemImage;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ShopItemImage|null find($id, $lockMode = null, $lockVersion = null)
- * @method ShopItemImage|null findOneBy(array $criteria, array $orderBy = null)
- * @method ShopItemImage[]    findAll()
- * @method ShopItemImage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Product|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Product|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Product[]    findAll()
+ * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ShopItemImageRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ShopItemImage::class);
+        parent::__construct($registry, Product::class);
     }
 
     // /**
-    //  * @return ShopItemImage[] Returns an array of ShopItemImage objects
+    //  * @return Product[] Returns an array of Product objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +38,7 @@ class ShopItemImageRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ShopItemImage
+    public function findOneBySomeField($value): ?Product
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

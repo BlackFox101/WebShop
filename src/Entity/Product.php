@@ -2,26 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\ShopItemRepository;
+use App\Repository\ProductRepository;
 use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ShopItemRepository::class)
+ * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
-class ShopItem
+class Product
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $shopItemId;
+    private $productId;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Shop::class, inversedBy="shopItems")
+     * @ORM\ManyToOne(targetEntity=Shop::class, inversedBy="Products")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="shop_id")
      */
     private $shop;
@@ -47,7 +46,7 @@ class ShopItem
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="shopItems")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="Products")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="category_id")
      */
     private $category;
@@ -63,25 +62,24 @@ class ShopItem
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=ShopItemImage::class, mappedBy="shopItem")
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $shopItemImages;
+    private $imageName;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favouriteItems")
      * @ORM\JoinColumn(referencedColumnName="user_id")
      */
-    //private array $usersWhoAddedInFavourites;
+    private array $usersWhoAddedInFavourites;
 
     public function __construct(Shop $shop)
     {
-        $this->shopItemImages = new ArrayCollection();
         $this->shop = $shop;
     }
 
-    public function getId(): ?int
+    public function getProductId(): ?int
     {
-        return $this->shopItemId;
+        return $this->productId;
     }
 
     public function getShop(): ?Shop
@@ -181,36 +179,6 @@ class ShopItem
     }
 
     /**
-     * @return Collection|ShopItemImage[]
-     */
-    public function getShopItemImages(): Collection
-    {
-        return $this->shopItemImages;
-    }
-
-    public function addShopItemImage(ShopItemImage $shopItemImage): self
-    {
-        if (!$this->shopItemImages->contains($shopItemImage)) {
-            $this->shopItemImages[] = $shopItemImage;
-            $shopItemImage->setShopItem($this);
-        }
-
-        return $this;
-    }
-
-    public function removeShopItemImage(ShopItemImage $shopItemImage): self
-    {
-        if ($this->shopItemImages->removeElement($shopItemImage)) {
-            // set the owning side to null (unless already changed)
-            if ($shopItemImage->getShopItem() === $this) {
-                $shopItemImage->setShopItem(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|User[]
      */
     public function getUserWhoAddedInFavourites(): Collection
@@ -235,5 +203,15 @@ class ShopItem
         }
 
         return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $name): self
+    {
+        $this->imageName = $name;
     }
 }

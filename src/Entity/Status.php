@@ -25,7 +25,7 @@ class Status
     /**
      * @ORM\Column(type="integer")
      */
-    private $shopItemCount;
+    private $productCount;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -49,14 +49,14 @@ class Status
         return $this;
     }
 
-    public function getShopItemCount(): ?int
+    public function getProductCount(): ?int
     {
-        return $this->shopItemCount;
+        return $this->productCount;
     }
 
-    public function setShopItemCount(int $shopItemCount): self
+    public function setProductCount(int $productCount): self
     {
-        $this->shopItemCount = $shopItemCount;
+        $this->productCount = $productCount;
 
         return $this;
     }

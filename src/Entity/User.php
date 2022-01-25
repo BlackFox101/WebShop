@@ -90,13 +90,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ShopItem::class, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="users")
      * @ORM\JoinTable(name="users_favourites_items",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="shop_item_id", referencedColumnName="shop_item_id", unique=true)}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="product_id", unique=true)}
      * )
      */
     private $favouriteItems;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $imageName;
 
     public function __construct()
     {
@@ -327,14 +332,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|ShopItem[]
+     * @return Collection|Product[]
      */
     public function getFavouriteItems(): Collection
     {
         return $this->favouriteItems;
     }
 
-    public function addFavouriteItem(ShopItem $favouriteItem): self
+    public function addFavouriteItem(Product $favouriteItem): self
     {
         if (!$this->favouriteItems->contains($favouriteItem)) {
             $this->favouriteItems[] = $favouriteItem;
@@ -343,10 +348,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeFavouriteItem(ShopItem $favouriteItem): self
+    public function removeFavouriteItem(Product $favouriteItem): self
     {
         $this->favouriteItems->removeElement($favouriteItem);
 
         return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $name): self
+    {
+        $this->imageName = $name;
+    }
+
+    public function getPathToImage(): string
+    {
+        if ($this->imageName)
+        {
+            return '/uploads/images/'. $this->imageName;
+        }
+
+        return '/assets/images/user.svg';
     }
 }

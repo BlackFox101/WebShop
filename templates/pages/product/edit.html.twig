@@ -2,9 +2,9 @@
 
 {% block title %}Редактировать товар{% endblock %}
 
-{% form_theme shopItemForm 'inc/form/auth-form.html.twig' %}
+{% form_theme ProductForm 'inc/form/auth-form.html.twig' %}
 
 {% block body %}
     <div>Редактировать товар</div>
-    {{ form(shopItemForm ) }}
+    {{ form(ProductForm ) }}
 {% endblock %}

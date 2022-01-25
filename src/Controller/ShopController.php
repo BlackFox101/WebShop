@@ -40,7 +40,7 @@ class ShopController extends AbstractController
     }
 
     #[Route('/shop/change_visibility', name: 'change_shop_visibility', methods: "POST")]
-    public function changeShopVisibility(Request $request, EntityManagerInterface $entityManager)
+    public function changeShopVisibility(Request $request, EntityManagerInterface $entityManager): Response
     {
         $parameters = json_decode($request->getContent(), true);
         $id = $parameters['id'];
@@ -53,21 +53,35 @@ class ShopController extends AbstractController
     }
 
     #[Route('/shop/create', name: 'create_shop')]
-    public function createShop(Request $request, Security $security, EntityManagerInterface $entityManager): Response
+    public function createShop(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = $security->getToken()->getUser();
+        $user = $this->getUser();
         $shop = new Shop($user);
+
         $form = $this->createForm(ShopFormType::class, $shop);
         $form->handleRequest($request);
-
-        $response = $this->saveShop($shop, $form, $entityManager);
-        if ($response)
+        if ($form->isSubmitted() && $form->isValid())
         {
-            return $response;
-        }
+            $image = $form->get('image')->getData();
+            if ($image)
+            {
+                $newFilename = uniqid() . '.'. $image->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/images';
+                $image->move(
+                    $destination,
+                    $newFilename
+                );
+                $shop->setImageName($newFilename);
+            }
+
+            $entityManager->persist($shop);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_view');
+        };
 
         return $this->render('pages/shop/create.html.twig', [
-            'shopForm' => $form->createView(),
+            'shopForm' => $form->createView()
         ]);
     }
 
@@ -76,6 +90,8 @@ class ShopController extends AbstractController
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
         $shop = $shopRepo->find($shopId);
+        $params = $request->request->all();
+        $parameters = json_decode($request->getContent(), true);
 
 //        $form = $this->createForm(ShopFormType::class, $shop);
 //        $form->handleRequest($request);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Services\Pagination;
 
 use App\Entity\Shop;
-use App\Entity\ShopItem;
+use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -33,7 +33,7 @@ class PaginationService
     {
         $this->entityName = $entityName;
         $this->entityManager = $entityManager;
-        if (!in_array($entityName, [Shop::class, ShopItem::class]))
+        if (!in_array($entityName, [Shop::class, Product::class]))
         {
             throw new RuntimeException('Paginator does not support this class');
         }
@@ -130,7 +130,6 @@ class PaginationService
         $query->setFirstResult($page * self::PAGE_SIZE);
 
         return $query->getQuery();
-
     }
 
     private function addIsHiddenFiler(QueryBuilder $query, string $alias)

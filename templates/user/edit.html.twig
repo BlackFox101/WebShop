@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Настройки{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/authorization.css') }}">
+{% endblock %}
+
+{% form_theme userEditForm 'inc/form/auth-form.html.twig' %}
+
+{% block body %}
+    <div class="registration-form">
+        <h1 class="h3 mb-3 font-weight-normal form-header">Настройки</h1>
+        {{ form(userEditForm ) }}
+    <div class="content-center">
+{% endblock %}

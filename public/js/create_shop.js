@@ -19,21 +19,21 @@ createBtn.addEventListener('click', async () => {
     const formData = new FormData()
 
     if (filePath) {
-        formData.append('shop_image', files[0])
+        formData.append('image', files[0])
     }
 
-    await fetch('', {
+    console.log(JSON.stringify({
+        title: title.value,
+        description: description.value,
+        shopImage: filePath ? formData : null,
+    }));
+
+    await fetch('/shop/create', {
         method: 'POST',
-        body: {
+        body: formData/*{
             title: title.value,
             description: description.value,
-            shopImage: filePath ? formData : null
-        }
-    })
-
-    console.log({
-        description: description.value,
-        title: title.value,
-        shopImage: filePath ? formData : null
+            shopImage: filePath ? formData : null,
+        }*/
     })
 })

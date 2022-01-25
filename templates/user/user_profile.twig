@@ -14,14 +14,14 @@
             <div class="profile-name">Профиль пользователя</div>
             <div class="profile-content">
                 <div class="profile-photo">
-                    <img src={{ 'https://sitepokupok.ru/web/img/icons/user.svg' }} />
+                    <img src={{ app.user.pathToImage }} />
                 </div>
                 <div>
                     <div class="profile-login">{{ app.user.login }}</div>
                 </div>
             </div>
         </div>
-        <a class="settings_link" href=''>
+        <a class="settings_link" href="{{ path('user_edit') }}">
             <i class="fa fa-cog settings" aria-hidden="true"></i>
         </a>
     </div>
@@ -34,11 +34,11 @@
         </div>
         {% if shops %}
             {% for shop in shops %}
-                {% if app.user.getUserId == shop.getUser.getUserId %}
+                {% if app.user.getUserId == shop.getUser.UserId %}
                     <a id={{ shop.getId}} href={{ path('shop', {'shopId': shop.id}) }} class="shop">
                         <div class="shop_top_info">
                             <div class="shop-image">
-                                <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/142897-e9f31d4e.jpg'}} />
+                                <img alt="shop-image" src="{{ shop.pathToImage }}" />
                             </div>
                             <div>
                                 <div class="shop-name">{{ shop.name }}</div>
@@ -47,8 +47,7 @@
                         </div>
                         {% if not shop.isHidden %}
                             <i title="Скрыть магазин" class="fa fa-eye" aria-hidden="true"></i>
-                        {% endif %}
-                        {% if shop.isHidden %}
+                        {% else %}
                             <i title="Показать магазин" class="fa fa-eye-slash" aria-hidden="true"></i>
                         {% endif %}
                     </a>

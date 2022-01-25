@@ -24,7 +24,8 @@ function initHeaderSearchValue()
     const searchParams = new URLSearchParams(paramsString);
     inputName.value = searchParams.get('name');
     const selectName = document.location.pathname.slice(1)
-    if (selectName !== '')
+
+    if (['shops', 'products'].includes(selectName))
     {
         select.value = selectName;
     }

@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Shop;
-use App\Entity\ShopItem;
-use App\Form\ShopItemFormType;
+use App\Entity\Product;
+use App\Form\ProductFormType;
 use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,32 +30,34 @@ class ProductController extends AbstractController
     }
 
     #[Route('/products/{itemId}', name: 'shop_item', requirements: ['itemId' => '\d+'])]
-    public function getShopItemById(int $itemId, EntityManagerInterface $entityManager): Response
+    public function getProductById(int $itemId, EntityManagerInterface $entityManager): Response
     {
-        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
-        $shopItem = $shopItemRepo->find($itemId);
+        $ProductRepo = $entityManager->getRepository(Product::class);
+        $Product = $ProductRepo->find($itemId);
 
         return $this->render('pages/product/item.html.twig', [
-            'shopItem' => $shopItem,
+            'Product' => $Product,
         ]);
     }
 
     #[Route('/products/create', name: '_create_shop_item', methods: "POST")]
-    public function _createShopItem(Request $request, EntityManagerInterface $entityManager)
+    public function _createProduct(Request $request, EntityManagerInterface $entityManager)
     {
         $parameters = json_decode($request->getContent(), true);
+
+
         $shopRepo = $entityManager->getRepository(Shop::class);
         $categoryRepo = $entityManager->getRepository(Category::class);
         $shop = $shopRepo->find($parameters['shopId']);
 
-        $shopItem = new ShopItem($shop);
-        $shopItem->setIsHidden(false);
-        $shopItem->setCategory($categoryRepo->find($parameters['categoryId']));
-        $shopItem->setDescription($parameters['description']);
-        $shopItem->setName($parameters['title']);
-        $shopItem->setPrice($parameters['price']);
+        $Product = new Product($shop);
+        $Product->setIsHidden(false);
+        $Product->setCategory($categoryRepo->find($parameters['categoryId']));
+        $Product->setDescription($parameters['description']);
+        $Product->setName($parameters['title']);
+        $Product->setPrice($parameters['price']);
 
-        $entityManager->persist($shopItem);
+        $entityManager->persist($Product);
         $entityManager->flush();
 
         return $this->redirectToRoute('shop', [
@@ -67,77 +69,77 @@ class ProductController extends AbstractController
     public function changeFavorite(Request $request, EntityManagerInterface $entityManager)
     {
         $parameters = json_decode($request->getContent(), true);
-        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
+        $ProductRepo = $entityManager->getRepository(Product::class);
 
-        $item = $shopItemRepo->find($parameters['id']);
+        $item = $ProductRepo->find($parameters['id']);
         // TODO
     }
 
     #[Route('/products/delete', name: 'delete_shop_item', methods: "DELETE")]
-    public function deleteShopItem(Request $request, EntityManagerInterface $entityManager)
+    public function deleteProduct(Request $request, EntityManagerInterface $entityManager)
     {
         $parameters = json_decode($request->getContent(), true);
 
-        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
-        $shopItem = $shopItemRepo->find($parameters['id']);
+        $ProductRepo = $entityManager->getRepository(Product::class);
+        $Product = $ProductRepo->find($parameters['id']);
 
-        $entityManager->remove($shopItem);
+        $entityManager->remove($Product);
         $entityManager->flush();
 
         return new Response('Item has been deleted');
     }
 
     #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
-    public function createShopItem(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
+    public function createProduct(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
         $categoryRepo = $entityManager->getRepository(Category::class);
         $shop = $shopRepo->find($shopId);
-        $shopItem = new ShopItem($shop);
+        $Product = new Product($shop);
 
-        $form = $this->createForm(ShopItemFormType::class, $shopItem);
+        $form = $this->createForm(ProductFormType::class, $Product);
         $form->handleRequest($request);
-        $response = $this->saveShopItem($shopItem, $form, $entityManager);
+        $response = $this->saveProduct($Product, $form, $entityManager);
         if ($response)
         {
             return $response;
         }
 
         return $this->render('pages/product/create.html.twig', [
-            'shopItemForm' => $form->createView(),
+            'ProductForm' => $form->createView(),
             'shopId' => $shopId,
             'categories' => $categoryRepo->findAll(),
         ]);
     }
 
     #[Route('/shop/item/{itemId}/edit', name: 'edit_shop_item', requirements: ['itemId' => '\d+'])]
-    public function editShopItem(Request $request, int $itemId, EntityManagerInterface $entityManager): Response
+    public function editProduct(Request $request, int $itemId, EntityManagerInterface $entityManager): Response
     {
-        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
-        $shopItem = $shopItemRepo->find($itemId);
+        $productRepo = $entityManager->getRepository(Product::class);
+        $product = $productRepo->find($itemId);
 
-        $form = $this->createForm(ShopItemFormType::class, $shopItem);
+        $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
-        $response = $this->saveShopItem($shopItem, $form, $entityManager);
+        $response = $this->saveProduct($product, $form, $entityManager);
         if ($response)
         {
             return $response;
         }
 
         return $this->render('pages/product/edit.html.twig', [
-            'shopItemForm' => $form->createView()
+            'ProductForm' => $form->createView()
         ]);
     }
 
-    private function saveShopItem(ShopItem $shopItem, FormInterface $form, EntityManagerInterface $entityManager): ?Response
+    private function saveProduct(Product $product, FormInterface $form, EntityManagerInterface $entityManager): ?Response
     {
         if ($form->isSubmitted() && $form->isValid())
         {
-            $entityManager->persist($shopItem);
+            $entityManager->persist($product);
             $entityManager->flush();
 
             return $this->redirectToRoute('shop_item', [
-                'itemId' => $shopItem->getId()
+                'itemId' => $product->getProductId()
             ]);
         }
 
