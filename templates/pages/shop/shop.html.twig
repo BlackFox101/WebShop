@@ -8,7 +8,10 @@
 {% block title %}{{ shop.name }}{% endblock %}
 
 {% block body %}
-    <input type="hidden" value={{ app.user.UserId == shop.getUser.UserId }} />
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <input type="hidden" value={{ app.user.UserId == shop.getUser.UserId }} />
+        <input id="shop-id-input" type="hidden" value={{ shop.id }} />
+    {% endif %}
     <input id="shop-id-input" type="hidden" value={{ shop.id }} />
     <div class="shop-container">
         <div class="shop-info-container">
@@ -16,19 +19,23 @@
                 <img src="{{ shop.pathToImage }}"  alt="shop_image"/>
             </div>
             <div class="shop-info-container_top">
-                {% if app.user.userId == shop.getUser.userId %}
-                    <div class="admin-shop">
+                <div class="admin-shop">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if app.user.userId == shop.getUser.userId %}
                         <input class="input-flex title-editor" placeholder='Введите название магазина...' />
                         <div class="hidden_for_title_editor">{{ shop.name }}</div>
-                    </div>
+                    {% endif %}
+                {% else %}
+                    <h1 class="input-flex title-editor">{{ shop.name }}</h1>
                 {% endif %}
-                {% if app.user.userId != shop.getUser.userId %}
+                </div>
+
+                {#{% if app.user.userId != shop.getUser.userId %}
                     <div class="shop-name">{{ shop.name }}</div>
-                {% endif %}
+                {% endif %}#}
                 <div class="shop-info">
                     <div>{{ shop.createdAt.format('j F Y') }}</div>
-                    {# TODO: добавить лайки #}
-                    <div>Нравится: 0</div>
+                    {#<div>Нравится: 0</div>#}
                 </div>
                 <div class="shop-user-info">
                     <div class="shop-user-info__name">{{ shop.user.name }}</div>
@@ -37,11 +44,12 @@
                 <div>
                     <div class="shop-about-shop">О магазине</div>
                     <div class="shop-description">
-                        {% if app.user.userId == shop.getUser.userId %}
-                            <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
-                            <div class="hidden_for_description_editor">{{ shop.description }}</div>
-                        {% endif %}
-                        {% if app.user.userId != shop.getUser.userId %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if app.user.userId == shop.getUser.userId %}
+                                <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
+                                <div class="hidden_for_description_editor">{{ shop.description }}</div>
+                            {% endif %}
+                        {% else %}
                             {{ shop.description }}
                         {% endif %}
                     </div>
@@ -57,7 +65,7 @@
             </div>
             <div class="shop-items__top">
                 <div class="shop-items-header">Товары:</div>
-                {% if app.user.userId == shop.getUser.userId  %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId == shop.getUser.userId  %}
                     <a href={{ path('create_shop_item', {'shopId': shop.id}) }}>
                         <i class="fas fa-plus shop-items-add" title="Добавить товар"></i>
                     </a>
@@ -66,7 +74,8 @@
             {% for product in shop.products %}
                 <div class="shop-item" id={{ product.productId }}>
                     <div class="item-image">
-                        <img src="{{ product.pathToImage }}"  alt="image_item">
+                        <img src="{{ product.pathToImage }}" alt="image_item">
+                        {{ product.countUserWhoAddedToFavourites }}
                     </div>
                     <div class="shop-item-info">
                         <div>
@@ -74,10 +83,9 @@
                             <div class="shop-item-description">{{ product.description }}</div>
                             <div class="shop-item-price">{{ product.price }} ₽</div>
                         </div>
-                        {% if app.user.userId == shop.getUser.userId %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId == shop.getUser.userId %}
                             <i data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
-                        {% endif %}
-                        {% if app.user.userId != shop.getUser.userId %}
+                        {% else %}
                             {% if true %}
                                 <div class="star-icon-wrapper">
                                     <i data-type="star" class="fas fa-star"></i>

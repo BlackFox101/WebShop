@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\Product;
 use App\Form\ProductFormType;
@@ -67,22 +66,33 @@ class ProductController extends AbstractController
     public function createProduct(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
-        $categoryRepo = $entityManager->getRepository(Category::class);
         $shop = $shopRepo->find($shopId);
-        $Product = new Product($shop);
+        $product = new Product($shop);
 
-        $form = $this->createForm(ProductFormType::class, $Product);
+        $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
-        $response = $this->saveProduct($Product, $form, $entityManager);
-        if ($response)
+        if ($form->isSubmitted() && $form->isValid())
         {
-            return $response;
+            $image = $form->get('image')->getData();
+            if ($image)
+            {
+                $newFilename = uniqid() . '.'. $image->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/images';
+                $image->move(
+                    $destination,
+                    $newFilename
+                );
+                $product->setImageName($newFilename);
+            }
+
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_view');
         }
 
         return $this->render('pages/product/create.html.twig', [
-            'ProductForm' => $form->createView(),
-            'shopId' => $shopId,
-            'categories' => $categoryRepo->findAll(),
+            'productForm' => $form->createView(),
         ]);
     }
 
