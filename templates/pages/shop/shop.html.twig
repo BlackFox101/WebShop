@@ -75,7 +75,6 @@
                 <div class="shop-item" id={{ product.productId }}>
                     <div class="item-image">
                         <img src="{{ product.pathToImage }}" alt="image_item">
-                        {{ product.countUserWhoAddedToFavourites }}
                     </div>
                     <div class="shop-item-info">
                         <div>
@@ -83,18 +82,22 @@
                             <div class="shop-item-description">{{ product.description }}</div>
                             <div class="shop-item-price">{{ product.price }} ₽</div>
                         </div>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId == shop.getUser.userId %}
-                            <i data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
-                        {% else %}
-                            {% if true %}
-                                <div class="star-icon-wrapper">
-                                    <i data-type="star" class="fas fa-star"></i>
-                                </div>
+                        <div>
+                            {{ product.countUserWhoAddedToFavourites }}
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId == shop.getUser.userId %}
+                                <i style="margin-left: 10px" data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
                             {% endif %}
-                            {% if false %}
-                                <i data-type="star" class="far fa-star"></i>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId != shop.getUser.userId %}
+                                {% if true %}
+                                    <div style="margin-left: 10px" class="star-icon-wrapper">
+                                        <i data-type="star" class="fas fa-star"></i>
+                                    </div>
+                                {% endif %}
+                                {% if false %}
+                                    <i style="margin-left: 10px" data-type="star" class="far fa-star"></i>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}

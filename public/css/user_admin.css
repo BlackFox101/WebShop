@@ -54,3 +54,17 @@
     width: 200px;
     margin-left: 20px;
 }
+
+.grid-top {
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+}
+
+.status_list-item {
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+}
+
+#statuses_list {
+    padding-left: 0;
+}

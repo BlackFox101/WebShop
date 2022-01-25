@@ -91,6 +91,8 @@ function initListeners() {
     addStatus.addEventListener('click', (e) => {
         onCreateListItem(newStatus.value, 'status')
     })
+
+
 }
 
 initListeners()
