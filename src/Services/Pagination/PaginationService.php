@@ -156,8 +156,8 @@ class PaginationService
         $nameProperty = self::NAME_PROPERTY;
         if ($this->searchName && $this->isExistProperty($nameProperty))
         {
-            $query->where("$alias.$nameProperty = :$nameProperty");
-            $query->setParameter($nameProperty, $this->searchName);
+            $query->where("$alias.$nameProperty like :$nameProperty");
+            $query->setParameter($nameProperty, '%'.$this->searchName.'%');
         }
     }
 
