@@ -20,13 +20,16 @@ services:
     build:
       context: images/app
     environment:
-      APP_ENV: dev
+      XDEBUG_CONFIG: "remote_host=192.168.220.1 remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=${SERVER_NAME}"
+      APP_ENV: ${APP_ENV}
       APP_DEBUG: 1
     working_dir: /usr/local/www/data/${APP_NAME}
     depends_on:
       - webshop-db
     volumes:
       - ${APP_PATH}:${WEBSHOP_PATH}
+      - ./images/app/php.ini:/usr/local/etc/php/php.ini
 
   webshop-db:
     container_name: webshop-db
@@ -39,6 +42,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ${DB_PATH}:/var/lib/mysql
+    ports:
+      - '3306:3306'
 
   webshop-adminer:
     container_name: webshop-adminer

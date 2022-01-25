@@ -27,4 +27,7 @@ RUN apt-get -qq update \
     && docker-php-ext-install -j${NPROC} ldap \
     && docker-php-ext-install -j${NPROC} pdo_mysql \
     && pecl install xdebug-3.1.0 \
+    && docker-php-ext-enable xdebug \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.0.14
+
+ADD ./php.ini /usr/local/etc/php/php.ini

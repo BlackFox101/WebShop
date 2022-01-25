@@ -207,7 +207,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->shops->contains($shop)) {
             $this->shops[] = $shop;
-            $shop->setClient($this);
+            $shop->setUser($this);
         }
 
         return $this;
@@ -217,12 +217,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->shops->removeElement($shop)) {
             // set the owning side to null (unless already changed)
-            if ($shop->getClient() === $this) {
-                $shop->setClient(null);
+            if ($shop->getUser() === $this) {
+                $shop->setUser(null);
             }
         }
 
         return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     public function getFirstName(): ?string

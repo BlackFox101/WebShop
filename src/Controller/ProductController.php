@@ -12,31 +12,34 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ShopItemController extends AbstractController
+class ProductController extends AbstractController
 {
-    #[Route('/shop/item', name: 'shop_items')]
-    public function getShopItems(EntityManagerInterface $entityManager): Response
+    private const DEFAULT_PAGE_NUMBER = 1;
+    private const PAGE_SIZE = 4;
+
+    #[Route('/products', name: 'shop_items')]
+    public function getProducts(Request $request, EntityManagerInterface $entityManager): Response
     {
         $shopItemRepo = $entityManager->getRepository(ShopItem::class);
-        $shopItems = $shopItemRepo->findAll();
+        $page = (int)$request->get('page', self::DEFAULT_PAGE_NUMBER);
 
-        return $this->render('pages/shop_item/items.html.twig', [
+        return $this->render('pages/product/list.html.twig', [
             'shopItems' => $shopItems,
         ]);
     }
 
-    #[Route('/shop/item/{itemId}', name: 'shop_item', requirements: ['itemId' => '\d+'])]
+    #[Route('/products/{itemId}', name: 'shop_item', requirements: ['itemId' => '\d+'])]
     public function getShopItemById(int $itemId, EntityManagerInterface $entityManager): Response
     {
         $shopItemRepo = $entityManager->getRepository(ShopItem::class);
         $shopItem = $shopItemRepo->find($itemId);
 
-        return $this->render('pages/shop_item/item.html.twig', [
+        return $this->render('pages/product/item.html.twig', [
             'shopItem' => $shopItem,
         ]);
     }
 
-    #[Route('/shop/{shopId}/item/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
+    #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]
     public function createShopItem(Request $request, int $shopId, EntityManagerInterface $entityManager): Response
     {
         $shopRepo = $entityManager->getRepository(Shop::class);
@@ -51,7 +54,7 @@ class ShopItemController extends AbstractController
             return $response;
         }
 
-        return $this->render('pages/shop_item/create.html.twig', [
+        return $this->render('pages/product/create.html.twig', [
             'shopItemForm' => $form->createView(),
         ]);
     }
@@ -70,7 +73,7 @@ class ShopItemController extends AbstractController
             return $response;
         }
 
-        return $this->render('pages/shop_item/edit.html.twig', [
+        return $this->render('pages/product/edit.html.twig', [
             'shopItemForm' => $form->createView()
         ]);
     }

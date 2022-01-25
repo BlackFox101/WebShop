@@ -2,16 +2,18 @@
     <div class="header__container">
         <div class="header__search-and-icon">
             <a href="/" class="header-logo">
-                <img src="{{ asset('favicon.ico') }}" />
+                <img src="{{ asset('favicon.ico') }}"  alt="logo"/>
             </a>
             <div class="header__search-field">
-                <input class="header__search-input" type="text" />
+                <label>
+                    <input placeholder="Поиск" id="header__search-input" class="header__search-input" type="text" />
+                </label>
                 <div class="header__search-controls">
                     <select id="header__search-select" class="header__search-select">
-                        <option value="products">Товары</option>
                         <option value="shops">Магазины</option>
+                        <option value="products">Товары</option>
                     </select>
-                    <button type="button" class="find-button">
+                    <button type="button" class="search-button" id="search-button">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -49,4 +51,5 @@
             </div>
         {% endif %}
     </div>
+    <input type="hidden" value="">
 </div>
