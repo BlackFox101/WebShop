@@ -1,49 +1,48 @@
 <div class="search-container">
-    {% for item in paginator.items %}
-        <a href="{{ path('products', {'productId': item.id}) }}" class="shop">
-            <div class="shop__image">
-                <img src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139866-dc9c6560.jpg' }} />
-            </div>
-            <div class="shop__owner-content">
-                <div class="shop__owner-content__avatar">
-                    <img src={{ null ?? 'https://files.sitepokupok.ru/user/859.jpg'}} />
-                </div>
-                <div class="shop__owner-content__login">{{ item.user.firstName }}</div>
-            </div>
-            <div class="shop__content-info">
-                <div class="shop__content-info-title">{{ item.name }}</div>
-                <div class="shop__content-info-description">{{ item.description }}</div>
-            </div>
-        </a>
-    {% endfor %}
-    {% if paginator.itemsCount == 0 %}
-        Empty shop..(
-    {% endif %}
+        {% for item in paginator.items %}
+                <a href="{{ path('shop', {'shopId': item.id}) }}" class="shop">
+                        <div class="shop__image">
+                                <img alt="shop-image" src={{ shop.shopImageUrl ?? 'https://files.sitepokupok.ru/stock/139866-dc9c6560.jpg' }} />
+                        </div>
+                        <div class="shop__owner-content">
+                                <div class="shop__owner-content__avatar">
+                                        <img alt="shop-owner-image" src={{ null ?? 'https://files.sitepokupok.ru/user/859.jpg'}} />
+                                </div>
+                        </div>
+                        <div class="shop__content-info">
+                                <div class="shop__content-info-title">{{ item.name }}</div>
+                                <div class="shop__content-info-description">{{ item.description }}</div>
+                        </div>
+                </a>
+        {% endfor %}
+        {% if paginator.itemsCount == 0 %}
+                Empty shop..(
+        {% endif %}
 </div>
 
 {% if paginator.maxPageNumber > 1 %}
-    <div class="pagination">
-        {% if paginator.currentPageNumber != 1%}
-            <a href="{{ path('shops', { page: paginator.currentPageNumber - 1, name: paginator.name}) }}" class="pagination__btn pagination__btn-arrow">
-                <span class="material-icons">chevron_left</span>
-            </a>
-        {% endif %}
+        <div class="pagination">
+                {% if paginator.currentPageNumber != 1%}
+                        <a href="{{ path('products', { page: paginator.currentPageNumber - 1, name: paginator.name}) }}" class="pagination__btn pagination__btn-arrow">
+                                <span class="material-icons">chevron_left</span>
+                        </a>
+                {% endif %}
 
-        {% set lastPage = 1 %}
-        {% for page in paginator.pageNumbers %}
-            {% if page - lastPage > 1  %}
-                <li class="pagination__dots">...</li>
-            {% endif %}
-            <a href="{{ path('shops', { page: page, name: paginator.name }) }}" class="pagination__numbers {% if paginator.currentPageNumber == page %}active{% endif %}">
-                {{ page }}
-            </a>
-            {% set lastPage = page %}
-        {% endfor %}
+                {% set lastPage = 1 %}
+                {% for page in paginator.pageNumbers %}
+                        {% if page - lastPage > 1  %}
+                                <li class="pagination__dots">...</li>
+                        {% endif %}
+                        <a href="{{ path('products', { page: page, name: paginator.name }) }}" class="pagination__numbers {% if paginator.currentPageNumber == page %}active{% endif %}">
+                                {{ page }}
+                        </a>
+                        {% set lastPage = page %}
+                {% endfor %}
 
-        {% if paginator.maxPageNumber != paginator.currentPageNumber %}
-            <a href="{{ path('shops', { page: paginator.currentPageNumber + 1, name: paginator.name }) }}" class="pagination__btn pagination__btn-arrow">
-                <span class="material-icons">chevron_right</span>
-            </a>
-        {% endif %}
-    </div>
+                {% if paginator.maxPageNumber != paginator.currentPageNumber %}
+                        <a href="{{ path('products', { page: paginator.currentPageNumber + 1, name: paginator.name }) }}" class="pagination__btn pagination__btn-arrow">
+                                <span class="material-icons">chevron_right</span>
+                        </a>
+                {% endif %}
+        </div>
 {% endif %}

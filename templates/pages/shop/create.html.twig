@@ -11,6 +11,7 @@
 {% form_theme shopForm 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
+    <input id="user-id-input" type="hidden" value={{ app.user.getUserId }} />
     <div class="create_shop_form">
         <h1 class="h3 mb-3 font-weight-normal form-header">Создать магазин</h1>
         {{ form(shopForm ) }}

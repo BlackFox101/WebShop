@@ -6,6 +6,7 @@ use App\Entity\Shop;
 use App\Form\ShopFormType;
 use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +51,54 @@ class ShopController extends AbstractController
         $entityManager->persist($shop);
         $entityManager->flush();
         return new Response('Visibility has been changed.');
+    }
+
+    #[Route('/shop/create', name: 'create_shop_post', methods: "POST")]
+    public function createShopPost(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $userRepo = $entityManager->getRepository(User::class);
+
+        $shop = new Shop($userRepo->find($parameters['userId']));
+
+        $shop->setName($parameters['title']);
+        $shop->setDescription($parameters['description']);
+
+        $entityManager->persist($shop);
+        $entityManager->flush();
+
+        return new Response('Shop has been created');
+    }
+
+    #[Route('/shop/change_name', name: 'change_shop_name', methods: "POST")]
+    public function changeShopName(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+
+        $shop = $shopRepo->find($parameters['shopId']);
+        $shop->setName($parameters['name']);
+
+        $entityManager->persist($shop);
+        $entityManager->flush();
+
+        return new Response('Shop name has been changed');
+    }
+
+    #[Route('/shop/change_description', name: 'change_shop_description', methods: "POST")]
+    public function changeShopDescription(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+
+        $shop = $shopRepo->find($parameters['shopId']);
+        $shop->setDescription($parameters['description']);
+
+        $entityManager->persist($shop);
+        $entityManager->flush();
+
+        return new Response('Shop description has been changed');
     }
 
     #[Route('/shop/create', name: 'create_shop')]

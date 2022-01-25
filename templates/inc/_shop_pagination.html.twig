@@ -24,7 +24,7 @@
 {% if paginator.maxPageNumber > 1 %}
     <div class="pagination">
         {% if paginator.currentPageNumber != 1%}
-            <a href="{{ path('shops', { page: paginator.currentPageNumber - 1, name: paginator.name}) }}" class="pagination__btn pagination__btn-arrow">
+            <a href="{{ path('products', { page: paginator.currentPageNumber - 1, name: paginator.name}) }}" class="pagination__btn pagination__btn-arrow">
                 <span class="material-icons">chevron_left</span>
             </a>
         {% endif %}
@@ -34,14 +34,14 @@
             {% if page - lastPage > 1  %}
                 <li class="pagination__dots">...</li>
             {% endif %}
-            <a href="{{ path('shops', { page: page, name: paginator.name }) }}" class="pagination__numbers {% if paginator.currentPageNumber == page %}active{% endif %}">
+            <a href="{{ path('products', { page: page, name: paginator.name }) }}" class="pagination__numbers {% if paginator.currentPageNumber == page %}active{% endif %}">
                 {{ page }}
             </a>
             {% set lastPage = page %}
         {% endfor %}
 
         {% if paginator.maxPageNumber != paginator.currentPageNumber %}
-            <a href="{{ path('shops', { page: paginator.currentPageNumber + 1, name: paginator.name }) }}" class="pagination__btn pagination__btn-arrow">
+            <a href="{{ path('products', { page: paginator.currentPageNumber + 1, name: paginator.name }) }}" class="pagination__btn pagination__btn-arrow">
                 <span class="material-icons">chevron_right</span>
             </a>
         {% endif %}

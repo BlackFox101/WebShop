@@ -4,6 +4,8 @@ const createBtn = document.getElementById('creat_shop_btn')
 const description = document.getElementById('shop_description')
 const title = document.getElementById('shop_title')
 
+const userId = document.getElementById('user-id-input').value
+
 createBtn.addEventListener('click', async () => {
     const allowedFileExtensions =
         /(\.jpg|\.jpeg|\.png|\.gif)$/i
@@ -22,18 +24,13 @@ createBtn.addEventListener('click', async () => {
         formData.append('image', files[0])
     }
 
-    console.log(JSON.stringify({
-        title: title.value,
-        description: description.value,
-        shopImage: filePath ? formData : null,
-    }));
-
-    await fetch('/shop/create', {
+    await fetch('', {
         method: 'POST',
-        body: formData/*{
+        body: JSON.stringify({
             title: title.value,
             description: description.value,
             shopImage: filePath ? formData : null,
-        }*/
+            userId
+        })
     })
 })
