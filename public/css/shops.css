@@ -75,6 +75,9 @@
 }
 
 .pagination {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     margin-top: 30px;
     list-style-type: none;
     display: flex;
