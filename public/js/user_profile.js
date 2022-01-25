@@ -12,7 +12,11 @@ shops.forEach(shop => {
         } else {
             eye.className = 'fa fa-eye'
         }
-        // make request to change visibility
-        console.log('clicked', shop.id)
+        const promise = fetch('/shop/change_visibility', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: shop.id,
+            })
+        })
     })
 })

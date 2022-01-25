@@ -39,6 +39,19 @@ class ShopController extends AbstractController
         return $this->redirectToRoute('shops');
     }
 
+    #[Route('/shop/change_visibility', name: 'change_shop_visibility', methods: "POST")]
+    public function changeShopVisibility(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $id = $parameters['id'];
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $shop = $shopRepo->find($id);
+        $shop->setIsHidden(!$shop->getIsHidden());
+        $entityManager->persist($shop);
+        $entityManager->flush();
+        return new Response('Visibility has been changed.');
+    }
+
     #[Route('/shop/create', name: 'create_shop')]
     public function createShop(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
