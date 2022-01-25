@@ -22,7 +22,7 @@ class ProductController extends AbstractController
     #[Route('/products', name: 'products')]
     public function getProducts(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $paginatorService = new PaginationService(Shop::class, $entityManager, $request);
+        $paginatorService = new PaginationService(ShopItem::class, $entityManager, $request);
 
         return $this->render('pages/product/list.html.twig', [
             'paginator' => $paginatorService->getPaginator(),

@@ -54,12 +54,7 @@ items.forEach(i => {
 })
 
 if (titleEditor) {
-    titleEditor.innerHTML = placeholderFotTitle.innerHTML
-    const startWidth = placeholderFotTitle.getBoundingClientRect().width
-    const startHeight = placeholderFotTitle.getBoundingClientRect().height
-
-    titleEditor.style.width = startWidth + 30 + 'px'
-    titleEditor.style.height = startHeight + 'px'
+    titleEditor.value = placeholderFotTitle.innerHTML
 
     titleEditor.addEventListener('input', debounce((e) => {
         fetch('/shop/change_name', {
@@ -70,11 +65,6 @@ if (titleEditor) {
             })
         })
     }))
-    titleEditor.addEventListener('input', (e) => {
-        placeholderFotTitle.innerHTML = e.target.value || 'Введите название магазина...'
-        const {width} = placeholderFotTitle.getBoundingClientRect()
-        titleEditor.style.width = width + 20 + 'px'
-    })
 }
 
 if (descriptionEditor) {

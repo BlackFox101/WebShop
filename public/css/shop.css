@@ -3,6 +3,10 @@
     margin: 0 auto;
 }
 
+.admin-shop {
+    margin-bottom: 12px;
+}
+
 .shop-info-container {
     display: flex;
     padding: 1rem;
@@ -175,6 +179,10 @@
     height: 89px;
 }
 
+.description_editor {
+    box-shadow: 0 0 0 1px #659dbd;
+}
+
 .hidden_for_description_editor {
     position: absolute;
     visibility: hidden;
@@ -237,5 +245,7 @@
 }
 
 .title-editor {
-    padding: 0;
+    padding: 2px 8px;
+    width: 100%;
+    box-shadow: 0 0 0 1px #659dbd;
 }

@@ -17,8 +17,8 @@
             <div class="shop-info-container_top">
                 {% if app.user.getUserId == shop.getUser.userId %}
                     <div class="admin-shop">
-                        <textarea maxlength="36" class="input-flex title-editor" placeholder='Введите название магазина...'></textarea>
-                        <div class="hidden_for_title_editor"> {{ shop.name }}</div>
+                        <input class="input-flex title-editor" placeholder='Введите название магазина...' />
+                        <div class="hidden_for_title_editor">{{ shop.name }}</div>
                     </div>
                 {% endif %}
                 {% if app.user.getUserId != shop.getUser.userId %}
@@ -38,7 +38,7 @@
                     <div class="shop-description">
                         {% if app.user.getUserId == shop.getUser.getUserId %}
                             <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
-                            <div class="hidden_for_description_editor"> {{ shop.description }}</div>
+                            <div class="hidden_for_description_editor">{{ shop.description }}</div>
                         {% endif %}
                         {% if app.user.getUserId != shop.getUser.getUserId %}
                             {{ shop.description }}
