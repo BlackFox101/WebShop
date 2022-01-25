@@ -11,6 +11,13 @@
             </list>
           </settings>
         </remote-mappings>
+        <remote-mappings server-id="php@1ff2debd-4e27-49be-b0c0-990fe06c3676">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$" remote-root="/usr/local/www/data/webshop" />
+            </list>
+          </settings>
+        </remote-mappings>
       </list>
     </list>
   </component>
