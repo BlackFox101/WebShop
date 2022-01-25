@@ -195,6 +195,6 @@ class Shop
             return '/uploads/images/'. $this->imageName;
         }
 
-        return '';
+        return '/assets/images/question_icon.svg';
     }
 }
