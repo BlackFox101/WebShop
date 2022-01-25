@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
 use App\Form\ShopFormType;
 use App\Services\Pagination\PaginationService;
@@ -22,7 +23,7 @@ class ShopController extends AbstractController
         $paginatorService = new PaginationService(Shop::class, $entityManager, $request);
 
         return $this->render('pages/shop/list.html.twig', [
-            'paginator' => $paginatorService->getPaginator()
+            'paginator' => $paginatorService->getPaginator(),
         ]);
     }
 
