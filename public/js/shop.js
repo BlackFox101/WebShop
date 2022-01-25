@@ -2,14 +2,16 @@ const titleEditor = document.querySelector('.input-flex.title-editor')
 const placeholderFotTitle = document.querySelector('.hidden_for_title_editor')
 
 const descriptionEditor = document.querySelector('.input-flex.description_editor')
-const placeholderFotDescription = document.querySelector('.hidden_for_description_editor')
+const placeholderForDescription = document.querySelector('.hidden_for_description_editor')
 
 const itemsContainer = document.querySelector('.shop-items-container')
 
 const items = Array.from(document.querySelectorAll('.shop-items-container .shop-item'))
     .map(i => i.querySelector('i'))
 
-function debounce(callback, timeout = 300) {
+const shopId = document.getElementById('shop-id-input').value
+
+function debounce(callback, timeout = 500) {
     let timer
     return (...args) => {
         clearTimeout(timer)
@@ -60,7 +62,13 @@ if (titleEditor) {
     titleEditor.style.height = startHeight + 'px'
 
     titleEditor.addEventListener('input', debounce((e) => {
-        console.log('request has been sent', e.target.value)
+        fetch('/shop/change_name', {
+            method: "POST",
+            body: JSON.stringify({
+                name: e.target.value,
+                shopId
+            })
+        })
     }))
     titleEditor.addEventListener('input', (e) => {
         placeholderFotTitle.innerHTML = e.target.value || 'Введите название магазина...'
@@ -70,7 +78,14 @@ if (titleEditor) {
 }
 
 if (descriptionEditor) {
+    descriptionEditor.innerHTML = placeholderForDescription.innerHTML
     descriptionEditor.addEventListener('input', debounce((e) => {
-        console.log('request has been sent', e.target.value)
+        fetch('/shop/change_description', {
+            method: "POST",
+            body: JSON.stringify({
+                description: e.target.value,
+                shopId
+            })
+        })
     }))
 }

@@ -71,6 +71,36 @@ class ShopController extends AbstractController
         return new Response('Shop has been created');
     }
 
+    #[Route('/shop/change_name', name: 'change_shop_name', methods: "POST")]
+    public function changeShopName(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+
+        $shop = $shopRepo->find($parameters['shopId']);
+        $shop->setName($parameters['name']);
+
+        $entityManager->persist($shop);
+        $entityManager->flush();
+
+        return new Response('Shop name has been changed');
+    }
+
+    #[Route('/shop/change_description', name: 'change_shop_description', methods: "POST")]
+    public function changeShopDescription(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $shopRepo = $entityManager->getRepository(Shop::class);
+
+        $shop = $shopRepo->find($parameters['shopId']);
+        $shop->setDescription($parameters['description']);
+
+        $entityManager->persist($shop);
+        $entityManager->flush();
+
+        return new Response('Shop description has been changed');
+    }
+
     #[Route('/shop/create', name: 'create_shop')]
     public function createShop(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {

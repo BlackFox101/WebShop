@@ -8,7 +8,7 @@
 {% block title %}{{ shop.name }}{% endblock %}
 
 {% block body %}
-    <input type="hidden" value={{ app.user.getUserId == shop.getUser.getUserId }} />
+    <input id="shop-id-input" type="hidden" value={{ shop.id }} />
     <div class="shop-container">
         <div class="shop-info-container">
             <div class="shop-image">
