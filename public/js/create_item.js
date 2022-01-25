@@ -37,13 +37,4 @@ createBtn.addEventListener('click', async () => {
             shopId,
         })
     })
-
-    console.log({
-        title: title.value,
-        description: description.value,
-        price: price.value,
-        itemImage: filePath ? formData : null,
-        category: category.value,
-        shopId,
-    })
 })

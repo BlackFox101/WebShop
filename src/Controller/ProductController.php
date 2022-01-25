@@ -61,7 +61,23 @@ class ProductController extends AbstractController
         $entityManager->persist($shopItem);
         $entityManager->flush();
 
-        return new Response($parameters['title']);
+        return $this->redirectToRoute('shop', [
+            'shopId' => $parameters['shopId']
+        ]);
+    }
+
+    #[Route('/products/delete', name: 'delete_shop_item', methods: "DELETE")]
+    public function deleteShopItem(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+
+        $shopItemRepo = $entityManager->getRepository(ShopItem::class);
+        $shopItem = $shopItemRepo->find($parameters['id']);
+
+        $entityManager->remove($shopItem);
+        $entityManager->flush();
+
+        return new Response('Item has been deleted');
     }
 
     #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]

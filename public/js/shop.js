@@ -4,7 +4,10 @@ const placeholderFotTitle = document.querySelector('.hidden_for_title_editor')
 const descriptionEditor = document.querySelector('.input-flex.description_editor')
 const placeholderFotDescription = document.querySelector('.hidden_for_description_editor')
 
-const items = document.querySelectorAll('.shop-items-container .shop-item')
+const itemsContainer = document.querySelector('.shop-items-container')
+
+const items = Array.from(document.querySelectorAll('.shop-items-container .shop-item'))
+    .map(i => i.querySelector('i'))
 
 function debounce(callback, timeout = 300) {
     let timer
@@ -17,13 +20,19 @@ function debounce(callback, timeout = 300) {
 }
 
 items.forEach(i => {
-    if (i.getAttribute('type') === 'delete') {
-        const deleteBtn = i.querySelector('i')
-        if (deleteBtn) {
-            deleteBtn.addEventListener('click', () => {
-                console.log('delete', i.id)
-            })
-        }
+    if (i.dataset.type === 'delete') {
+        i.addEventListener('click', (e) => {
+            if (confirm('Вы уверены?')) {
+                const container = e.target.parentNode.parentNode
+                const response = fetch('/products/delete', {
+                    method: 'DELETE',
+                    body: JSON.stringify({
+                        id: container.id
+                    })
+                })
+                itemsContainer.removeChild(container)
+            }
+        })
     } else {
         const favoriteBtn = i.querySelector('i')
         if (favoriteBtn) {

@@ -8,6 +8,7 @@
 {% block title %}{{ shop.name }}{% endblock %}
 
 {% block body %}
+    <input type="hidden" value={{ app.user.getUserId == shop.getUser.getUserId }} />
     <div class="shop-container">
         <div class="shop-info-container">
             <div class="shop-image">
@@ -73,16 +74,16 @@
                             <div class="shop-item-price">{{ item.price }} ₽</div>
                         </div>
                         {% if app.user.getUserId == shop.getUser.getUserId %}
-                            <i type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
+                            <i data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
                         {% endif %}
                         {% if app.user.getUserId != shop.getUser.getUserId %}
                             {% if true %}
                                 <div class="star-icon-wrapper">
-                                    <i type="start" class="fas fa-star"></i>
+                                    <i data-type="star" class="fas fa-star"></i>
                                 </div>
                             {% endif %}
                             {% if false %}
-                                <i type="start" class="far fa-star"></i>
+                                <i data-type="star" class="far fa-star"></i>
                             {% endif %}
                         {% endif %}
                     </div>
