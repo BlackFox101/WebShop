@@ -34,7 +34,6 @@
                 </a>
             </div>
         </div>
-        {% if shops %}
             {% for shop in shops %}
                 {% if app.user.getUserId == shop.getUser.UserId %}
                     <a id={{ shop.getId}} href={{ path('shop', {'shopId': shop.id}) }} class="shop">
@@ -59,7 +58,6 @@
                     </a>
                 {% endif %}
             {% endfor %}
-        {% endif %}
         {% if not shops %}
             <div>Empty...</div>
         {% endif %}

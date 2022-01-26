@@ -1,6 +1,6 @@
 <div class="search-container">
     {% for product in paginator.items %}
-        <a href="{{ path('products', {'productId': product.productId}) }}" class="shop">
+        <a href="{{ path('shop', {'shopId': product.shop.id, '_fragment': product.productId}) }}" class="shop">
             <div class="shop__image">
                 <img alt="shop-image" src="{{ product.pathToImage }}" />
             </div>

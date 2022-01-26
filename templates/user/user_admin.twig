@@ -52,8 +52,8 @@
                 {% if users %}
                     {% for user in users %}
                         <li class="user_list-item">
-                            <div>{{ user.email }}</div>
-                            <select data-userId={{ user.getUserId}} class="form-select user-status" id="item-category" aria-label="Default select example">
+                            <a href="{{ path('user_view_by_id', {'userId': user.userId}) }}">{{ user.email }}</a>
+                            <select data-userId="{{ user.getUserId}}" class="form-select user-status" id="item-category" aria-label="Default select example">
                                 {% for status in statuses %}
                                     {% if user.getStatus.getId == status.getId %}
                                         <option selected value={{ status.getId }}>{{ status.name }}</option>

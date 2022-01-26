@@ -202,9 +202,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Shop[]
+     * @return Shop[]
      */
-    public function getShops(): Collection
+    public function getShops(): array
     {
         return $this->shops;
     }

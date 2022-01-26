@@ -22,16 +22,35 @@ class UserController extends AbstractController
     #[Route('/user/view', name: 'user_view')]
     public function view(EntityManagerInterface $entityManager): Response
     {
-        $shopRepo = $entityManager->getRepository(Shop::class);
-        $shops = $shopRepo->findAll();
-
-        if (!$this->getUser())
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user)
         {
             return $this->redirectToRoute('app_login');
         }
 
+        $shopRepo = $entityManager->getRepository(Shop::class);
         return $this->render('user/user_profile.twig', [
+            'shops' => $shopRepo->findAll(),
+        ]);
+    }
+
+    #[Route('/user/view/{userId}', name: 'user_view_by_id', requirements: ['shopId' => '\d+'])]
+    public function viewById(int $userId, EntityManagerInterface $entityManager): Response
+    {
+        $userRepo = $entityManager->getRepository(User::class);
+        $user = $userRepo->find($userId);
+        if (!$user)
+        {
+            return $this->redirectToRoute('user_admin');
+        }
+
+        $shopRepo = $entityManager->getRepository(Shop::class);
+        $shops = $shopRepo->findBy(['user' => $user->getUserId()]);
+
+        return $this->render('user/user_profile_for_admin.html.twig', [
             'shops' => $shops,
+            'user' => $user
         ]);
     }
 

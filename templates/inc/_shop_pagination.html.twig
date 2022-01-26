@@ -17,12 +17,12 @@
         </a>
     {% endfor %}
     {% if paginator.itemsCount == 0 %}
-        Empty shop..(
+        Пусто
     {% endif %}
 </div>
 
 {% if paginator.maxPageNumber > 1 %}
-    <div class="pagination">
+    <div class="pagination" >
         {% if paginator.currentPageNumber != 1%}
             <a href="{{ path('products', { page: paginator.currentPageNumber - 1, name: paginator.name}) }}" class="pagination__btn pagination__btn-arrow">
                 <span class="material-icons">chevron_left</span>

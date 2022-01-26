@@ -96,11 +96,17 @@
 }
 
 .shop-item {
+    color: inherit;
     position: relative;
     font-family: "Roboto", sans-serif;
     padding-top: 15px;
     display: flex;
     border-top: 1px solid rgba(42,42,42,0.1);
+}
+
+.shop-item:hover {
+    cursor: inherit;
+    color: inherit;
 }
 
 .item-image {

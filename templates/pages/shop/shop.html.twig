@@ -74,7 +74,7 @@
                 {% endif %}
             </div>
             {% for product in shop.products %}
-                <div class="shop-item">
+                <div class="shop-item" id="product-{{ product.productId }}">
                     <div class="item-image">
                         <img src="{{ product.pathToImage }}" alt="image_item">
                     </div>
@@ -83,6 +83,7 @@
                             <div class="shop-item-title">{{ product.name }}</div>
                             <div class="shop-item-description">{{ product.description }}</div>
                             <div class="shop-item-price">{{ product.price }} ₽</div>
+                            <div class="shop-item-price">{{ product.category.name }}</div>
                         </div>
                         <div id={{ product.productId }}>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -101,7 +102,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    {% if app.user.userId == shop.getUser.userId %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId == shop.getUser.userId %}
                         <a class="settings_link" href="{{ path('edit_shop_item', {'productId': product.productId}) }}">
                             <i class="fa fa-cog settings" aria-hidden="true"></i>
                         </a>

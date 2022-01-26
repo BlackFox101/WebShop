@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block body %}
+    <div class="container ">
+        <div class="profile-container-top">
+            <div>
+                <div class="profile-name">Профиль пользователя</div>
+                <div class="profile-content">
+                    <div class="profile-photo">
+                        <img src={{ user.pathToImage }} />
+                    </div>
+                    <div>
+                        <div class="profile-login">{{ user.login }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-container-bottom">
+            <div class="profile-container-bottom__header">
+                <div class="my-shops-title">магазины:</div>
+            </div>
+            {% for shop in shops %}
+                <a id={{ shop.getId}} href={{ path('shop', {'shopId': shop.id}) }} class="shop">
+                    <div class="shop_top_info">
+                        <div class="shop-image">
+                            <img alt="shop-image" src="{{ shop.pathToImage }}" />
+                        </div>
+                        <div>
+                            <div class="shop-name">{{ shop.name }}</div>
+                            <div>{{ shop.description }}</div>
+                        </div>
+                    </div>
+                    <div>
+                        {% if not shop.isHidden %}
+                            <i id="hide-shop" title="Скрыть магазин" class="fa fa-eye" aria-hidden="true"></i>
+                        {% else %}
+                            <i id="hide-shop" title="Показать магазин" class="fa fa-eye-slash" aria-hidden="true"></i>
+                        {% endif %}
+                        <i id="delete-shop" title="Удалить" class="far fa-trash-alt"></i>
+                    </div>
+
+                </a>
+            {% endfor %}
+            {% if not shops %}
+                <div>Empty...</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/user_profile.js') }}">
+{% endblock %}
