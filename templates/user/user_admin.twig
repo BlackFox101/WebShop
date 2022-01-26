@@ -53,13 +53,13 @@
                     {% for user in users %}
                         <li class="user_list-item">
                             <div>{{ user.email }}</div>
-                            <select class="form-select user-status" id="item-category" aria-label="Default select example">
+                            <select data-userId={{ user.getUserId}} class="form-select user-status" id="item-category" aria-label="Default select example">
                                 {% for status in statuses %}
                                     {% if user.getStatus.getId == status.getId %}
-                                        <option selected value={{ status.name }}>{{ status.name }}</option>
+                                        <option selected value={{ status.getId }}>{{ status.name }}</option>
                                     {% endif %}
                                     {% if user.getStatus.getId != status.getId %}
-                                        <option value={{ status.name }}>{{ status.name }}</option>
+                                        <option value={{ status.getId }}>{{ status.name }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
