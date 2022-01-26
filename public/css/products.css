@@ -153,12 +153,14 @@
 }
 
 .top-panel {
+    margin: 0 auto;
+    max-width: 1100px;
     display: flex;
     align-items: center;
 }
 
 .search-title {
-    margin-left: 120px;
+    margin-left: 60px;
     margin-right: 40px;
 }
 

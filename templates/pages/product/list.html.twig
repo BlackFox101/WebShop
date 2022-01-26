@@ -10,12 +10,14 @@
 {% block body %}
     <div class="top-panel">
         <h1 class="search-title">Товары</h1>
-        <select class="form-select">
-            <option value={{ null }}>Все</option>
-            {% for item in categories %}
-                <option value={{ item.id }}>{{ item.name }}</option>
-            {% endfor %}
-        </select>
+        <label>
+            <select class="form-select" id="category-selector">
+                <option value="all" selected>Все</option>
+                {% for item in categories %}
+                    <option value={{ item.id }}>{{ item.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
     </div>
     {% if paginator is defined %}
         {% include 'inc/_product_pagination.html.twig' with {'paginator': paginator} %}

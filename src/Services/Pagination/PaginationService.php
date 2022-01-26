@@ -145,7 +145,7 @@ class PaginationService
         $categoryProperty = self::CATEGORY_PROPERTY;
         if ($this->searchCategoryId && $this->isExistProperty($categoryProperty))
         {
-            $query->where("$alias.$categoryProperty = :$categoryProperty");
+            $query->andWhere("$alias.$categoryProperty = :$categoryProperty");
             $query->setParameter($categoryProperty, $this->searchCategoryId);
         }
     }
@@ -155,7 +155,7 @@ class PaginationService
         $nameProperty = self::NAME_PROPERTY;
         if ($this->searchName && $this->isExistProperty($nameProperty))
         {
-            $query->where("$alias.$nameProperty like :$nameProperty");
+            $query->andWhere("$alias.$nameProperty like :$nameProperty");
             $query->setParameter($nameProperty, '%'.$this->searchName.'%');
         }
     }

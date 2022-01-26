@@ -4,13 +4,15 @@ const inputName = document.querySelector('#header__search-input');
 const authMenuBtn = document.querySelector('#auth-menu');
 const authMenuList = document.querySelector('#auth-menu__list');
 const authMenuArrow = document.getElementById('menu_arrow');
+const categorySelector = document.getElementById('category-selector');
 const IS_HIDDEN = 'is_hidden';
 
 headerHandler();
 
 function headerHandler() {
     initHeaderSearchValue();
-    headerSearchHandler()
+    headerSearchHandler();
+    categorySelectorHandler()
 
     if (authMenuBtn) {
         addMenuOpening();
@@ -18,8 +20,24 @@ function headerHandler() {
     }
 }
 
-function initHeaderSearchValue()
-{
+function categorySelectorHandler() {
+    if  (categorySelector) {
+        const paramsString = document.location.search;
+        const searchParams = new URLSearchParams(paramsString);
+        const category = searchParams.get('category');
+        const options = categorySelector.querySelectorAll('option');
+        const values = [];
+        options.forEach((option) => {
+            values.push(option.getAttribute('value'));
+        })
+        if (values.includes(category))
+        {
+            categorySelector.value = category;
+        }
+    }
+}
+
+function initHeaderSearchValue() {
     const paramsString = document.location.search;
     const searchParams = new URLSearchParams(paramsString);
     inputName.value = searchParams.get('name');
@@ -35,9 +53,13 @@ function headerSearchHandler() {
     searchBtn.addEventListener('click', async() => {
         const selectedCategory = select.value;
         const name = inputName.value;
-        let newUrl = `/${selectedCategory}`;
+        const category = inputName.value;
+        let newUrl = `/${selectedCategory}?`;
         if (name) {
-            newUrl += `?name=${name}`;
+            newUrl += `name=${name}&`;
+        }
+        if  (categorySelector && categorySelector.value) {
+            newUrl += `category=${categorySelector.value}&`;
         }
         document.location.href = newUrl;
     })

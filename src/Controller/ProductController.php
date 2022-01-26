@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\Product;
 use App\Form\ProductFormType;
@@ -88,7 +89,7 @@ class ProductController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_view');
+            return $this->redirectToRoute('shop', ['shopId' => $shopId] );
         }
 
         return $this->render('pages/product/create.html.twig', [
