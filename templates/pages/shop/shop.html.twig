@@ -77,11 +77,11 @@
                 {% endif %}
             </div>
             {% for product in shop.products %}
-                <div class="shop-item" id={{ product.productId }}>
+                <div class="shop-item">
                     <div class="item-image">
                         <img src="{{ product.pathToImage }}" alt="image_item">
                     </div>
-                    <div class="shop-item-info">
+                    <div class="shop-item-info" id={{ product.productId }}>
                         <div>
                             <div class="shop-item-title">{{ product.name }}</div>
                             <div class="shop-item-description">{{ product.description }}</div>

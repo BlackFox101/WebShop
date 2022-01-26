@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Form\ProductFormType;
 use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,28 +41,32 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/products/change_favorite', name: 'change_favorite', methods: "POST")]
-    public function changeFavorite(Request $request, EntityManagerInterface $entityManager)
+    #[Route('/product/delete/{productId}', name: 'delete_product', methods: "DELETE")]
+    public function deleteProduct(int $productId,  Request $request, EntityManagerInterface $entityManager): Response
     {
-        $parameters = json_decode($request->getContent(), true);
-        $ProductRepo = $entityManager->getRepository(Product::class);
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user)
+        {
+            return $this->redirectToRoute('app_registration');
+        }
 
-        $item = $ProductRepo->find($parameters['id']);
-        // TODO
-    }
+        $productRepo = $entityManager->getRepository(Product::class);
+        $product = $productRepo->find($productId);
+        if (!$product)
+        {
+            return $this->json('failed', 404);
+        }
 
-    #[Route('/products/delete', name: 'delete_shop_item', methods: "DELETE")]
-    public function deleteProduct(Request $request, EntityManagerInterface $entityManager)
-    {
-        $parameters = json_decode($request->getContent(), true);
+        if (!$this->isGranted('ROLE_ADMIN', $user) && $product->getShop()->getUser()->getUserId() !== $user->getUserId())
+        {
+            return $this->json('failed', 403);
+        }
 
-        $ProductRepo = $entityManager->getRepository(Product::class);
-        $Product = $ProductRepo->find($parameters['id']);
-
-        $entityManager->remove($Product);
+        $entityManager->remove($product);
         $entityManager->flush();
 
-        return new Response('Item has been deleted');
+        return $this->json('success deleted');
     }
 
     #[Route('/shop/{shopId}/product/create', name: 'create_shop_item', requirements: ['shopId' => '\d+'])]

@@ -23,23 +23,20 @@ function debounce(callback, timeout = 500) {
 
 items.forEach(i => {
     if (i.dataset.type === 'delete') {
-        i.addEventListener('click', (e) => {
+        i.addEventListener('click', async (e) => {
             if (confirm('Вы уверены?')) {
                 const container = e.target.parentNode.parentNode;
-                const id = container.id;
-                const response = fetch('/products/delete', {
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        id: container.id
-                    })
-                })
-                itemsContainer.removeChild(container)
+                const response = await fetch('/product/delete/' + container.id, {
+                    method: 'DELETE'
+                });
+                if (response.status === 200) {
+                    itemsContainer.removeChild(container.parentNode)
+                }
             }
         })
     } else {
         i.addEventListener('click', async (e) => {
             const container = e.target.parentNode.parentNode;
-            const id = container.id;
             const response = await fetch('/user/favourites/change/' + container.id, {
                 method: "PUT"
             });
