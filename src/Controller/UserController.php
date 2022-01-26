@@ -88,12 +88,12 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/favourites', name: 'user_favourites')]
-    public function favourites(Security $security): Response
+    public function favourites(): Response
     {
-        $user = $security->getToken()->getUser();
+        /** @var User $user */
+        $user = $this->getUser();
         $items = $user->getFavouriteItems();
-        return $this->render('user/user_favorites.html.twig', [
-            'controller_name' => 'UserController',
+        return $this->render('user/favorite_items.html.twig', [
             'favouriteItems' => $items
         ]);
     }

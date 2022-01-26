@@ -101,9 +101,11 @@
                             {% endif %}
                         </div>
                     </div>
-                    <a class="settings_link" href="{{ path('edit_shop_item', {'productId': product.productId}) }}">
-                        <i class="fa fa-cog settings" aria-hidden="true"></i>
-                    </a>
+                    {% if app.user.userId == shop.getUser.userId %}
+                        <a class="settings_link" href="{{ path('edit_shop_item', {'productId': product.productId}) }}">
+                            <i class="fa fa-cog settings" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

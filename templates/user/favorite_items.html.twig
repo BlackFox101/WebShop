@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/products.css') }}">
+{% endblock %}
+
+{% block title %}Избранное{% endblock %}
+
+{% block body %}
+    <div class="top-panel">
+        <h1 class="search-title">Избранные товары:</h1>
+    </div>
+    <div class="search-container">
+        {% for product in favouriteItems %}
+            <a href="{{ path('products', {'productId': product.productId}) }}" class="shop">
+                <div class="shop__image">
+                    <img alt="shop-image" src="{{ product.pathToImage }}" />
+                </div>
+                <div class="shop__owner-content">
+                    <div class="shop__owner-content__avatar">
+                        <img alt="shop-owner-image" src="{{ product.shop.user.pathToImage }}" />
+                    </div>
+                </div>
+                <div class="shop__content-info">
+                    <div class="shop__content-info-title">{{ product.name }}</div>
+                    <div class="shop__content-info-description">{{ product.description }}</div>
+                </div>
+            </a>
+        {% endfor %}
+        {% if favouriteItems|length == 0 %}
+            Пусто
+        {% endif %}
+    </div>
+{% endblock %}
