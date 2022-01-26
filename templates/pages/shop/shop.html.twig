@@ -20,14 +20,17 @@
             </div>
             <div class="shop-info-container_top">
                 <div class="admin-shop">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if app.user.userId == shop.getUser.userId %}
-                        <input class="input-flex title-editor" placeholder='Введите название магазина...' />
-                        <div class="hidden_for_title_editor">{{ shop.name }}</div>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if app.user.userId == shop.getUser.userId %}
+                            <input class="input-flex title-editor" placeholder='Введите название магазина...' />
+                            <div class="hidden_for_title_editor">{{ shop.name }}</div>
+                        {% else %}
+                            <h1>{{ shop.name }}</h1>
+                        {% endif %}
+
+                    {% else %}
+                        <h1>{{ shop.name }}</h1>
                     {% endif %}
-                {% else %}
-                    <h1>{{ shop.name }}</h1>
-                {% endif %}
                 </div>
 
                 {#{% if app.user.userId != shop.getUser.userId %}
@@ -48,6 +51,8 @@
                             {% if app.user.userId == shop.getUser.userId %}
                                 <textarea class="input-flex description_editor" placeholder='Введите описание магазина...'></textarea>
                                 <div class="hidden_for_description_editor">{{ shop.description }}</div>
+                            {% else %}
+                                {{ shop.description }}
                             {% endif %}
                         {% else %}
                             {{ shop.description }}
@@ -83,18 +88,18 @@
                             <div class="shop-item-price">{{ product.price }} ₽</div>
                         </div>
                         <div>
-                            {{ product.countUserWhoAddedToFavourites }}
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId == shop.getUser.userId %}
-                                <i style="margin-left: 10px" data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
-                            {% endif %}
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.userId != shop.getUser.userId %}
-                                {% if true %}
-                                    <div style="margin-left: 10px" class="star-icon-wrapper">
-                                        <i data-type="star" class="fas fa-star"></i>
-                                    </div>
-                                {% endif %}
-                                {% if false %}
-                                    <i style="margin-left: 10px" data-type="star" class="far fa-star"></i>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if app.user.userId == shop.getUser.userId %}
+                                    {{ product.countUserWhoAddedToFavourites }}
+                                    <i style="margin-left: 10px" data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
+                                {% else %}
+                                    {% if true %}
+                                        <div style="margin-left: 10px" class="star-icon-wrapper">
+                                            <i data-type="star" class="fas fa-star"></i>
+                                        </div>
+                                    {% else %}
+                                        <i style="margin-left: 10px" data-type="star" class="far fa-star"></i>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         </div>

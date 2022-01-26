@@ -21,7 +21,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Shop::class, inversedBy="Products")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="shop_id")
+     * @ORM\JoinColumn(nullable=true, referencedColumnName="shop_id")
      */
     private $shop;
 

@@ -8,8 +8,10 @@ use App\Form\ShopFormType;
 use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,35 +56,27 @@ class ShopController extends AbstractController
         return new Response('Visibility has been changed.');
     }
 
-    #[Route('/shop/delete', name: 'delete_shop', methods: "DELETE")]
-    public function deleteShop(Request $request, EntityManagerInterface $entityManager)
+    #[Route('/shop/delete/{shopId}', name: 'delete_shop', requirements: ['shopId' => '\d+'], methods: "DELETE")]
+    public function deleteShop(int $shopId, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $parameters = json_decode($request->getContent(), true);
+        /** @var User $user */
+        $user = $this->getUser();
         $shopRepo = $entityManager->getRepository(Shop::class);
-        $shop = $shopRepo->find($parameters['id']);
+        $shop = $shopRepo->find($shopId);
+        if ($user && $user->getUserId() === $shop->getUser()->getUserId())
+        {
+            $products = $shop->getProducts();
+            foreach ($products as $product)
+            {
+                $product->setIsHidden(true);
+                $product->setShop(null);
+            }
+            $entityManager->remove($shop);
+            $entityManager->flush();
 
-        $entityManager->remove($shop);
-        $entityManager->flush();
-
-        return new Response('Shop has been deleted');
-    }
-
-    #[Route('/shop/create', name: 'create_shop_post', methods: "POST")]
-    public function createShopPost(Request $request, EntityManagerInterface $entityManager)
-    {
-        $parameters = json_decode($request->getContent(), true);
-        $shopRepo = $entityManager->getRepository(Shop::class);
-        $userRepo = $entityManager->getRepository(User::class);
-
-        $shop = new Shop($userRepo->find($parameters['userId']));
-
-        $shop->setName($parameters['title']);
-        $shop->setDescription($parameters['description']);
-
-        $entityManager->persist($shop);
-        $entityManager->flush();
-
-        return new Response('Shop has been created');
+            return $this->json('Shop has been deleted');
+        }
+        return $this->json('failed', 403);
     }
 
     #[Route('/shop/change_name', name: 'change_shop_name', methods: "POST")]

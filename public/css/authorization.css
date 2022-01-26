@@ -27,6 +27,10 @@ form div {
     color: #dc3545 !important;
 }
 
+a.link {
+    color: #0d6efd;
+}
+
 .form-header, .auth_form-extra, form div {
     margin: 0 auto;
 }

@@ -83,7 +83,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'соглашаюсь с <a href="https://www.gosuslugi.ru/" target="_blank">условиями сайта</a>',
+                'label' => 'соглашаюсь с <a class="link" href="https://www.gosuslugi.ru/" target="_blank">условиями сайта</a>',
                 'label_html' => true,
                 'mapped' => false,
                 'constraints' => [

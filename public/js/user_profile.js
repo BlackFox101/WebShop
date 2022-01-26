@@ -27,11 +27,8 @@ shops.forEach(shop => {
     deleteShop.addEventListener('click', (e) => {
         e.preventDefault()
         const parent = e.target.parentNode.parentNode
-        const promise = fetch('/shop/delete', {
-            method: 'DELETE',
-            body: JSON.stringify({
-                id: shop.id
-            })
+        const promise = fetch('/shop/delete/' + shop.id, {
+            method: 'DELETE'
         })
         profileContainer.removeChild(parent)
     })
