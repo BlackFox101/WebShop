@@ -6,6 +6,8 @@ const statuses = document.getElementById('statuses_list')
 const addStatus = document.getElementById('add-status')
 const newStatus = document.getElementById('new-status-input')
 
+const userStatus = document.getElementById('item-category')
+
 async function onDeleteListItem(e, type) {
     let url = ''
 
@@ -84,12 +86,19 @@ function initListeners() {
     }
 
     Array.from(categories.children).forEach(c => _initDeleteListener(c, 'category'))
-    Array.from(statuses.children).forEach(s => _initDeleteListener(s, 'status'))
+    // Array.from(statuses.children).forEach(s => _initDeleteListener(s, 'status'))
     addCategory.addEventListener('click', (e) => {
         onCreateListItem(newCategory.value, 'category')
     })
-    addStatus.addEventListener('click', (e) => {
-        onCreateListItem(newStatus.value, 'status')
+
+    userStatus.addEventListener('change', (e) => {
+        fetch('/user/change_status', {
+            method: "PUT",
+            body: JSON.stringify({
+                id: e.target.value,
+                userId: e.target.dataset.userid
+            })
+        })
     })
 }
 

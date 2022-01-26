@@ -68,6 +68,23 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/user/change_status', name: 'user_change_status', methods: "PUT")]
+    public function changeStatus(Request $request, EntityManagerInterface $entityManager)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $userRepo = $entityManager->getRepository(User::class);
+        $statusRepo = $entityManager->getRepository(Status::class);
+
+        $status = $statusRepo->find($parameters['id']);
+        $user = $userRepo->find($parameters['userId']);
+        $user->setStatus($status);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return new Response('OK');
+    }
+
     #[Route('/user/favourites', name: 'user_favourites')]
     public function favourites(Security $security): Response
     {

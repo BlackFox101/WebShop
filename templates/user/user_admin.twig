@@ -28,22 +28,22 @@
                 </div>
             </div>
             <div>
-                <div>Список статусов:</div>
+                <div class="grid-top">
+                    <div>Список статусов:</div>
+                    <div>Max магазинов</div>
+                    <div>Max товаров</div>
+                </div>
                 <ul id="statuses_list">
                     {% if statuses %}
                         {% for status in statuses %}
                             <li class="status_list-item">
                                 <div class="statusName">{{ status.getName }}</div>
-                                <div>Max магазинов: {{ status.getShopCount }}</div>
-                                <div>Max товаров: {{ status.getProductCount }}</div>
+                                <div class="max-shops">{{ status.getShopCount }}</div>
+                                <div class="max-items">{{ status.getProductCount }}</div>
                             </li>
                         {% endfor %}
                     {% endif %}
                 </ul>
-                <div class="new-status-wrapper">
-                    <input id="new-status-input" placeholder="Введите новый статус" class="input-flex" type="text" />
-                    <i id="add-status" class="fas fa-plus-circle"></i>
-                </div>
             </div>
         </div>
         <div class="admin__bottom">
@@ -53,13 +53,13 @@
                     {% for user in users %}
                         <li class="user_list-item">
                             <div>{{ user.email }}</div>
-                            <select class="form-select user-status" id="item-category" aria-label="Default select example">
+                            <select data-userId={{ user.getUserId}} class="form-select user-status" id="item-category" aria-label="Default select example">
                                 {% for status in statuses %}
                                     {% if user.getStatus.getId == status.getId %}
-                                        <option selected value={{ status.name }}>{{ status.name }}</option>
+                                        <option selected value={{ status.getId }}>{{ status.name }}</option>
                                     {% endif %}
                                     {% if user.getStatus.getId != status.getId %}
-                                        <option value={{ status.name }}>{{ status.name }}</option>
+                                        <option value={{ status.getId }}>{{ status.name }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
