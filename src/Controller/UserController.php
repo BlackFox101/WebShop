@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Product;
 use App\Entity\Shop;
 use App\Entity\Status;
 use App\Entity\User;
 use App\Form\UserEditFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -112,5 +114,37 @@ class UserController extends AbstractController
             'statuses' => $statuses,
             'users' => $users
         ]);
+    }
+
+    #[Route('/user/favourites/change/{productId}', name: 'user_change_favourite', methods: "PUT")]
+    public function changeFavouriteProduct(int $productId, EntityManagerInterface $entityManager): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user)
+        {
+            return $this->json('failed', 403);
+        }
+
+        $productRepo = $entityManager->getRepository(Product::class);
+        $product = $productRepo->find($productId);
+        if (!$product)
+        {
+            return $this->json('failed', 404);
+        }
+
+        if ($user->isProductInFavourites($product))
+        {
+            $user->removeFavouriteItem($product);
+        }
+        else
+        {
+            $user->addFavouriteItem($product);
+        }
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->json('success');
     }
 }

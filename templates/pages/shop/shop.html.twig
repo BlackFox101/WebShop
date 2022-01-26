@@ -87,19 +87,19 @@
                             <div class="shop-item-description">{{ product.description }}</div>
                             <div class="shop-item-price">{{ product.price }} ₽</div>
                         </div>
-                        <div>
+                        <div id={{ product.productId }}>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if app.user.userId == shop.getUser.userId %}
                                     {{ product.countUserWhoAddedToFavourites }}
                                     <i style="margin-left: 10px" data-type="delete" class="far fa-trash-alt" title="Удалить товар"></i>
                                 {% else %}
-                                    {% if true %}
-                                        <div style="margin-left: 10px" class="star-icon-wrapper">
+                                    <div style="margin-left: 10px" class="star-icon-wrapper">
+                                        {% if product.isUserAddedInFavourites(app.user) %}
                                             <i data-type="star" class="fas fa-star"></i>
-                                        </div>
-                                    {% else %}
-                                        <i style="margin-left: 10px" data-type="star" class="far fa-star"></i>
-                                    {% endif %}
+                                        {% else %}
+                                            <i style="margin-left: 10px" data-type="star" class="far fa-star"></i>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                             {% endif %}
                         </div>

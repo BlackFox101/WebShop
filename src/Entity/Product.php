@@ -231,4 +231,9 @@ class Product
 
         return '/assets/images/question_icon.svg';
     }
+
+    public function isUserAddedInFavourites(User $user): bool
+    {
+        return $this->usersWhoAddedInFavourites->contains($user);
+    }
 }

@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -353,6 +354,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->favouriteItems->removeElement($favouriteItem);
 
         return $this;
+    }
+
+    public function isProductInFavourites(Product $product): bool
+    {
+        return $this->favouriteItems->contains($product);
     }
 
     public function getImageName(): ?string

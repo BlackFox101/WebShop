@@ -25,7 +25,8 @@ items.forEach(i => {
     if (i.dataset.type === 'delete') {
         i.addEventListener('click', (e) => {
             if (confirm('Вы уверены?')) {
-                const container = e.target.parentNode.parentNode
+                const container = e.target.parentNode.parentNode;
+                const id = container.id;
                 const response = fetch('/products/delete', {
                     method: 'DELETE',
                     body: JSON.stringify({
@@ -36,18 +37,19 @@ items.forEach(i => {
             }
         })
     } else {
-        i.addEventListener('click', (e) => {
-            const container = e.target.parentNode.parentNode
-            const promise = fetch('/products/change_favorite', {
-                method: "POST",
-                body: JSON.stringify({
-                    id: container.id,
-                })
-            })
-            if (e.target.className === 'fas fa-star') {
-                e.target.className = 'far fa-star'
-            } else {
-                e.target.className = 'fas fa-star'
+        i.addEventListener('click', async (e) => {
+            const container = e.target.parentNode.parentNode;
+            const id = container.id;
+            const response = await fetch('/user/favourites/change/' + container.id, {
+                method: "PUT"
+            });
+
+            if (response.status === 200) {
+                if (e.target.className === 'fas fa-star') {
+                    e.target.className = 'far fa-star'
+                } else {
+                    e.target.className = 'fas fa-star'
+                }
             }
         })
     }
