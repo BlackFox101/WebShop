@@ -9,19 +9,22 @@ shops.forEach(shop => {
     const hideShop = shop.querySelector('#hide-shop')
     const deleteShop = shop.querySelector('#delete-shop')
 
-    hideShop.addEventListener('click', (e) => {
+    hideShop.addEventListener('click', async (e) => {
         e.preventDefault()
-        if (hideShop.className === 'fa fa-eye') {
-            hideShop.className = 'fa fa-eye-slash'
-        } else {
-            hideShop.className = 'fa fa-eye'
-        }
-        const promise = fetch('/shop/change_visibility', {
+        const response = await fetch('/shop/change_visibility', {
             method: 'POST',
             body: JSON.stringify({
                 id: shop.id,
             })
         })
+
+        if (response.status === 200) {
+            if (hideShop.className === 'fa fa-eye') {
+                hideShop.className = 'fa fa-eye-slash'
+            } else {
+                hideShop.className = 'fa fa-eye'
+            }
+        }
     })
 
     deleteShop.addEventListener('click', (e) => {

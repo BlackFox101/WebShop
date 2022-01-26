@@ -33,9 +33,6 @@
                     {% endif %}
                 </div>
 
-                {#{% if app.user.userId != shop.getUser.userId %}
-                    <div class="shop-name">{{ shop.name }}</div>
-                {% endif %}#}
                 <div class="shop-info">
                     <div>{{ shop.createdAt.format('j F Y') }}</div>
                     {#<div>Нравится: 0</div>#}
@@ -104,6 +101,9 @@
                             {% endif %}
                         </div>
                     </div>
+                    <a class="settings_link" href="{{ path('edit_shop_item', {'productId': product.productId}) }}">
+                        <i class="fa fa-cog settings" aria-hidden="true"></i>
+                    </a>
                 </div>
             {% endfor %}
         </div>

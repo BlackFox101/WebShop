@@ -103,18 +103,43 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/shop/item/{itemId}/edit', name: 'edit_shop_item', requirements: ['itemId' => '\d+'])]
-    public function editProduct(Request $request, int $itemId, EntityManagerInterface $entityManager): Response
+    #[Route('/product/edit{productId}', name: 'edit_shop_item', requirements: ['productId' => '\d+'])]
+    public function editProduct(Request $request, int $productId, EntityManagerInterface $entityManager): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user)
+        {
+            return $this->redirectToRoute('app_registration');
+        }
+
         $productRepo = $entityManager->getRepository(Product::class);
-        $product = $productRepo->find($itemId);
+        $product = $productRepo->find($productId);
+        if (!$product)
+        {
+            return $this->json('failed', 404);
+        }
 
         $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
-        $response = $this->saveProduct($product, $form, $entityManager);
-        if ($response)
+        if ($form->isSubmitted() && $form->isValid())
         {
-            return $response;
+            $image = $form->get('image')->getData();
+            if ($image)
+            {
+                $newFilename = uniqid() . '.'. $image->guessExtension();
+                $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/images';
+                $image->move(
+                    $destination,
+                    $newFilename
+                );
+                $product->setImageName($newFilename);
+            }
+
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('shop', ['shopId' => $product->getShop()->getId()] );
         }
 
         return $this->render('pages/product/edit.html.twig', [

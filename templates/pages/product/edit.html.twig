@@ -2,9 +2,16 @@
 
 {% block title %}Редактировать товар{% endblock %}
 
-{% form_theme ProductForm 'inc/form/auth-form.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/edit_product.css') }}">
+{% endblock %}
+
+{% form_theme productForm 'bootstrap_5_layout.html.twig' %}
 
 {% block body %}
-    <div>Редактировать товар</div>
-    {{ form(ProductForm ) }}
+    <div class="edit_product_form">
+        <h1 class="h3 mb-3 font-weight-normal form-header">Редактировать товар</h1>
+        {{ form(productForm ) }}
+    </div>
 {% endblock %}
